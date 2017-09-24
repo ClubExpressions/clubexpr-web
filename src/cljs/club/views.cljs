@@ -472,17 +472,18 @@
                 [:h2 (t ["Vos groupes"])]
                 [:div (map group-link groups)]
                 [:div {:max-height "30em" :overflow-y "scroll"}  ; TODO CSS
-                  (groups-list-of-lists groups-data groups)]]
+                  (groups-list-of-lists groups-data groups)]
+                [:> (bs 'Button)
+                  {:style {:margin "1em"}  ; TODO CSS
+                   :on-click #(rf/dispatch [:groups-cancel])
+                   :bsStyle "danger"}
+                  "Annuler les modifications"]
+                [:> (bs 'Button)
+                  {:style {:margin "1em"}  ; TODO CSS
+                   :on-click #(rf/dispatch [:groups-save])
+                   :bsStyle "success"} "Enregistrer les modifications"]]
             ]])]
-      [:> (bs 'Button)
-        {:style {:margin "1em"}  ; TODO CSS
-         :on-click #(rf/dispatch [:groups-cancel])
-         :bsStyle "danger"}
-        "Annuler les modifications"]
-      [:> (bs 'Button)
-        {:style {:margin "1em"}  ; TODO CSS
-         :on-click #(rf/dispatch [:groups-save])
-         :bsStyle "success"} "Enregistrer les modifications"]]))
+    ]))
 
 (defn show-expr-as-li-click
   [expr]

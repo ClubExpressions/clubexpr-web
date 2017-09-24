@@ -230,6 +230,7 @@
           [:p (t ["Le Club des Expressions permet aux enseignants de faire travailler leurs élèves sur le sens et la structure des expressions mathématiques."])]
         ]
       ]
+      [:hr]
       [:> (bs 'Row)
         [:h1 (t ["Ce que l’on peut faire au Club"])]
         [:> (bs 'Col) {:xs 4 :md 4}
@@ -269,6 +270,7 @@
           [:p (t ["Si leur professeur n’utilise pas le Club, les élèves peuvent quand même obtenir des séries d’expressions à reconstituer grâce à des professeurs-robots."])]
           [:p (t ["Il est préférable bien sûr que leur professeur les guide !"])]]]
       [:> (bs 'Row)
+        [:hr]
         [:h1 (t ["Ce que l’on peut faire au Club"])]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Définir son profil"])]

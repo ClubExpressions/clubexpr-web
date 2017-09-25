@@ -393,11 +393,11 @@
         [:> (bs 'Button)
           {:style {:margin "1em"}  ; TODO CSS
            :on-click #(rf/dispatch [:profile-cancel])
-           :bsStyle "warning"} "Annuler les modifications"]
+           :bsStyle "warning"} (t ["Annuler les modifications"])]
         [:> (bs 'Button)
           {:style {:margin "1em"}  ; TODO CSS
            :on-click #(rf/dispatch [:profile-save])
-           :bsStyle "success"} "Enregistrer les modifications"]
+           :bsStyle "success"} (t ["Enregistrer les modifications"])]
       ]
     ]))
 
@@ -479,11 +479,12 @@
                   {:style {:margin "1em"}  ; TODO CSS
                    :on-click #(rf/dispatch [:groups-cancel])
                    :bsStyle "warning"}
-                  "Annuler les modifications"]
+                  (t ["Annuler les modifications"])]
                 [:> (bs 'Button)
                   {:style {:margin "1em"}  ; TODO CSS
                    :on-click #(rf/dispatch [:groups-save])
-                   :bsStyle "success"} "Enregistrer les modifications"]]
+                   :bsStyle "success"}
+                  (t ["Enregistrer les modifications"])]]
             ]])]
     ]))
 
@@ -631,16 +632,16 @@
       [:h2 (t ["Série en cours de modification"])]
       [:> (bs 'Button)
         {:on-click #(rf/dispatch [:series-cancel])
-         :bsStyle "warning"} "Annuler"]
+         :bsStyle "warning"} (t ["Annuler"])]
       [:> (bs 'Button)
         {:style {:margin "1em"}  ; TODO CSS
          :on-click #(rf/dispatch [:series-save])
-         :bsStyle "success"} "Enregistrer"]
+         :bsStyle "success"} (t ["Enregistrer"])]
       [:> (bs 'Button)
         {:style {:margin "1em"}  ; TODO CSS
          :class "pull-right"
          :on-click #(rf/dispatch [:series-delete])
-         :bsStyle "danger"} "Supprimer cette série"]
+         :bsStyle "danger"} (t ["Supprimer cette série"])]
       [text-input {:label (t ["Titre"])
                    :placeholder (t ["Découverte du Club"])
                    :help (t ["Titre de la série, vu par les élèves"])

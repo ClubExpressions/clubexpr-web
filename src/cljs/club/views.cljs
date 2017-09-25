@@ -393,7 +393,7 @@
         [:> (bs 'Button)
           {:style {:margin "1em"}  ; TODO CSS
            :on-click #(rf/dispatch [:profile-cancel])
-           :bsStyle "danger"} "Annuler les modifications"]
+           :bsStyle "warning"} "Annuler les modifications"]
         [:> (bs 'Button)
           {:style {:margin "1em"}  ; TODO CSS
            :on-click #(rf/dispatch [:profile-save])
@@ -478,7 +478,7 @@
                 [:> (bs 'Button)
                   {:style {:margin "1em"}  ; TODO CSS
                    :on-click #(rf/dispatch [:groups-cancel])
-                   :bsStyle "danger"}
+                   :bsStyle "warning"}
                   "Annuler les modifications"]
                 [:> (bs 'Button)
                   {:style {:margin "1em"}  ; TODO CSS
@@ -631,7 +631,7 @@
       [:h2 (t ["Série en cours de modification"])]
       [:> (bs 'Button)
         {:on-click #(rf/dispatch [:series-cancel])
-         :bsStyle "danger"} "Annuler"]
+         :bsStyle "warning"} "Annuler"]
       [:> (bs 'Button)
         {:style {:margin "1em"}  ; TODO CSS
          :on-click #(rf/dispatch [:series-save])

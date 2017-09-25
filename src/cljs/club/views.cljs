@@ -43,11 +43,14 @@
 (def Sortable (getValueByKeys js/window "deps" "react-drag-sortable" "default"))
 (def DateTime (getValueByKeys js/window "deps" "react-datetime"))
 
-(defn text-input [{:keys [label placeholder help value-id event-id]}]
+(defn text-input [{:keys [component-class label placeholder help
+                          value-id event-id]
+                   :or {component-class "input"}}]
   [:> (bs 'FormGroup) {:controlId "formBasicText"
                        :validationState nil}
     [:> (bs 'ControlLabel) label]
     [FormControlFixed {:type "text"
+                       :componentClass component-class
                        :value @(rf/subscribe [value-id])
                        :placeholder placeholder
                        :on-change #(rf/dispatch [event-id
@@ -647,7 +650,8 @@
                    :help (t ["Titre de la série, vu par les élèves"])
                    :value-id :series-title
                    :event-id :series-title}]
-      [text-input {:label (t ["Description"])
+      [text-input {:component-class "textarea"
+                   :label (t ["Description"])
                    :placeholder (t ["Expressions triviales pour apprendre à utiliser le Club"])
                    :help (t ["Description de la série, vue seulement par les autres enseignants, mais pas les élèves"])
                    :value-id :series-desc

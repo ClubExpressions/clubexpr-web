@@ -193,9 +193,9 @@
        cofx)))
 
 (defn process-user-check!
-  [result new-user-data]
+  [kinto-users new-user-data]
   (let [new-auth0-id (:auth0-id new-user-data)
-        user-with-same-auth0-id (->> result
+        user-with-same-auth0-id (->> kinto-users
                                      data-from-js-obj
                                      (filter #(= new-auth0-id (:auth0-id %)))
                                      first)]

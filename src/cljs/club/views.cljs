@@ -758,7 +758,7 @@
                 {:options [{:value ""       :label ""}
                            {:value "patate" :label "Série patate"}
                            {:value "pouet"  :label "Série pouet"}
-                           {:value "id3"    :label "Pour démarrer à fond les ballons"}]
+                           {:value "pomme"  :label "Pour démarrer à fond les ballons"}]
                  :placeholder (t ["Choisir la série…"])
                  :noResultsText (t ["Pas de série correspondant à cette recherche"])
                  :value (:series @new-state)
@@ -770,6 +770,8 @@
               [:> Select
                 {:options [{:value ""          :label ""}
                            {:value "seconde 1" :label "seconde 1"}
+                           {:value "seconde 2" :label "seconde 2"}
+                           {:value "1S" :label "1S"}
                            {:value "2.1 gr1"   :label "2.1 gr1"}]
                  :placeholder (t ["Choisir le groupe…"])
                  :noResultsText (t ["Pas de groupe correspondant à cette recherche"])
@@ -833,20 +835,20 @@
         [work-input]
         [:hr]
         [work-input {:editing false :id "random-kindo-id"
-                     :to "26/09/2017" :from "22/09/2017"
+                     :to "06/10/2017" :from "23/09/2017"
                      :series "patate" :group "seconde 1"}]
         [work-input {:editing false :id "random-kindo-id"
-                     :to "26/09/2017" :from "22/09/2017"
-                     :series "patate" :group "seconde 1"}]
+                     :to "30/09/2017" :from "22/09/2017"
+                     :series "pouet" :group "1S"}]
         [:hr]
         [work-input {:editing false :id "random-kindo-id"
                      :to "26/09/2017" :from "22/09/2017"
-                     :series "patate" :group "seconde 1"}]
+                     :series "pouet" :group "seconde 1"}]
         [work-input {:editing false :id "random-kindo-id"
-                     :to "26/09/2017" :from "22/09/2017"
-                     :series "patate" :group "seconde 1"}]
+                     :to "21/09/2017" :from "18/09/2017"
+                     :series "pomme" :group "1S"}]
         [work-input {:editing false :id "random-kindo-id"
-                     :to "26/09/2017" :from "22/09/2017"
+                     :to "20/09/2017" :from "19/09/2017"
                      :series "patate" :group "seconde 1"}]
       ]
     ]))

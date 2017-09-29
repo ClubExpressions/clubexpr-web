@@ -706,7 +706,8 @@
                  :from (today-str)
                  :series ""
                  :group ""}))
-  ([{:keys [editing id to from series group] :as init-state}]
+  ([{:keys [editing id to from series-value series-label group]
+     :as init-state}]
     (let [old-state (reagent/atom init-state)
           new-state (reagent/atom init-state)
           datetime-common {:dateFormat "DD/MM/YYYY"
@@ -716,7 +717,7 @@
           buttons-common {:style {:width "100%"}}  ; TODO CSS
           labels-common {:style {:text-align "center"  ; TODO CSS
                                  :margin "0.5em"}}]
-      (fn [to from series group]
+      (fn [editing id to from series-value series-label group]
         [:> (bs 'Row)
           (if (:editing @new-state)
             [:> (bs 'Col) {:xs 1 :md 1}
@@ -761,10 +762,15 @@
                            {:value "pomme"  :label "Pour démarrer à fond les ballons"}]
                  :placeholder (t ["Choisir la série…"])
                  :noResultsText (t ["Pas de série correspondant à cette recherche"])
-                 :value (:series @new-state)
-                 :onChange #(swap! new-state assoc :series
-                                   (-> % js->clj keywordize-keys :value))}]
-              [:div labels-common (:series @new-state)])]
+                 :value (:series-value @new-state)
+                 :onChange (fn [sel]
+                             (let [sel-clj (-> sel js->clj keywordize-keys)
+                                   value (:value sel-clj)
+                                   label (:label sel-clj)]
+                               (swap! new-state
+                                       #(-> % (assoc :series-value value)
+                                              (assoc :series-label label)))))}]
+              [:div labels-common (:series-label @new-state)])]
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> Select
@@ -836,20 +842,25 @@
         [:hr]
         [work-input {:editing false :id "random-kindo-id"
                      :to "06/10/2017" :from "23/09/2017"
-                     :series "patate" :group "seconde 1"}]
+                     :series-value "patate" :series-label "Série patate"
+                     :group "seconde 1"}]
         [work-input {:editing false :id "random-kindo-id"
                      :to "30/09/2017" :from "22/09/2017"
-                     :series "pouet" :group "1S"}]
+                     :series-value "patate" :series-label "Série patate"
+                     :group "1S"}]
         [:hr]
         [work-input {:editing false :id "random-kindo-id"
                      :to "26/09/2017" :from "22/09/2017"
-                     :series "pouet" :group "seconde 1"}]
+                     :series-value "pouet" :series-label "Série pouet"
+                     :group "seconde 1"}]
         [work-input {:editing false :id "random-kindo-id"
                      :to "21/09/2017" :from "18/09/2017"
-                     :series "pomme" :group "1S"}]
+                     :series-value "pomme" :series-label "Pour démarrer à fond les ballons"
+                     :group "1S"}]
         [work-input {:editing false :id "random-kindo-id"
                      :to "20/09/2017" :from "19/09/2017"
-                     :series "patate" :group "seconde 1"}]
+                     :series-value "patate" :series-label "Série patate"
+                     :group "seconde 1"}]
       ]
     ]))
 

@@ -192,6 +192,20 @@
                  {:db new-db :auth query-params :clean-url nil})]
        cofx)))
 
+(defn process-user-check!
+  [kinto-users new-user-data]
+  (let [new-auth0-id (:auth0-id new-user-data)
+        user-with-same-auth0-id (->> kinto-users
+                                     data-from-js-obj
+                                     (filter #(= new-auth0-id (:auth0-id %)))
+                                     first)]
+    (if (nil? user-with-same-auth0-id)
+      (.. club.db/k-users
+          (createRecord (clj->js (base-user-record new-auth0-id)))
+          (then #(set-auth-data! (merge new-user-data (data-from-js-obj %))))
+          (catch (error "events/process-user-check!")))
+      (set-auth-data! (merge new-user-data user-with-same-auth0-id)))))
+
 (rf/reg-fx
   :auth
   (fn [{:keys [access_token expires_in id_token]}]  ; we left: token_type state
@@ -207,17 +221,14 @@
                                              (println decoded-json)
                                              js/Object)) ; default: empty obj
           auth0-id (getValueByKeys decoded-js "sub")
-          auth0-id-slug  (str/replace auth0-id "|" "-")
-          new-user-data {:auth0-id auth0-id-slug
+          new-user-data {:auth0-id auth0-id
                          :access-token access_token
                          :expires-at expires-at}]
       (if (not (nil? auth0-id))
         (.. club.db/k-users
-            (createRecord (clj->js (base-user-record auth0-id-slug)))
-            (then #(set-auth-data! (merge new-user-data (data-from-js-obj %))))
-            (catch (error "events/process-user-check!")))
-        (do (error ":auth fx: auth0-id empty")
-            (println id_token)))
+            (listRecords)
+            (then #(process-user-check! % new-user-data))
+            (catch (error "events/:auth"))))
     )))
 
 (rf/reg-event-db

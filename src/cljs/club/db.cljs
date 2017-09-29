@@ -31,9 +31,11 @@
 (s/def ::auth-data
   (s/and map?
          (s/keys :req-un [::auth0-id
+                          ::kinto-id
                           ::access-token
                           ::expires-at])))
 (s/def ::auth0-id string?)
+(s/def ::kinto-id string?)
 (s/def ::access-token string?)
 (s/def ::expires-at   string?)
 
@@ -99,7 +101,8 @@
 (def logout-db-fragment
   {:current-page :landing
    :authenticated false
-   :auth-data {:auth0-id ""
+   :auth-data {:kinto-id ""
+               :auth0-id ""
                :access-token ""
                :expires-at   ""}
    :groups-page {}
@@ -151,7 +154,7 @@
 
 (defn base-user-record
   [auth0-id]
-  {:id auth0-id
+  {:auth0-id auth0-id
    :quality "scholar"
    :school "fake-id-no-school"
    :teacher "no-teacher"
@@ -162,13 +165,14 @@
   [{:keys [; from new-user-data
            auth0-id access-token expires-at
            ; from the new record
-           quality school teacher lastname firstname]}]
+           id quality school teacher lastname firstname]}]
   (swap! app-db assoc-in [:authenticated] true)
   ; from new-user-data
   (swap! app-db assoc-in [:auth-data :auth0-id] auth0-id)
   (swap! app-db assoc-in [:auth-data :access-token] access-token)
   (swap! app-db assoc-in [:auth-data :expires-at] expires-at)
   ; from a record
+  (swap! app-db assoc-in [:auth-data :kinto-id] id)
   (swap! app-db assoc-in [:profile-page] {:quality quality
                                           :school school
                                           :teacher teacher
@@ -182,7 +186,7 @@
 (defn fetch-profile-data!
   []
   (.. club.db/k-users
-      (getRecord (clj->js (-> @app-db :auth-data :auth0-id)))
+      (getRecord (clj->js (-> @app-db :auth-data :kinto-id)))
       (then #(set-auth-data!
                (merge {:access-token (-> @app-db :auth-data :access-token)
                        :expires-at (-> @app-db :auth-data :expires-at)}
@@ -193,7 +197,8 @@
   []
   (.. club.db/k-users
       (updateRecord (clj->js
-                      {:id        (-> @app-db :auth-data :auth0-id)
+                      {:id       (-> @app-db :auth-data :kinto-id)
+                       :auth0-id (-> @app-db :auth-data :auth0-id)
                        :quality   (-> @app-db :profile-page :quality)
                        :school    (-> @app-db :profile-page :school)
                        :teacher   (-> @app-db :profile-page :teacher)
@@ -231,7 +236,7 @@
 
 (defn init-groups-data!
   []
-  (let [teacher-id (-> @app-db :auth-data :auth0-id)]
+  (let [teacher-id (-> @app-db :auth-data :kinto-id)]
     (get-users! {:on-success
                   #(rf/dispatch
                     [:init-groups
@@ -242,7 +247,7 @@
 (defn fetch-groups-data!
   []
   (.. club.db/k-groups
-      (getRecord (clj->js (-> @app-db :auth-data :auth0-id)))
+      (getRecord (clj->js (-> @app-db :auth-data :kinto-id)))
       (then
         #(rf/dispatch
           [:write-groups
@@ -267,7 +272,7 @@
 (defn save-groups-data!
   []
   (let [groups-data (groups-page-data->groups-data (-> @app-db :groups-page))
-        record (merge {:id (-> @app-db :auth-data :auth0-id)} groups-data)]
+        record (merge {:id (-> @app-db :auth-data :kinto-id)} groups-data)]
     (.. club.db/k-groups
         (updateRecord (clj->js record))
         (then #(rf/dispatch [:groups-save-ok]))
@@ -285,14 +290,14 @@
 
 (defn fetch-series-data!
   []
-  (let [auth0-id (-> @app-db :auth-data :auth0-id)]
+  (let [kinto-id (-> @app-db :auth-data :kinto-id)]
     (.. club.db/k-series
         (listRecords)
         (then
           #(rf/dispatch
             [:write-series
               (->> % data-from-js-obj
-                     (filter (fn [x] (= auth0-id (:owner-id x))))
+                     (filter (fn [x] (= kinto-id (:owner-id x))))
                      (map series-data->series-page-data)
                      vec)]))
         (catch #(if (= error-404 (str %))  ; no such id in the series coll?
@@ -303,7 +308,7 @@
   []
   (let [current-series-id (-> @app-db :current-series-id)
         current-series (-> @app-db :current-series)
-        record-fragment {:owner-id (-> @app-db :auth-data :auth0-id)
+        record-fragment {:owner-id (-> @app-db :auth-data :kinto-id)
                          :series current-series}
         record (if (empty? current-series-id)
                  record-fragment

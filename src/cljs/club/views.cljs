@@ -605,7 +605,8 @@
   (let [series-data @(rf/subscribe [:series-page])
         series-id  @(rf/subscribe [:current-series-id])
         title @(rf/subscribe [:series-title])
-        desc @(rf/subscribe [:series-desc])]
+        desc  @(rf/subscribe [:series-desc])
+        exprs @(rf/subscribe [:series-exprs])]
     (if (empty? series-id)
       (if (not (empty? series-data))
         [:div
@@ -624,8 +625,9 @@
         (if (empty? desc)
           [:p (t ["Pas de description"])]
           [:p (t ["Description : "]) desc])
-        [:ul.nav
-          (map show-expr-as-li @(rf/subscribe [:series-exprs]))]])
+        (if (empty? exprs)
+          [:p (t ["Pas d’expression dans cette série. Pour en ajouter, cliquer sur « Modifier cette série »."])]
+          [:ul.nav (map show-expr-as-li exprs)])])
      ))
 
 (defn edit-series

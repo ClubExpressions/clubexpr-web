@@ -914,7 +914,8 @@
           [footer]
         ]
         (when (and true config/debug?)
-          [:pre {:style {:position "absolute" :bottom "0px" :width "100%"}}
+          [:pre {:style {:position "absolute" :bottom "0px" :width "100%"
+                         :font-size "50%"}}
             (doall (map #(with-out-str (pprint (% @app-db)))
                         [identity]
                    ))])

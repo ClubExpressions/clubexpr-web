@@ -278,11 +278,20 @@
         (then #(rf/dispatch [:groups-save-ok]))
         (catch (error "db/save-groups-data!")))))
 
+(defn fix-ranks
+  [exprs]
+  (vec (map #(identity {:content (:content %1) :rank %2}) exprs (range 666))))
+
+(defn wrap-series
+  [series]
+  (let [wrap-w-content #(identity {:content %})]
+    (-> series (update :exprs #(map wrap-w-content %))
+               (update :exprs fix-ranks))))
+
 (defn series-data->series-page-data
   [data]
-  (let [trimmed-data (dissoc data :owner-id :last_modified)
-        wrapper #(identity {:content %})]
-    (update-in trimmed-data [:series :exprs] #(vec (map wrapper %)))))
+  (-> data (dissoc :owner-id :last_modified)
+           wrap-series))
 
 (defn fetch-series-data!
   []

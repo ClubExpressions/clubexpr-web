@@ -12,6 +12,8 @@
                      logout-db-fragment
                      set-auth-data!
                      fetch-teachers-list!
+                     wrap-series
+                     fix-ranks
                      delete-series!]]
     [club.utils :refer [error
                         get-prop
@@ -272,7 +274,8 @@
     (let [current-series (->> db :series-page
                                  (filter #(= new-series-id (:id %)))
                                  first
-                                 :series)]
+                                 :series
+                                 wrap-series)]
       (-> db (assoc-in [:current-series-id] new-series-id)
              (assoc-in [:current-series] current-series)))))
 
@@ -354,7 +357,8 @@
             (assoc-in [:current-series] (->> db :series-page
                                                 (filter #(= current-id (:id %)))
                                                 first
-                                                :series)))))))
+                                                :series
+                                                wrap-series)))))))
 
 (rf/reg-event-fx
   :series-save
@@ -396,17 +400,15 @@
   (fn [db [_ new-value]]
     (assoc-in db [:current-series :desc] new-value)))
 
-(defn sorted-expr->db-expr
+(defn sorted-expr->lisp
   [expr-data]
-  (let [lisp (-> expr-data (getValueByKeys "content" "props" "src"))
-        rank (-> expr-data (getValueByKeys "rank"))]
-    {:content lisp :rank rank}))
+  (-> expr-data (getValueByKeys "content" "props" "src")))
 
 (rf/reg-event-db
   :series-exprs-sort
   [check-spec-interceptor]
   (fn [db [_ new-value]]
-    (let [exprs (vec (map sorted-expr->db-expr new-value))]
+    (let [exprs (vec (map sorted-expr->lisp new-value))]
       (assoc-in db [:current-series :exprs] exprs))))
 
 (rf/reg-event-db
@@ -421,13 +423,7 @@
   [check-spec-interceptor]
   (fn [db [_ deleted-rank]]
     (let [remove-elt #(vec (concat (subvec % 0 deleted-rank )
-                                   (subvec % (+ deleted-rank 1))))
-          fix-ranks #(vec (map (fn [{:keys [content rank]}]
-                                 {:content content
-                                  :rank (if (> rank deleted-rank)
-                                          (- rank 1)
-                                          rank)})
-                               %))]
+                                   (subvec % (+ deleted-rank 1))))]
       (-> db (update-in [:current-series :exprs] remove-elt)
              (update-in [:current-series :exprs] fix-ranks)))))
 
@@ -436,9 +432,13 @@
   [check-spec-interceptor]
   (fn [db [_ record]]
     ; TODO: set a flag in the state to display «new series saved»
-    (-> db
-        (assoc-in [:editing-series] false)
-        (assoc-in [:current-series-id] (-> record data-from-js-obj :id)))))
+    (let [record-clj (data-from-js-obj record)
+          id (:id record-clj)
+          wrapped-series (-> record-clj :series wrap-series)]
+      (-> db
+          (assoc-in [:editing-series] false)
+          (assoc-in [:current-series-id] id)
+          (assoc-in [:current-series] wrapped-series)))))
 
 (rf/reg-event-db
   :series-delete-ok

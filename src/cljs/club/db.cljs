@@ -278,15 +278,11 @@
         (then #(rf/dispatch [:groups-save-ok]))
         (catch (error "db/save-groups-data!")))))
 
-(defn series-page-data-enhancer
-  [series]
-  (let [series-id (first series)
-        series-data (second series)]
-    [series-id series-data]))
-
 (defn series-data->series-page-data
   [data]
-  (dissoc (into {} (map series-page-data-enhancer data)) :owner-id :last_modified))
+  (let [trimmed-data (dissoc data :owner-id :last_modified)
+        wrapper #(identity {:content %})]
+    (update-in trimmed-data [:series :exprs] #(vec (map wrapper %)))))
 
 (defn fetch-series-data!
   []
@@ -304,12 +300,16 @@
                   (swap! app-db assoc-in [:series-page] {})
                   (error "db/fetch-series-data!"))))))
 
+(defn series-trimmer
+  [series]
+  (update series :exprs #(map :content %)))
+
 (defn save-series-data!
   []
   (let [current-series-id (-> @app-db :current-series-id)
         current-series (-> @app-db :current-series)
         record-fragment {:owner-id (-> @app-db :auth-data :kinto-id)
-                         :series current-series}
+                         :series (series-trimmer current-series)}
         record (if (empty? current-series-id)
                  record-fragment
                  (merge record-fragment {:id current-series-id}))]

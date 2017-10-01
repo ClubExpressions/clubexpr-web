@@ -41,6 +41,12 @@
       (compare fn1 fn2)
       (compare ln1 ln2))))
 
+(defn series-comparator
+  [series1 series2]
+  (let [t1 (-> series1 :series :title)
+        t2 (-> series2 :series :title)]
+    (compare t1 t2)))
+
 (defn groups-option
   [option-str]
   {:value option-str :label option-str})

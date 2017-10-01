@@ -7,6 +7,7 @@
             [cljs-time.core :refer [today]]
             [club.utils :refer [groups-option
                                 scholar-comparator
+                                series-comparator
                                 FormControlFixed
                                 pretty-date
                                 today-str
@@ -587,11 +588,12 @@
 
 (defn series-list
   []
-  (let [series-data @(rf/subscribe [:series-page])]
+  (let [series-data @(rf/subscribe [:series-page])
+        sorted-series-data (sort series-comparator series-data)]
     [:div
       [:h2 (t ["Vos séries"])]
       [:ul.nav {:max-height "30em" :overflow-y "scroll"}  ; TODO CSS
-        (doall (map series-li series-data))]]))
+        (doall (map series-li sorted-series-data))]]))
 
 (defn show-expr-as-li
   [expr]

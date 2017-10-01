@@ -436,6 +436,7 @@
           id (:id record-clj)
           wrapped-series (-> record-clj :series wrap-series)]
       (-> db
+          (update :series-page conj record-clj)
           (assoc-in [:editing-series] false)
           (assoc-in [:current-series-id] id)
           (assoc-in [:current-series] wrapped-series)))))

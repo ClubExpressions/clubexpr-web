@@ -290,8 +290,7 @@
 
 (defn series-data->series-page-data
   [data]
-  (-> data (dissoc :owner-id :last_modified)
-           wrap-series))
+  (-> data (dissoc :owner-id :last_modified)))
 
 (defn fetch-series-data!
   []

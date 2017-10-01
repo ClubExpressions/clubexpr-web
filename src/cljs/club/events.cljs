@@ -445,6 +445,10 @@
   [check-spec-interceptor]
   (fn [db [_ record]]
     ; TODO: set a flag in the state to display «new series saved»
-    (-> db
-        (assoc-in [:current-series-id] "")
-        (assoc-in [:current-series] new-series))))
+    (let [record-clj (data-from-js-obj record)
+          id (:id record-clj)
+          not-the-deleted #(not (= id (:id %)))]
+      (-> db
+          (update :series-page #(vec (filter not-the-deleted %)))
+          (assoc-in [:current-series-id] "")
+          (assoc-in [:current-series] new-series)))))

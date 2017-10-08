@@ -8,6 +8,9 @@
             [cljs-time.format :refer [formatter parse unparse]]
             [webpack.bundle]))
  
+; Placeholder for future translation mechanism
+(defn t [[txt]] txt)
+
 (defn error
   [where]
   #(js/alert (str where ": " %)))

@@ -5,7 +5,8 @@
             [webpack.bundle]
             [reagent.core :as reagent]
             [cljs-time.core :refer [today]]
-            [club.utils :refer [groups-option
+            [club.utils :refer [t
+                                groups-option
                                 scholar-comparator
                                 series-comparator
                                 FormControlFixed
@@ -25,9 +26,6 @@
             [club.version]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.pprint :refer [pprint]]))
-
-; Placeholder for future translation mechanism
-(defn t [[txt]] txt)
 
 (defn bs
   ([component]

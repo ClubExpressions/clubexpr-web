@@ -46,10 +46,10 @@
 (defn translate-val
   [value]
   (case value
-    "nb args < 1"  (t ["nbre d’arguments < 1"])
-    "nb args > 1"  (t ["nbre d’arguments > 1"])
-    "nb args < 2"  (t ["nbre d’arguments < 2"])
-    "nb args > 2"  (t ["nbre d’arguments > 2"])
+    "nb args < 1"  (t ["nbre d’opérandes < 1"])
+    "nb args > 1"  (t ["nbre d’opérandes > 1"])
+    "nb args < 2"  (t ["nbre d’opérandes < 2"])
+    "nb args > 2"  (t ["nbre d’opérandes > 2"])
     (t [value])))
 
 (defn rendition-block

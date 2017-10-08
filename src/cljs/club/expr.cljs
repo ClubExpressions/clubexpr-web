@@ -2,7 +2,8 @@
   (:require [goog.object :refer [getValueByKeys]]
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :as str]
-            [club.utils :refer [jsx->clj
+            [club.utils :refer [t
+                                jsx->clj
                                 js->clj-vals
                                 groups-option
                                 scholar-comparator
@@ -30,6 +31,27 @@
 (def reified-expressions
   (map populate-properties (.-expressions clubexpr)))
 
+(defn translate-error
+  [err]
+  (case err
+    "Empty expr"         (t ["Expression vide"])
+    "Missing starting (" (t ["Première « ( » manquante"])
+    "Trailing )"         (t ["Trop de « ) »"])
+    "Missing )"          (t ["Au moins une « ) » manquante"])
+    "Double ("           (t ["Erreur : « (( »"])
+    "Missing cmd"        (t ["Une commande est manquante"])
+    "Unknown cmd"        (t ["Commande inconnue"])
+    (t [err])))  ; beware: some msg are like "Somme: nb args < 2"
+
+(defn translate-val
+  [value]
+  (case value
+    "nb args < 1"  (t ["nbre d’arguments < 1"])
+    "nb args > 1"  (t ["nbre d’arguments > 1"])
+    "nb args < 2"  (t ["nbre d’arguments < 2"])
+    "nb args > 2"  (t ["nbre d’arguments > 2"])
+    (t [value])))
+
 (defn rendition-block
   [src]
   (try [:> ctx [:> node (renderLispAsLaTeX src)]]
@@ -37,7 +59,8 @@
          (let [[_err _val] (str/split (.-message e) ":")]
            [:div.text-center
              {:style {:color "red"}}  ; TODO CSS
-             (str _err (if _val (str ": " _val)))]))))
+             (str (translate-error _err)
+                  (if _val (str ": " (translate-val (str/trim _val)))))]))))
 
 (defn rendition
   [src]

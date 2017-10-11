@@ -190,7 +190,7 @@
   (fn [app-db _]
     (let [_ (fetch-series-data!)]
       (make-reaction
-        (fn [] (:series-page @app-db ))
+        (fn [] (:series-page @app-db))
         :on-dispose #(do)))))
 
 (defn wrap-expr

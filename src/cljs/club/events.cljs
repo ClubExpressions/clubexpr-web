@@ -453,3 +453,41 @@
           (update :series-page #(vec (filter not-the-deleted %)))
           (assoc-in [:current-series-id] "")
           (assoc-in [:current-series] new-series)))))
+
+(rf/reg-event-fx
+  :work-save
+  [check-spec-interceptor]
+  (fn [{:keys [db]} [_ work-state]]
+    {:work-save {:teacher-id (-> db :auth-data :kinto-id)
+                 :work-state work-state}}))
+
+(rf/reg-fx
+  :work-save
+  (fn [{:keys [teacher-id work-state]}]
+    (let [record (-> work-state
+                     (merge {:teacher-id teacher-id
+                             :series-id (:series-value work-state)})
+                     (dissoc :editing :series-label :series-value))]
+      (.. club.db/k-works
+          (createRecord (clj->js record))
+          (then #(rf/dispatch [:works-save-ok %]))
+          (catch (error "event :works-save"))))))
+
+(rf/reg-event-db
+  :works-save-ok
+  [check-spec-interceptor]
+  (fn [db [_ _]]
+    ; TODO: set a flag in the state to display «saved»
+    db
+    ))
+
+(rf/reg-event-fx
+  :work-delete
+  [check-spec-interceptor]
+  (fn [{:keys [db]} [_ state]]
+    {:work-delete state}))
+
+(rf/reg-fx
+  :work-delete
+  (fn [state]
+    (js/alert (js-keys state))))

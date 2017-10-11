@@ -9,7 +9,8 @@
                              fetch-teachers-list!
                              init-groups-data!
                              fetch-groups-data!
-                             fetch-series-data!]]))
+                             fetch-series-data!
+                             get-works-teacher!]]))
 
 ; Placeholder for future translation mechanism
 (defn t [[txt]] txt)
@@ -117,11 +118,6 @@
    (-> db :series-filtering :prevented-ops)))
 
 (rf/reg-sub
- :work-data-teacher
- (fn [db]
-   db))
-
-(rf/reg-sub
  :work-data-scholar
  (fn [db]
    db))
@@ -219,3 +215,11 @@
   (fn [filters query-v _]
     (let [f (apply every-pred (vals filters))]
       (filter f reified-expressions))))
+
+(rf/reg-sub-raw
+ :work-data-teacher
+  (fn [app-db _]
+    (let [works (get-works-teacher!)]
+      (make-reaction
+        (fn [] works)
+        :on-dispose #(do)))))

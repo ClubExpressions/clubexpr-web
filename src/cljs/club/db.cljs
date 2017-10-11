@@ -152,6 +152,10 @@
                   (bucket "default")
                   (collection "series")))
 
+(def k-works (.. k-client
+                 (bucket "default")
+                 (collection "works")))
+
 (defn base-user-record
   [auth0-id]
   {:auth0-id auth0-id
@@ -292,7 +296,7 @@
   [data]
   (-> data (dissoc :owner-id :last_modified)))
 
-(defn fetch-series-data!
+(defn fetch-series-data! ; lancé deux fois par page?
   []
   (let [kinto-id (-> @app-db :auth-data :kinto-id)]
     (.. club.db/k-series
@@ -334,8 +338,40 @@
         (then #(rf/dispatch [:series-delete-ok %]))
         (catch (error "db/delete-series!")))))
 
-(defn get-schools!
+(defn label-feeder
+  [series-list]
+  (fn [work]
+    (let [title (->> series-list
+                     (filter #(= (:series-id work) (-> % :id)))
+                     first
+                     :series
+                     :title)]
+      (merge work {:series-label title}))))
+
+(defn get-works-teacher!
   []
+  (let [teacher-id (-> @app-db :auth-data :kinto-id)]
+    (.. club.db/k-series
+        (listRecords)
+        (then
+          (fn [series-list]
+            (.. club.db/k-works
+              (listRecords)
+              (then
+                (fn [works-list]
+                  (let [series-clj (data-from-js-obj series-list)
+                        works (->> works-list
+                                   data-from-js-obj
+                                   (filter #(= teacher-id (:teacher-id %)))
+                                   (map (label-feeder series-clj))
+                                   vec)]
+                    ;(js/alert works)
+                    works)))
+              (catch (error "db/get-works! works step")))))
+        (catch (error "db/get-works! series step")))))
+
+(defn get-schools!
+  []; mettre un joli select
   [
     ; 655 établissements de l’académie de Nantes
     ; http://annuaire-ec.ac-nantes.fr/indexAnnuaire.jsp

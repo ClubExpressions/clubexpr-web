@@ -408,7 +408,8 @@
   (let [value @(rf/subscribe [:groups-value scholar-id])]
     [:span {:style {:margin-left "1em"}}  ; TODO CSS
       [:> Creatable
-         {:multi true
+         {:spellcheck false
+          :multi true
           :options (map groups-option @(rf/subscribe [:groups]))
           :on-change #(rf/dispatch [:groups-change [scholar-id %]])
           :noResultsText "Un nom pour votre 1er groupe (ex: 2nde1)"
@@ -759,9 +760,9 @@
             (if (:editing @new-state)
               [:> Select
                 {:options [{:value ""       :label ""}
-                           {:value "patate" :label "Série patate"}
-                           {:value "pouet"  :label "Série pouet"}
-                           {:value "pomme"  :label "Pour démarrer à fond les ballons"}]
+                           {:value "e309b2e2-7929-4d61-9339-ed4e68176bef" :label "Série patate"}
+                           {:value "28fb58de-401c-4734-acc0-d78eab50de0e"  :label "Série pouet"}
+                           {:value "164399c5-65e5-43db-a020-c0fcc62228ae"  :label "Pour démarrer à fond les ballons"}]
                  :placeholder (t ["Choisir la série…"])
                  :noResultsText (t ["Pas de série correspondant à cette recherche"])
                  :value (:series-value @new-state)
@@ -793,7 +794,8 @@
                 (merge buttons-common
                        {:on-click
                          #(do (swap! new-state assoc :editing false)
-                              (reset! old-state @new-state))
+                              (reset! old-state @new-state)
+                              (rf/dispatch [:work-save @new-state]))
                         :bsStyle "success"})
                 (t ["Enreg."])]])
           (if (:editing @new-state)
@@ -807,7 +809,9 @@
             [:> (bs 'Col) {:xs 1 :md 1}
               [:> (bs 'Button)
                 (merge buttons-common
-                       {:on-click #(js/alert "Delete!")
+                       {:on-click
+                         #(do (js/alert "Delete!") ; del from screen
+                              (rf/dispatch [:work-delete @new-state]))
                         :bsStyle "danger"})
                 (t ["Suppr."])]])
           (if (not (:editing @new-state))
@@ -821,7 +825,8 @@
 (defn page-work-teacher
   []
   (let [labels-common {:style {:text-align "center"  ; TODO CSS
-                               :margin-top "0.5em"}}]
+                               :margin-top "0.5em"}}
+        works @(rf/subscribe [:work-data-teacher])]
     [:div
       [:div.jumbotron
         [:h2 (t ["Travaux"])]
@@ -840,29 +845,9 @@
             [:div.lead labels-common(t ["Groupe"])]]
           [:> (bs 'Col) {:xs 3 :md 3}
             [:div.lead labels-common(t ["Édition"])]]]
-        [work-input]
+        [work-input]  ; to allow creation of works
         [:hr]
-        [work-input {:editing false :id "random-kindo-id"
-                     :to "06/10/2017" :from "23/09/2017"
-                     :series-value "patate" :series-label "Série patate"
-                     :group "seconde 1"}]
-        [work-input {:editing false :id "random-kindo-id"
-                     :to "30/09/2017" :from "22/09/2017"
-                     :series-value "patate" :series-label "Série patate"
-                     :group "1S"}]
-        [:hr]
-        [work-input {:editing false :id "random-kindo-id"
-                     :to "26/09/2017" :from "22/09/2017"
-                     :series-value "pouet" :series-label "Série pouet"
-                     :group "seconde 1"}]
-        [work-input {:editing false :id "random-kindo-id"
-                     :to "21/09/2017" :from "18/09/2017"
-                     :series-value "pomme" :series-label "Pour démarrer à fond les ballons"
-                     :group "1S"}]
-        [work-input {:editing false :id "random-kindo-id"
-                     :to "20/09/2017" :from "19/09/2017"
-                     :series-value "patate" :series-label "Série patate"
-                     :group "seconde 1"}]
+        ; (vec (map work-input works))
       ]
     ]))
 
@@ -913,11 +898,11 @@
           )
           [footer]
         ]
-        (when (and true config/debug?)
+        (when (and false config/debug?)
           [:pre {:style {:position "absolute" :bottom "0px" :width "100%"
                          :font-size "50%"}}
             (doall (map #(with-out-str (pprint (% @app-db)))
-                        [identity]
+                        [:current-series :series-page]
                    ))])
       ]
     )))

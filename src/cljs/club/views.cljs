@@ -342,7 +342,7 @@
         help-text-find-you
           (case profile-quality
             "scholar" (t ["pour que votre professeur puisse vous retrouver"])
-            "teacher" (t ["pour que les élèves puissent vous retrouver (indiquer aussi ici le prénom pour les homonymes)"])
+            "teacher" (t ["pour que les élèves puissent vous retrouver (indiquer aussi ici le prénom pour les homonymes dans un même établissement)"])
             (t ["pour que l’on puisse vous retrouver"]))
         lastname  [text-input {:label (t ["Nom"])
                                :placeholder (t ["Klougliblouk"])

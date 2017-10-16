@@ -164,7 +164,7 @@
                    [:code "Quotient"] ", "
                    [:code "Oppose"] ", "
                    [:code "Inverse"] ", "
-                   [:code "Carre"] ", "
+                   [:code "Carré"] ", "
                    [:code "Puissance"] " et "
                    [:code "Racine"] "."]]
         [src-input {:label label :help help}])

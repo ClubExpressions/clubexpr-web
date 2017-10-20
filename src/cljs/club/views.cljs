@@ -836,15 +836,15 @@
           [:> (bs 'Col) {:xs 1 :md 1}
             [:div " "]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common(t ["Pour le"])]]
+            [:div.lead labels-common (t ["Pour le"])]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common(t ["Depuis le"])]]
+            [:div.lead labels-common (t ["Depuis le"])]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common(t ["Série"])]]
+            [:div.lead labels-common (t ["Série"])]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common(t ["Groupe"])]]
+            [:div.lead labels-common (t ["Groupe"])]]
           [:> (bs 'Col) {:xs 3 :md 3}
-            [:div.lead labels-common(t ["Édition"])]]]
+            [:div.lead labels-common (t ["Édition"])]]]
         [work-input]  ; to allow creation of works
         [:hr]
         ; (vec (map work-input works))

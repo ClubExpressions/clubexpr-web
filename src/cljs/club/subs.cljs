@@ -10,7 +10,7 @@
                              init-groups-data!
                              fetch-groups-data!
                              fetch-series-data!
-                             get-works-teacher!]]))
+                             fetch-works-teacher!]]))
 
 ; Placeholder for future translation mechanism
 (defn t [[txt]] txt)
@@ -217,9 +217,9 @@
       (filter f reified-expressions))))
 
 (rf/reg-sub-raw
- :work-data-teacher
+ :works-data-teacher
   (fn [app-db _]
-    (let [works (get-works-teacher!)]
+    (let [_ (fetch-works-teacher!)]
       (make-reaction
-        (fn [] works)
+        (fn [] (:works-teacher-page @app-db))
         :on-dispose #(do)))))

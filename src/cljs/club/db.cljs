@@ -75,6 +75,11 @@
                           ::depth
                           ::nb-ops
                           ::prevented-ops])))
+(s/def ::works-teacher-page
+  (s/and #(instance? PersistentVector %)
+         ; TODO each elt is a map
+         ; {:id :teacher-id :from :to :series-id :series-label :group}
+         ))
 
 (s/def ::db
   (s/and map?
@@ -87,6 +92,7 @@
                               ::profile-page
                               ::groups-page
                               ::series-page
+                              ::works-teacher-page
                               ::current-series-id
                               ::current-series
                               ::editing-series
@@ -107,6 +113,7 @@
                :expires-at   ""}
    :groups-page {}
    :series-page []
+   :works-teacher-page []
    :current-series-id ""
    :current-series new-series
    :editing-series false
@@ -348,7 +355,7 @@
                      :title)]
       (merge work {:series-label title}))))
 
-(defn get-works-teacher!
+(defn fetch-works-teacher!
   []
   (let [teacher-id (-> @app-db :auth-data :kinto-id)]
     (.. club.db/k-series
@@ -364,9 +371,9 @@
                                    data-from-js-obj
                                    (filter #(= teacher-id (:teacher-id %)))
                                    (map (label-feeder series-clj))
+                                   (map #(dissoc % :last_modified))
                                    vec)]
-                    ;(js/alert works)
-                    works)))
+                    (rf/dispatch [:write-works-teacher works]))))
               (catch (error "db/get-works! works step")))))
         (catch (error "db/get-works! series step")))))
 

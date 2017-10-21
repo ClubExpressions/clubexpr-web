@@ -720,7 +720,8 @@
           buttons-common {:style {:width "100%"}}  ; TODO CSS
           labels-common {:style {:text-align "center"  ; TODO CSS
                                  :margin "0.5em"}}]
-      (fn [editing id to from series-value series-label group]
+      (fn [{:keys [editing id to from series-value series-label group]}]
+        ^{:key (if (empty? id) "empty-id" id)}
         [:> (bs 'Row)
           (if (:editing @new-state)
             [:> (bs 'Col) {:xs 1 :md 1}
@@ -826,7 +827,7 @@
   []
   (let [labels-common {:style {:text-align "center"  ; TODO CSS
                                :margin-top "0.5em"}}
-        works @(rf/subscribe [:work-data-teacher])]
+        works @(rf/subscribe [:works-data-teacher])]
     [:div
       [:div.jumbotron
         [:h2 (t ["Travaux"])]
@@ -847,7 +848,10 @@
             [:div.lead labels-common (t ["Édition"])]]]
         [work-input]  ; to allow creation of works
         [:hr]
-        ; (vec (map work-input works))
+        (if (empty? works)
+          [:div (t ["Pas de travaux"])]
+          (doall (map #(identity [work-input %]) works))
+        )
       ]
     ]))
 
@@ -902,7 +906,7 @@
           [:pre {:style {:position "absolute" :bottom "0px" :width "100%"
                          :font-size "50%"}}
             (doall (map #(with-out-str (pprint (% @app-db)))
-                        [:current-series :series-page]
+                        [identity]
                    ))])
       ]
     )))

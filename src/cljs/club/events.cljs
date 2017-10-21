@@ -14,7 +14,8 @@
                      fetch-teachers-list!
                      wrap-series
                      fix-ranks
-                     delete-series!]]
+                     delete-series!
+                     fetch-works-teacher!]]
     [club.utils :refer [error
                         get-prop
                         data-from-js-obj
@@ -475,14 +476,16 @@
     (let [record (-> work-state
                      (merge {:teacher-id teacher-id
                              :series-id (:series-value work-state)})
-                     (dissoc :editing :series-label :series-value))]
+                     (dissoc (if (empty? (:id work-state)) :id)
+                             :editing :series-label :series-value))]
       (.. club.db/k-works
           (createRecord (clj->js record))
-          (then #(rf/dispatch [:works-save-ok %]))
-          (catch (error "event :works-save"))))))
+          (then #(rf/dispatch [:work-save-ok %])
+                #(fetch-works-teacher!))
+          (catch (error "event :work-save"))))))
 
 (rf/reg-event-db
-  :works-save-ok
+  :work-save-ok
   [check-spec-interceptor]
   (fn [db [_ _]]
     ; TODO: set a flag in the state to display «saved»
@@ -499,3 +502,10 @@
   :work-delete
   (fn [state]
     (js/alert (js-keys state))))
+
+(rf/reg-event-db
+  :write-works-teacher
+  [check-spec-interceptor]
+  (fn [db [_ new-value]]
+    (assoc-in db [:works-teacher-page] new-value)))
+

@@ -707,7 +707,7 @@
                  :id ""
                  :to (today-str)
                  :from (today-str)
-                 :series ""
+                 :series-value ""
                  :group ""}))
   ([{:keys [editing id to from series-value series-label group]
      :as init-state}]

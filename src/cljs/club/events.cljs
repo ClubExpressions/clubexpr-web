@@ -453,7 +453,7 @@
   :series-delete-ok
   [check-spec-interceptor]
   (fn [db [_ record]]
-    ; TODO: set a flag in the state to display «new series saved»
+    ; TODO: set a flag in the state to display «series deleted»
     (let [record-clj (data-from-js-obj record)
           id (:id record-clj)
           not-the-deleted #(not (= id (:id %)))]

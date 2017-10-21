@@ -247,6 +247,10 @@
   (fn [db [_ new-value]]
     (let [old-groups (:groups-page @app-db)
           new-groups (merge new-value old-groups)]
+      (println ":init-groups merge new:")
+      (println new-value)
+      (println "with old:")
+      (println old-groups)
       (assoc-in db [:groups-page] new-groups))))
 
 ; :write-groups is a merge of old and new data, like :init-groups,
@@ -257,6 +261,10 @@
   (fn [db [_ new-value]]
     (let [old-groups (:groups-page @app-db)
           new-groups (merge old-groups new-value)]
+      (println ":write-groups merge old:")
+      (println old-groups)
+      (println "with new:")
+      (println new-value)
       (assoc-in db [:groups-page] new-groups))))
 
 (rf/reg-event-db

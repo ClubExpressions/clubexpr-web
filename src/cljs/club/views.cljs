@@ -162,7 +162,7 @@
                    [:code "Diff"] ", "
                    [:code "Produit"] ", "
                    [:code "Quotient"] ", "
-                   [:code "Oppose"] ", "
+                   [:code "Opposé"] ", "
                    [:code "Inverse"] ", "
                    [:code "Carré"] ", "
                    [:code "Puissance"] " et "

@@ -372,12 +372,12 @@
 (rf/reg-event-fx
   :series-save
   [check-spec-interceptor]
-  (fn [{:keys [db]}]
+  (fn []
     {:series-save nil}))
 
 (rf/reg-fx
   :series-save
-  (fn [_]
+  (fn []
     (club.db/save-series-data!)))
 
 (rf/reg-event-db

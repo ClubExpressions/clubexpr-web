@@ -3,7 +3,11 @@
             [reagent.core :refer [as-element]]
             [reagent.ratom :refer [make-reaction]]
             [clojure.walk :refer [keywordize-keys]]
-            [club.utils :refer [groups-option data-from-js-obj]]
+            [club.utils :refer [groups-option
+                                data-from-js-obj
+                                past-work?
+                                future-work?
+                                works-comparator-rev]]
             [club.expr :refer [rendition reified-expressions]]
             [club.db :refer [get-users!
                              fetch-teachers-list!
@@ -223,3 +227,14 @@
       (make-reaction
         (fn [] (:works-teacher-page @app-db))
         :on-dispose #(do)))))
+
+(rf/reg-sub
+ :works-data-teacher-sorted
+  (fn [query-v _]
+    (rf/subscribe [:works-data-teacher]))
+  (fn [works-data-teacher query-v _]
+    (let [past-works   (filter past-work? works-data-teacher)
+          future-works (filter future-work? works-data-teacher)]
+      [(sort works-comparator-rev past-works)
+       (sort works-comparator-rev future-works)]
+      )))

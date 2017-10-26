@@ -168,6 +168,18 @@
   [d1 d2]
   (before?= d2 d1))
 
+(defn past-work?
+  [work]
+  (before? (str->cljs-time (:to work)) (today)))
+
+(defn future-work?
+  [work]
+  (not (past-work? work)))
+
+(defn works-comparator-rev  ; rev for reverse chronological
+  [w1 w2]
+  (before? (str->cljs-time (:to w2)) (str->cljs-time (:to w1))))
+
 (def moment (getValueByKeys js/window "deps" "react-datetime" "moment"))
 (. moment locale "fr")
 

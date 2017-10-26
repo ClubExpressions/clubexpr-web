@@ -839,7 +839,7 @@
   []
   (let [labels-common {:style {:text-align "center"  ; TODO CSS
                                :margin-top "0.5em"}}
-        works @(rf/subscribe [:works-data-teacher])]
+        [past-works future-works] @(rf/subscribe [:works-data-teacher-sorted])]
     [:div
       [:div.jumbotron
         [:h2 (t ["Travaux"])]
@@ -860,9 +860,14 @@
             [:div.lead labels-common (t ["Édition"])]]]
         [work-input]  ; to allow creation of works
         [:hr]
-        (if (empty? works)
-          [:div (t ["Pas de travaux"])]
-          (doall (map #(identity [work-input %]) works))
+        (if (empty? future-works)
+          [:div (t ["Pas de travaux dans le futur"])]
+          (doall (map #(identity [work-input %]) future-works))
+        )
+        [:hr]
+        (if (empty? past-works)
+          [:div (t ["Pas de travaux dans le passé"])]
+          (doall (map #(identity [work-input %]) past-works))
         )
       ]
     ]))

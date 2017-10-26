@@ -265,7 +265,7 @@
             (-> % data-from-js-obj
                   groups-data->groups-page-data)]))
       (catch #(if (= error-404 (str %))  ; no such id in the groups coll?
-                (swap! app-db assoc-in [:groups-page] {})
+                nil  ; could be that the teacher has no groups data yet.
                 (error "db/fetch-groups-data!")))))
 
 (defn groups-page-data-trimmer

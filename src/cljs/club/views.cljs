@@ -820,7 +820,7 @@
               [:> (bs 'Button)
                 (merge buttons-common
                        {:on-click #(swap! new-state assoc :editing true)})
-                (t ["Modifier"])]])
+                (t ["Modifier ou supprimer"])])]
          ]))))
 
 (defn page-work-teacher

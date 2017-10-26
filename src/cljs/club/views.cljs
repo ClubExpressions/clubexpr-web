@@ -175,7 +175,7 @@
         [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]
         [:> (bs 'Col) {:xs 6 :md 6}
           [:h2 (t ["Pour les enseignants"])]
-          [:p (t ["Le Club des Expressions vous permet de faire travailler vos élèves sur le sens et la structure des expressions mathématiques."])]
+          [:p (t ["Le Club des Expressions permet de faire travailler vos élèves sur le sens et la structure des expressions mathématiques."])]
           [:p (t ["Cliquez sur « Connexion » en haut à droite pour créer votre compte, faites créer un compte à vos élèves, et vous pourrez leur attribuer des séries d’expressions à reconstituer."])]
           [:p (t ["Si vous êtes parent d’élève, vous pourrez aussi faire travailler votre enfant. Pour cela, créez votre compte en cliquant sur « Connexion » en haut à droite, puis déclarez-vous comme professeur sans établissement."])]]
         [:> (bs 'Col) {:xs 6 :md 6}

@@ -15,7 +15,8 @@
                      wrap-series
                      fix-ranks
                      delete-series!
-                     fetch-works-teacher!]]
+                     fetch-works-teacher!
+                     delete-work!]]
     [club.utils :refer [error
                         get-prop
                         data-from-js-obj
@@ -464,6 +465,13 @@
           (assoc-in [:current-series] new-series)))))
 
 (rf/reg-event-fx
+  :work-new
+  [check-spec-interceptor]
+  (fn [{:keys [db]} [_ work-state]]
+    {:work-save {:teacher-id (-> db :auth-data :kinto-id)
+                 :work-state work-state}}))
+
+(rf/reg-event-fx
   :work-save
   [check-spec-interceptor]
   (fn [{:keys [db]} [_ work-state]]
@@ -480,17 +488,25 @@
                              :editing :series-label :series-value))]
       (.. club.db/k-works
           (createRecord (clj->js record))
-          (then #(rf/dispatch [:work-save-ok %])
+          (then #(rf/dispatch [:work-save-ok (data-from-js-obj %)])
                 #(fetch-works-teacher!))
           (catch (error "event :work-save"))))))
+
+(defn update-works-teacher
+  [works record]
+  ; charger les séries ?
+  (let [id (:id record)
+        not-the-deleted #(not (= id (:id %)))]
+    (-> works
+        #(vec (filter not-the-deleted %))
+        (update conj record))))
 
 (rf/reg-event-db
   :work-save-ok
   [check-spec-interceptor]
-  (fn [db [_ _]]
+  (fn [db [_ record]]
     ; TODO: set a flag in the state to display «saved»
-    db
-    ))
+    (update-in db [:works-teacher-page] update-works-teacher record)))
 
 (rf/reg-event-fx
   :work-delete
@@ -501,7 +517,17 @@
 (rf/reg-fx
   :work-delete
   (fn [state]
-    (js/alert (js-keys state))))
+    (delete-work! (:id state))))
+
+(rf/reg-event-db
+  :work-delete-ok
+  [check-spec-interceptor]
+  (fn [db [_ record]]
+    ; TODO: set a flag in the state to display «series deleted»
+    (let [record-clj (data-from-js-obj record)
+          id (:id record-clj)
+          not-the-deleted #(not (= id (:id %)))]
+      (update db :works-teacher-page #(vec (filter not-the-deleted %))))))
 
 (rf/reg-event-db
   :write-works-teacher

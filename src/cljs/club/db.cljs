@@ -377,6 +377,13 @@
               (catch (error "db/get-works! works step")))))
         (catch (error "db/get-works! series step")))))
 
+(defn delete-work!
+  [work-id]
+  (.. club.db/k-works
+      (deleteRecord work-id)
+      (then #(rf/dispatch [:work-delete-ok %]))
+      (catch (error "db/delete-work!"))))
+
 (defn get-schools!
   []; mettre un joli select
   [

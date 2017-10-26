@@ -789,34 +789,46 @@
                  :onChange #(swap! new-state assoc :group
                                    (-> % js->clj keywordize-keys :value))}]
               [:div labels-common (:group @new-state)])]
-          (if (:editing @new-state)
-            [:> (bs 'Col) {:xs 1 :md 1}
+          [:> (bs 'Col) {:xs 1 :md 1}
+            (if (and (:editing @new-state)
+                     (not (empty? (:series-value @new-state)))
+                     (not (empty? (:group @new-state))))
               [:> (bs 'Button)
                 (merge buttons-common
                        {:on-click
-                         #(do (swap! new-state assoc :editing false)
-                              (reset! old-state @new-state)
-                              (rf/dispatch [:work-save @new-state]))
+                         #(if (empty? (:id new-state))
+                            ; Component used to create new works
+                            (do (rf/dispatch [:work-new @new-state])
+                                (reset! new-state @old-state))
+                            ; Component used for existing works
+                            (do (rf/dispatch [:work-save @new-state])
+                                (swap! new-state assoc :editing false)
+                                (reset! old-state @new-state)))
                         :bsStyle "success"})
-                (t ["Enreg."])]])
-          (if (:editing @new-state)
-            [:> (bs 'Col) {:xs 1 :md 1}
+                (t ["Enreg."])])]
+          [:> (bs 'Col) {:xs 1 :md 1}
+            (if (and (:editing @new-state)
+                     (if (empty? (:id @new-state))
+                       ; creation of a work
+                       (or (not (empty? (:series-value @new-state)))
+                           (not (empty? (:group @new-state))))
+                       ; modification of a work
+                       true))
               [:> (bs 'Button)
                 (merge buttons-common
                        {:on-click #(reset! new-state @old-state)
                         :bsStyle "warning"})
-                (t ["Annuler"])]])
-          (if (:editing @new-state)
-            [:> (bs 'Col) {:xs 1 :md 1}
+                (t ["Annuler"])])]
+          [:> (bs 'Col) {:xs 1 :md 1}
+            (if (and (not (empty? (:id @old-state))) (:editing @new-state))
               [:> (bs 'Button)
                 (merge buttons-common
                        {:on-click
-                         #(do (js/alert "Delete!") ; del from screen
-                              (rf/dispatch [:work-delete @new-state]))
+                         #(rf/dispatch [:work-delete @new-state])
                         :bsStyle "danger"})
-                (t ["Suppr."])]])
-          (if (not (:editing @new-state))
-            [:> (bs 'Col) {:xs 3 :md 3}
+                (t ["Suppr."])])]
+          [:> (bs 'Col) {:xs 3 :md 3}
+            (if (not (:editing @new-state))
               [:> (bs 'Button)
                 (merge buttons-common
                        {:on-click #(swap! new-state assoc :editing true)})

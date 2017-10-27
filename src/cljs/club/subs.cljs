@@ -4,6 +4,7 @@
             [reagent.ratom :refer [make-reaction]]
             [clojure.walk :refer [keywordize-keys]]
             [club.utils :refer [groups-option
+                                series-option
                                 data-from-js-obj
                                 past-work?
                                 future-work?
@@ -185,6 +186,13 @@
   (fn [groups query-v _]
     (vec (map groups-option (sort groups)))))
 
+(rf/reg-sub
+  :groups-for-select
+  (fn [query-v _]
+    (rf/subscribe [:groups]))
+  (fn [groups query-v _]
+    (vec (map groups-option (sort groups)))))
+
 (rf/reg-sub-raw
  :series-page
   (fn [app-db _]
@@ -192,6 +200,13 @@
       (make-reaction
         (fn [] (:series-page @app-db))
         :on-dispose #(do)))))
+
+(rf/reg-sub
+  :series-for-select
+  (fn [query-v _]
+    (rf/subscribe [:series-page]))
+  (fn [series-page query-v _]
+    (vec (map series-option series-page))))
 
 (defn wrap-expr
   [sorted-expr]

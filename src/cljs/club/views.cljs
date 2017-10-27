@@ -719,6 +719,8 @@
                            :timeFormat false
                            :closeOnSelect true
                            :locale "fr-fr"}
+          series-for-select @(rf/subscribe [:series-for-select])
+          groups-for-select @(rf/subscribe [:groups-for-select])
           buttons-common {:style {:width "100%"}}  ; TODO CSS
           labels-common {:style {:text-align "center"  ; TODO CSS
                                  :margin "0.5em"}}]
@@ -762,10 +764,7 @@
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> Select
-                {:options [{:value ""       :label ""}
-                           {:value "e309b2e2-7929-4d61-9339-ed4e68176bef" :label "Série patate"}
-                           {:value "28fb58de-401c-4734-acc0-d78eab50de0e"  :label "Série pouet"}
-                           {:value "164399c5-65e5-43db-a020-c0fcc62228ae"  :label "Pour démarrer à fond les ballons"}]
+                {:options series-for-select
                  :placeholder (t ["Choisir la série…"])
                  :noResultsText (t ["Pas de série correspondant à cette recherche"])
                  :value (:series-value @new-state)
@@ -780,11 +779,7 @@
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> Select
-                {:options [{:value ""          :label ""}
-                           {:value "seconde 1" :label "seconde 1"}
-                           {:value "seconde 2" :label "seconde 2"}
-                           {:value "1S" :label "1S"}
-                           {:value "2.1 gr1"   :label "2.1 gr1"}]
+                {:options groups-for-select
                  :placeholder (t ["Choisir le groupe…"])
                  :noResultsText (t ["Pas de groupe correspondant à cette recherche"])
                  :value (:group @new-state)

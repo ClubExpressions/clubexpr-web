@@ -50,6 +50,10 @@
         t2 (-> series2 :series :title)]
     (compare t1 t2)))
 
+(defn series-option
+  [series]
+  {:value (:id series) :label (-> series :series :title)})
+
 (defn groups-option
   [option-str]
   {:value option-str :label option-str})

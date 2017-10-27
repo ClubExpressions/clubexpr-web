@@ -174,14 +174,14 @@
 (rf/reg-sub
   :groups
   (fn [query-v _]
-     (rf/subscribe [:groups-page]))
+    (rf/subscribe [:groups-page]))
   (fn [groups-page query-v _]
     (sort (reduce #(into %1 (-> %2 second :groups)) #{} groups-page))))
 
 (rf/reg-sub
   :groups-value
   (fn [[_ scholar-id] _]
-     (rf/subscribe [:groups-groups scholar-id]))
+    (rf/subscribe [:groups-groups scholar-id]))
   (fn [groups query-v _]
     (vec (map groups-option (sort groups)))))
 
@@ -208,14 +208,14 @@
 (rf/reg-sub
  :series-exprs-with-content-key
   (fn [query-v _]
-     (rf/subscribe [:series-exprs]))
+    (rf/subscribe [:series-exprs]))
   (fn [exprs query-v _]
     (map wrap-expr exprs)))
 
 (rf/reg-sub
  :series-filtered-exprs
   (fn [query-v _]
-     (rf/subscribe [:series-filtering-filters]))
+    (rf/subscribe [:series-filtering-filters]))
   (fn [filters query-v _]
     (let [f (apply every-pred (vals filters))]
       (filter f reified-expressions))))

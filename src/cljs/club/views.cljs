@@ -726,7 +726,7 @@
           (if (:editing @new-state)
             [:> (bs 'Col) {:xs 1 :md 1}
               (if (empty? (:id @old-state))
-                [:div labels-common(t ["Nouveau :"])]
+                [:div labels-common(t ["Création :"])]
                 [:div labels-common(t ["Modif."])])]
             [:> (bs 'Col) {:xs 1 :md 1}
               [:div labels-common(t ["Avancement"])]])

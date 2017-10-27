@@ -245,6 +245,13 @@
            :firstname (:firstname x)
            :groups #{}}})))
 
+(defn ghost-scholars
+  [scholars]
+  (if (empty? scholars)
+    [{:id "ghost-id-1" :lastname "Z." :firstname "Casper"}
+     {:id "ghost-id-2" :lastname "Z." :firstname "Érika"}]
+    scholars))
+
 (defn init-groups-data!
   []
   (let [teacher-id (-> @app-db :auth-data :kinto-id)]
@@ -253,6 +260,7 @@
                     [:init-groups
                       (->> % data-from-js-obj
                              (filter (fn [x] (= teacher-id (:teacher x))))
+                             ghost-scholars
                              (reduce groups-reducer {}))])})))
 
 (defn fetch-groups-data!

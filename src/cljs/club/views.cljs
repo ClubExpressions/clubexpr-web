@@ -467,6 +467,8 @@
             [:p (t ["En attendant que ce soit le cas, vous pouvez tester cette fonctionnalité en vous connectant avec un autre compte et en vous faisant passer pour un élève vous ayant comme professeur."])]]
           [:div
             [:p (t ["Un groupe peut correspondre : à des classes entières, à des demis-groupes d’une classe, à des élèves ayant des besoins spécifiques (remédiation ou approfondissement) au sein de l’Accompagnement Personnalisé ou non…"])]
+            (if (= "Z." (-> groups-data :ghost-id-1 :lastname))
+              [:p (t ["En attendant que de vrais élèves vous déclarent comme étant leur professeur, deux élèves fantômes vont vous permettre d’essayer cette interface. Je vous présente Casper et Érika Z. !"])])
             [:> (bs 'Row)
               [:> (bs 'Col) {:xs 6 :md 6}
                 [:h2 (t ["Vos élèves"])]

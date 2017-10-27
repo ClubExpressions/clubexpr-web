@@ -39,6 +39,7 @@
     "Trailing )"         (t ["Trop de « ) »"])
     "Missing )"          (t ["Au moins une « ) » manquante"])
     "Double ("           (t ["Erreur : « (( »"])
+    "More than one root" (t ["Expression déjà fermée"])
     "Missing cmd"        (t ["Une commande est manquante"])
     "Unknown cmd"        (t ["Commande inconnue"])
     (t [err])))  ; beware: some msg are like "Somme: nb args < 2"

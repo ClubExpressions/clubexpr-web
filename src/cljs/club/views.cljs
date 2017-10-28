@@ -828,7 +828,8 @@
               [:> (bs 'Button)
                 (merge buttons-common
                        {:on-click
-                         #(rf/dispatch [:work-delete @new-state])
+                         #(do (rf/dispatch [:work-delete @new-state])
+                              (reset! new-state @old-state))
                         :bsStyle "danger"})
                 (t ["Suppr."])])]
           ; EDIT mode

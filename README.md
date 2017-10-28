@@ -229,7 +229,165 @@ to hardcode the precise commit used in prod..
 
 # State and persistency structure
 
-Different records can have the same kinto id and in different collections.
+In a re-frame app, the state lies in the `app-db` atom, also referenced as
+`db` when being a parameter to handlers.
 
+Data is sent back and forth between the state and the persistency layer,
+which is a Kinto instance with those collections :
+
+* `users`
+* `series`
+* `groups`
+* `works`
+
+**Warning** :  
+Different records can have the same kinto id and in different collections.  
 For this reason, beware of any `DELETE WHERE id=` from `psql`.
 
+## First level keys
+
+* `:current-page` keyword identifying the current page
+* `:attempt-code` the Club Code for the landing page, as a string
+* `:authenticated` boolean, is the visitor authenticated?
+* [`:auth-data`](#auth-data) map related to authentication
+* [`:profile-page`](#profile-page) map containing user data
+* `:current-series-id` string identifying the current series
+* [`:current-series`](#current-series) map containing the data of the current-series
+* [`:series-page`](#series-page) vector containing the series of the user
+* `:editing-series` boolean : are we editing the current series?
+* [`:series-filtering`](#series-filtering) map with `:filters`, data related to filters and
+  filtered `:expressions`
+* [`:groups-page`](#groups-page) map containing data about the groups which the scholars of
+   the user belong to
+* [`:works-teacher-page`](#teacher-works) vector containing the scheduled works of the user
+
+Only nested data is explained below (links).
+
+## Auth data
+
+    Under the :auth-data key of the state:    | Records in the user collection:
+                                              |
+    {                                         | {
+      :kinto-id "d6e...487",                  |   "auth0-id": "auth0|597...e79",
+      :auth0-id "google-oauth2|104...035",    |   "lastname": "Debru",
+      :access-token "vz5...j2f",  ; not used  |   "firstname": "Samantha"
+      :expires-at "1509269446300" ; not used  |   "quality": "scholar",
+    }                                         |   "school": "fake-id-0441993C",
+                                              |   "teacher": "d6ee...e487",
+                                              | }
+
+## Profile page
+
+    Under the :profile-page key:       |     Records in the user collection:
+                                       |
+    {                                  |     {
+      :lastname "Debru",               |       "auth0-id": "auth0|597...e79",
+      :firstname "Samantha"            |       "lastname": "Debru",
+      :quality "teacher",              |       "firstname": "Samantha"
+      :school "fake-id-0441993C",      |       "quality": "scholar",
+      :teacher "d6ee...e487",          |       "school": "fake-id-0441993C",
+      :teachers-list []  ; UI only     |       "teacher": "d6ee...e487",
+    }                                  |     }
+
+## Current series
+
+Under the `:current-series` key of the state:
+
+    {:title "A title", :desc "A desc", :exprs ["(Somme 1 2)", "(Somme a 1)"]}
+
+Each series is stored in Kinto as:
+
+    {
+      "owner-id": "d6ee80e6-544b-425a-9d15-8d234174e487",
+      "series": {
+          "desc": "Preums pour tester le système",
+          "exprs": ["(Somme 1 2)", "(Somme a 1)", "(Somme 1 a)"],
+          "title": "Découverte"}
+    }
+
+## Series page
+
+Under the `:series-page` key of the state, all the exprs owned by the user:
+
+    [
+      {
+        :id "164399c5-65e5-43db-a020-c0fcc62228ae",
+        :series
+          {
+           :title "A title",
+           :desc "A nice description",
+           :exprs ["(Produit a b)" "(Quotient 1 2)" "(Diff a b)"]
+          }
+      }
+      ...
+      {
+        :id "e309b2e2-7929-4d61-9339-ed4e68176bef",
+        :series
+          {
+            :title "Découverte",
+            :desc "Une première pour tester le système",
+            :exprs ["(Somme 1 2)" "(Somme a 1)" "(Somme 1 a)"]
+          }
+      }
+    ]
+
+## Series filtering
+
+Under the `:series-filtering` key of the state (not stored in Kinto):
+
+    {
+      :expressions ["(Somme 1 2)" ... "(Quotient (Somme a 1) (Somme b 2))"],
+      :filters
+        {
+          :identity <fn>
+        },
+      :nature "All",
+      :depth [1 7],
+      :nb-ops [1 7],
+      :prevented-ops ["Somme" "Produit"]
+    }}
+
+## Groups page
+
+Direct mapping here between the state and a record in Kinto.
+
+    Under the `:groups-page` key:        |   Records in the groups collection:
+                                         |
+    {                                    |  {
+      :31c69a95-81da-4e09-a2ae-ec2d98    |  "31c69a95-81da-4e09-a2ae-ec2d98":
+        {                                |    {
+          :lastname "Tartopil",          |      "lastname": "Tartopil",
+          :firstname "Rachid",           |      "firstname": "Rachid",
+          :groups #{"2nde1" "2nde1b"}    |      "groups": ["2nde1", "2nde1b"]
+        },                               |    },
+      :21c69a95-81da-4e09-a2ae-c2d98     |   "21c69a95-81da-4e09-a2ae-ec2d98":
+        {                                |    {
+          :lastname "Bérurien",          |      "lastname": "Bérurien",
+          :firstname "Alix",             |      "firstname": "Alix",
+          :groups #{"2nde1" "2nde1a"}    |      "groups": ["2nde1", "2nde1a"]
+        }                                |    }
+    }                                    |  }
+
+
+## Teacher works
+
+    Under the `:works-teacher-page` key:     |  Records in the work collection:
+                                             |
+    [                                        |   {
+      {                                      |     "teacher-id": "d6e...487",
+        :id "4936f940-7f6c7f443652",         |     "to": "02/11/2017",
+        :to "05/11/2017",                    |     "series-id": "16439228ae",
+        :series-id "28fb58de-d78eab50de0e",  |     "group": "1S",
+        :group "1S",                         |     "from": "23/09/2017"
+        :from "28/10/2017",                  |   }
+        :series-label "Seconde: démo"        |
+      }                                      |
+      {                                      |
+        :id "88417fb0-c8361f2c5d8d",         |
+        :to "28/10/2017",                    |
+        :series-id "28fb58de-d78eab50de0e",  |
+        :group "2.1 gr1",                    |
+        :from "26/10/2017",                  |
+        :series-label "Seconde: démo"        |
+      }                                      |
+    ]                                        |

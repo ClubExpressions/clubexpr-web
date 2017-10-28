@@ -734,6 +734,7 @@
                 [:div labels-common(t ["Modif."])])]
             [:> (bs 'Col) {:xs 1 :md 1}
               [:div labels-common(t ["Avancement"])]])
+          ; TO date selection
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> DateTime
@@ -748,19 +749,7 @@
                                (after?= (moment->cljs-time %)
                                         (str->cljs-time (:from @new-state))))})]
               [:div labels-common (pretty-date (:to @new-state))])]
-          [:> (bs 'Col) {:xs 2 :md 2}
-            (if (:editing @new-state)
-              [:> DateTime
-                  (merge datetime-common
-                         {:value (:from @new-state)
-                          :onChange #(swap! new-state assoc :from (moment->str %))
-                          :isValidDate
-                            #(and
-                               (after?= (moment->cljs-time %)
-                                        (today))
-                               (before?= (moment->cljs-time %)
-                                         (str->cljs-time (:to @new-state))))})]
-              [:div labels-common (pretty-date (:from @new-state))])]
+          ; SERIES selection
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> Select
@@ -776,6 +765,7 @@
                                        #(-> % (assoc :series-value value)
                                               (assoc :series-label label)))))}]
               [:div labels-common (:series-label @new-state)])]
+          ; GROUP selection
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> Select
@@ -786,6 +776,21 @@
                  :onChange #(swap! new-state assoc :group
                                    (-> % js->clj keywordize-keys :value))}]
               [:div labels-common (:group @new-state)])]
+          ; FROM date selection
+          [:> (bs 'Col) {:xs 2 :md 2}
+            (if (:editing @new-state)
+              [:> DateTime
+                  (merge datetime-common
+                         {:value (:from @new-state)
+                          :onChange #(swap! new-state assoc :from (moment->str %))
+                          :isValidDate
+                            #(and
+                               (after?= (moment->cljs-time %)
+                                        (today))
+                               (before?= (moment->cljs-time %)
+                                         (str->cljs-time (:to @new-state))))})]
+              [:div labels-common (pretty-date (:from @new-state))])]
+          ; SAVE
           [:> (bs 'Col) {:xs 1 :md 1}
             (if (and (:editing @new-state)
                      (not (empty? (:series-value @new-state)))
@@ -803,6 +808,7 @@
                                 (reset! old-state @new-state)))
                         :bsStyle "success"})
                 (t ["Enreg."])])]
+          ; CANCEL
           [:> (bs 'Col) {:xs 1 :md 1}
             (if (and (:editing @new-state)
                      (if (empty? (:id @new-state))
@@ -816,6 +822,7 @@
                        {:on-click #(reset! new-state @old-state)
                         :bsStyle "warning"})
                 (t ["Annuler"])])]
+          ; DELETE
           [:> (bs 'Col) {:xs 1 :md 1}
             (if (and (not (empty? (:id @old-state))) (:editing @new-state))
               [:> (bs 'Button)
@@ -824,6 +831,7 @@
                          #(rf/dispatch [:work-delete @new-state])
                         :bsStyle "danger"})
                 (t ["Suppr."])])]
+          ; EDIT mode
           [:> (bs 'Col) {:xs 3 :md 3}
             (if (not (:editing @new-state))
               [:> (bs 'Button)
@@ -834,8 +842,13 @@
 
 (defn page-work-teacher
   []
-  (let [labels-common {:style {:text-align "center"  ; TODO CSS
-                               :margin-top "0.5em"}}
+  (let [titles-common    {:style {:font-size "170%"
+                                  :font-weight "bold"
+                                  :text-align "center"  ; TODO CSS
+                                  :margin-top "0.5em"}}
+        subtitles-common {:style {:color "#999"
+                                  :text-align "center"  ; TODO CSS
+                                  :margin-bottom "1em"}}
         [past-works future-works] @(rf/subscribe [:works-data-teacher-sorted])]
     [:div
       [:div.jumbotron
@@ -846,15 +859,28 @@
           [:> (bs 'Col) {:xs 1 :md 1}
             [:div " "]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common (t ["Pour le"])]]
+            [:div titles-common (t ["Pour le"])]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common (t ["Depuis le"])]]
+            [:div titles-common (t ["Série"])]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common (t ["Série"])]]
+            [:div titles-common (t ["Groupe"])]]
           [:> (bs 'Col) {:xs 2 :md 2}
-            [:div.lead labels-common (t ["Groupe"])]]
+            [:div titles-common (t ["Depuis le"])]]
           [:> (bs 'Col) {:xs 3 :md 3}
-            [:div.lead labels-common (t ["Édition"])]]]
+            [:div titles-common (t ["Édition"])]]]
+        [:> (bs 'Row)
+          [:> (bs 'Col) {:xs 1 :md 1}
+            [:div " "]]
+          [:> (bs 'Col) {:xs 2 :md 2}
+            [:div subtitles-common (t ["(date limite)"])]]
+          [:> (bs 'Col) {:xs 2 :md 2}
+            [:div subtitles-common (t ["(voir onglet « Séries »)"])]]
+          [:> (bs 'Col) {:xs 2 :md 2}
+            [:div subtitles-common (t ["(voir onglet « Groupes »)"])]]
+          [:> (bs 'Col) {:xs 2 :md 2}
+            [:div subtitles-common (t ["(date de publication)"])]]
+          [:> (bs 'Col) {:xs 3 :md 3}
+            [:div subtitles-common (t [" "])]]]
         [work-input]  ; to allow creation of works
         [:hr]
         (if (empty? future-works)

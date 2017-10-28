@@ -800,7 +800,7 @@
                        {:on-click
                          #(if (empty? (:id new-state))
                             ; Component used to create new works
-                            (do (rf/dispatch [:work-new @new-state])
+                            (do (rf/dispatch [:work-save @new-state])
                                 (reset! new-state @old-state))
                             ; Component used for existing works
                             (do (rf/dispatch [:work-save @new-state])

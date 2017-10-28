@@ -465,13 +465,6 @@
           (assoc-in [:current-series] new-series)))))
 
 (rf/reg-event-fx
-  :work-new
-  [check-spec-interceptor]
-  (fn [{:keys [db]} [_ work-state]]
-    {:work-save {:teacher-id (-> db :auth-data :kinto-id)
-                 :work-state work-state}}))
-
-(rf/reg-event-fx
   :work-save
   [check-spec-interceptor]
   (fn [{:keys [db]} [_ work-state]]

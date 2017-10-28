@@ -379,7 +379,7 @@
                                    data-from-js-obj
                                    (filter #(= teacher-id (:teacher-id %)))
                                    (map (label-feeder series-clj))
-                                   (map #(dissoc % :last_modified))
+                                   (map #(dissoc % :last_modified :teacher-id))
                                    vec)]
                     (rf/dispatch [:write-works-teacher works]))))
               (catch (error "db/get-works! works step")))))

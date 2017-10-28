@@ -209,7 +209,7 @@ The steps :
 	# kill lein with `Ctrl`+`C`
 	git co master
     #  build a prod version (`:prod` in `project.clj`)
-	lein do clean, cljsbuild once min 
+	lein do clean, cljsbuild once min
     # use the temporary `prod` branch
 	git br -D prod
 	git co -b prod

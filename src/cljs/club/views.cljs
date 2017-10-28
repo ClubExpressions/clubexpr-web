@@ -90,11 +90,11 @@
             [:> (bs 'NavItem) {:href "#/help"
                                :class (active page :help)} (t ["Aide"])]
             (if (and authenticated (= quality "teacher"))
-              [:> (bs 'NavItem) {:href "#/groups"
-                                 :class (active page :groups)} (t ["Groupes"])])
-            (if (and authenticated (= quality "teacher"))
               [:> (bs 'NavItem) {:href "#/series"
                                  :class (active page :series)} (t ["Séries"])])
+            (if (and authenticated (= quality "teacher"))
+              [:> (bs 'NavItem) {:href "#/groups"
+                                 :class (active page :groups)} (t ["Groupes"])])
             (if (and authenticated (= quality "teacher"))
               [:> (bs 'NavItem) {:href "#/work"
                                  :class (active page :work)} (t ["Travaux"])])

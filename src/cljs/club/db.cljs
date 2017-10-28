@@ -151,13 +151,13 @@
                  (bucket "default")
                  (collection "users")))
 
-(def k-groups (.. k-client
-                  (bucket "default")
-                  (collection "groups")))
-
 (def k-series (.. k-client
                   (bucket "default")
                   (collection "series")))
+
+(def k-groups (.. k-client
+                  (bucket "default")
+                  (collection "groups")))
 
 (def k-works (.. k-client
                  (bucket "default")

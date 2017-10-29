@@ -902,6 +902,10 @@
       ]
     ]))
 
+(defn work-todo
+  [work]
+  [:li (:series-title work)])
+
 (defn page-work-scholar
   []
   (let [work-data @(rf/subscribe [:work-data-scholar])]
@@ -909,6 +913,7 @@
       [:div.jumbotron
         [:h2 (t ["Travail à faire"])]
         [:p (t ["Séries d’expressions données par votre professeur"])]]
+      [:ul (doall (map work-todo work-data))]
     ]))
 
 (defn page-teacher-only

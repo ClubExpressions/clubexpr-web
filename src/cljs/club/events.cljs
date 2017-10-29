@@ -532,3 +532,8 @@
   (fn [db [_ new-value]]
     (assoc-in db [:works-teacher-page] new-value)))
 
+(rf/reg-event-db
+  :write-works-scholar
+  [check-spec-interceptor]
+  (fn [db [_ new-value]]
+    (assoc-in db [:works-scholar-page] new-value)))

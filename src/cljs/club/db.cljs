@@ -80,6 +80,11 @@
          ; TODO each elt is a map
          ; {:id :teacher-id :from :to :series-id :series-title :group}
          ))
+(s/def ::works-scholar-page
+  (s/and #(instance? PersistentVector %)
+         ; TODO each elt is a map
+         ; {:id :from :to :series-id :series-title}
+         ))
 
 (s/def ::db
   (s/and map?
@@ -93,6 +98,7 @@
                               ::groups-page
                               ::series-page
                               ::works-teacher-page
+                              ::works-scholar-page
                               ::current-series-id
                               ::current-series
                               ::editing-series
@@ -114,6 +120,7 @@
    :groups-page {}
    :series-page []
    :works-teacher-page []
+   :works-scholar-page []
    :current-series-id ""
    :current-series new-series
    :editing-series false
@@ -391,6 +398,44 @@
       (deleteRecord work-id)
       (then #(rf/dispatch [:work-delete-ok %]))
       (catch (error "db/delete-work!"))))
+
+(defn for-the-groups
+  [groups]
+  ; returns a filter which keeps a work if its group belongs to `groups`
+  (fn [work]
+    (some #{(:group work)} groups)))
+
+(defn fetch-works-scholar!
+  []
+  (let [scholar-id (-> @app-db :auth-data :kinto-id)
+        teacher-id (-> @app-db :profile-page :teacher)]
+    (.. club.db/k-groups
+        (getRecord teacher-id)
+        (then
+          (fn [groups-data]
+            (let [groups-data-clj (data-from-js-obj groups-data)
+                  scholar-id-kw (keyword scholar-id)
+                  scholar-groups (:groups (scholar-id-kw groups-data-clj))]
+              (.. club.db/k-series
+                  (listRecords)
+                  (then
+                    (fn [series-list]
+                      (.. club.db/k-works
+                          (listRecords)
+                          (then
+                            (fn [works-list]
+                              (let [series-clj (data-from-js-obj series-list)
+                                    works (->> works-list
+                                               data-from-js-obj
+                                               (filter #(= teacher-id (:teacher-id %)))
+                                               (filter (for-the-groups scholar-groups))
+                                               (map (label-feeder series-clj))
+                                               (map #(dissoc % :last_modified :teacher-id))
+                                               vec)]
+                                (rf/dispatch [:write-works-scholar works]))))
+                          (catch (error "db/get-works-scholar! works step")))))
+                  (catch (error "db/get-works-scholar! series step"))))))
+        (catch (error "db/get-works-scholar! groups step")))))
 
 (defn get-schools!
   []; mettre un joli select

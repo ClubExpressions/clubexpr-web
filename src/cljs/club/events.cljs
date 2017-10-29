@@ -476,9 +476,9 @@
   (fn [{:keys [teacher-id work-state]}]
     (let [record (-> work-state
                      (merge {:teacher-id teacher-id
-                             :series-id (:series-value work-state)})
+                             :series-id (:series-id work-state)})
                      (dissoc (if (empty? (:id work-state)) :id)
-                             :editing :series-label :series-value))]
+                             :editing :series-title))]
       (.. club.db/k-works
           (createRecord (clj->js record))
           (then #(rf/dispatch [:work-save-ok (data-from-js-obj %)])

@@ -78,7 +78,7 @@
 (s/def ::works-teacher-page
   (s/and #(instance? PersistentVector %)
          ; TODO each elt is a map
-         ; {:id :teacher-id :from :to :series-id :series-label :group}
+         ; {:id :teacher-id :from :to :series-id :series-title :group}
          ))
 
 (s/def ::db
@@ -361,7 +361,7 @@
                      first
                      :series
                      :title)]
-      (merge work {:series-label title}))))
+      (merge work {:series-title title}))))
 
 (defn fetch-works-teacher!
   []

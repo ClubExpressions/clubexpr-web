@@ -380,7 +380,7 @@ Direct mapping here between the state and a record in Kinto.
         :series-id "28fb58de-d78eab50de0e",  |     "group": "1S",
         :group "1S",                         |     "from": "23/09/2017"
         :from "28/10/2017",                  |   }
-        :series-label "Seconde: démo"        |
+        :series-title "Seconde: démo"        |
       }                                      |
       {                                      |
         :id "88417fb0-c8361f2c5d8d",         |
@@ -388,6 +388,6 @@ Direct mapping here between the state and a record in Kinto.
         :series-id "28fb58de-d78eab50de0e",  |
         :group "2.1 gr1",                    |
         :from "26/10/2017",                  |
-        :series-label "Seconde: démo"        |
+        :series-title "Seconde: démo"        |
       }                                      |
     ]                                        |

@@ -709,9 +709,10 @@
                  :id ""
                  :to (today-str)
                  :from (today-str)
-                 :series-value ""
+                 :series-id ""
+                 :series-title ""
                  :group ""}))
-  ([{:keys [editing id to from series-value series-label group]
+  ([{:keys [editing id to from series-id series-title group]
      :as init-state}]
     (let [old-state (reagent/atom init-state)
           new-state (reagent/atom init-state)
@@ -724,7 +725,7 @@
           buttons-common {:style {:width "100%"}}  ; TODO CSS
           labels-common {:style {:text-align "center"  ; TODO CSS
                                  :margin "0.5em"}}]
-      (fn [{:keys [editing id to from series-value series-label group]}]
+      (fn [{:keys [editing id to from series-id series-title group]}]
         ^{:key (if (empty? id) "empty-id" id)}
         [:> (bs 'Row)
           (if (:editing @new-state)
@@ -756,15 +757,15 @@
                 {:options series-for-select
                  :placeholder (t ["Choisir la série…"])
                  :noResultsText (t ["Pas de série correspondant à cette recherche"])
-                 :value (:series-value @new-state)
+                 :value (:series-id @new-state)
                  :onChange (fn [sel]
                              (let [sel-clj (-> sel js->clj keywordize-keys)
                                    value (:value sel-clj)
                                    label (:label sel-clj)]
                                (swap! new-state
-                                       #(-> % (assoc :series-value value)
-                                              (assoc :series-label label)))))}]
-              [:div labels-common (:series-label @new-state)])]
+                                       #(-> % (assoc :series-id value)
+                                              (assoc :series-title label)))))}]
+              [:div labels-common (:series-title @old-state)])]
           ; GROUP selection
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
@@ -793,7 +794,7 @@
           ; SAVE
           [:> (bs 'Col) {:xs 1 :md 1}
             (if (and (:editing @new-state)
-                     (not (empty? (:series-value @new-state)))
+                     (not (empty? (:series-id @new-state)))
                      (not (empty? (:group @new-state))))
               [:> (bs 'Button)
                 (merge buttons-common
@@ -813,7 +814,7 @@
             (if (and (:editing @new-state)
                      (if (empty? (:id @new-state))
                        ; creation of a work
-                       (or (not (empty? (:series-value @new-state)))
+                       (or (not (empty? (:series-id @new-state)))
                            (not (empty? (:group @new-state))))
                        ; modification of a work
                        true))

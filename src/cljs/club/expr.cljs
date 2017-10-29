@@ -11,6 +11,7 @@
 
 (def clubexpr (getValueByKeys js/window "deps" "clubexpr"))
 (def renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr))
+(def parseLisp (.-parse clubexpr))
 
 (def react-mathjax (getValueByKeys js/window "deps" "react-mathjax"))
 (def ctx (getValueByKeys react-mathjax "Context"))
@@ -70,3 +71,14 @@
         node (getValueByKeys react-mathjax "Node")
         renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr)]
     [:> ctx [:> node {:inline true} (renderLispAsLaTeX src)]]))
+
+(defn vec->hiccup
+  [expr]
+  (if (instance? PersistentVector expr)
+    [:li [:span (first expr)]
+         [:ul (map vec->hiccup (rest expr))]]
+    [:li expr]))
+
+(defn tree-rendition
+  [src]
+  [:ul.tree (vec->hiccup (js->clj (parseLisp src)))])

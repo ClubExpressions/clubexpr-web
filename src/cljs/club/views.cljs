@@ -22,6 +22,7 @@
             [club.expr :refer [clubexpr
                                rendition-block
                                rendition
+                               tree-rendition
                                reified-expressions]]
             [club.version]
             [clojure.walk :refer [keywordize-keys]]
@@ -169,7 +170,11 @@
                    [:code "Racine"] "."]]
         [src-input {:label label :help help}])
       [:br]
-      [rendition-block @(rf/subscribe [:attempt-code])]]
+      [:> (bs 'Row)
+        [:> (bs 'Col) {:xs 6 :md 6}
+          [rendition-block @(rf/subscribe [:attempt-code])]]
+        [:> (bs 'Col) {:xs 6 :md 6}
+          [tree-rendition @(rf/subscribe [:attempt-code])]]]]
     [:> (bs 'Grid)
       [:> (bs 'Row)
         [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]

@@ -391,3 +391,26 @@ Direct mapping here between the state and a record in Kinto.
         :series-title "Seconde: démo"        |
       }                                      |
     ]                                        |
+
+## Scholar works
+
+    Under the `:works-scholar-page` key:     |  Records in the work collection:
+                                             |
+    [                                        |   {
+      {                                      |     "teacher-id": "d6e...487",
+        :id "4936f940-7f6c7f443652",         |     "to": "02/11/2017",
+        :to "05/11/2017",                    |     "series-id": "16439228ae",
+        :series-id "28fb58de-d78eab50de0e",  |     "group": "1S",
+        :group "1S",                         |     "from": "23/09/2017"
+        :from "28/10/2017",                  |   }
+        :series-title "Seconde: démo"        |
+      }                                      |
+      {                                      |
+        :id "88417fb0-c8361f2c5d8d",         |
+        :to "28/10/2017",                    |
+        :series-id "28fb58de-d78eab50de0e",  |
+        :group "2.1 gr1",                    |
+        :from "26/10/2017",                  |
+        :series-title "Seconde: démo"        |
+      }                                      |
+    ]                                        |

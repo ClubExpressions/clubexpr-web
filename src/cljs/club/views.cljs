@@ -156,7 +156,7 @@
   []
   [:div
     [:div.jumbotron
-      [:h2 (t ["Nouveau venu ?"])]
+      [:h2 (t ["Première visite ?"])]
       (let [label (t ["Tapez du Code Club ci-dessous pour former une expression mathématique."])
             help [:span (t ["Commandes disponibles :"])
                    [:code "Somme"] ", "

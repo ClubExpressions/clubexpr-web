@@ -487,7 +487,6 @@
 
 (defn update-works-teacher
   [works record]
-  ; charger les séries ?
   (let [id (:id record)
         not-the-deleted #(not (= id (:id %)))]
     (-> works

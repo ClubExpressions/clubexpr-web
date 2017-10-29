@@ -482,17 +482,21 @@
                              :series-title))]
       (.. club.db/k-works
           (createRecord (clj->js record))
-          (then #(rf/dispatch [:work-save-ok (data-from-js-obj %)])
-                #(fetch-works-teacher!))
+          (then #(rf/dispatch [:work-save-ok (data-from-js-obj %)]))
           (catch (error "event :work-save"))))))
+
+(defn works-record->works-teacher-page-data
+  [record]
+  (dissoc record :id :teacher-id :last-modified))
 
 (defn update-works-teacher
   [works record]
   (let [id (:id record)
-        not-the-deleted #(not (= id (:id %)))]
-    (-> works
-        #(vec (filter not-the-deleted %))
-        (update conj record))))
+        not-the-provided #(not (= id (:id %)))
+        elt-removed (vec (filter not-the-provided works))
+        elt-added
+          (conj elt-removed (works-record->works-teacher-page-data record))]
+    elt-added))
 
 (rf/reg-event-db
   :work-save-ok

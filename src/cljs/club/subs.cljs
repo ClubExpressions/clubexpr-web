@@ -130,7 +130,7 @@
 ; Layer 2
 
 (rf/reg-sub
- :profile-school-pretty
+  :profile-school-pretty
   (fn [query-v _]
      (rf/subscribe [:profile-school]))
   (fn [profile-school query-v _]
@@ -142,7 +142,7 @@
            :name))))
 
 (rf/reg-sub-raw
- :profile-teachers-list
+  :profile-teachers-list
   (fn [app-db _]
     (let [school-id (get-in @app-db [:profile-page :school])
           _ (fetch-teachers-list! school-id)]
@@ -151,7 +151,7 @@
         :on-dispose #(do)))))
 
 (rf/reg-sub
- :profile-teacher-pretty
+  :profile-teacher-pretty
   (fn [query-v _]
     [(rf/subscribe [:profile-teacher])
      (rf/subscribe [:profile-teachers-list])])
@@ -164,7 +164,7 @@
            :lastname))))
 
 (rf/reg-sub-raw
- :groups-page
+  :groups-page
   (fn [app-db _]
     (let [_ (init-groups-data!)
           _ (fetch-groups-data!)]
@@ -194,7 +194,7 @@
     (vec (map groups-option (sort groups)))))
 
 (rf/reg-sub-raw
- :series-page
+  :series-page
   (fn [app-db _]
     (let [_ (fetch-series-data!)]
       (make-reaction
@@ -221,14 +221,14 @@
                   (rendition lisp)])}))
 
 (rf/reg-sub
- :series-exprs-with-content-key
+  :series-exprs-with-content-key
   (fn [query-v _]
     (rf/subscribe [:series-exprs]))
   (fn [exprs query-v _]
     (map wrap-expr exprs)))
 
 (rf/reg-sub
- :series-filtered-exprs
+  :series-filtered-exprs
   (fn [query-v _]
     (rf/subscribe [:series-filtering-filters]))
   (fn [filters query-v _]
@@ -236,7 +236,7 @@
       (filter f reified-expressions))))
 
 (rf/reg-sub-raw
- :works-data-teacher
+  :works-data-teacher
   (fn [app-db _]
     (let [_ (fetch-works-teacher!)]
       (make-reaction
@@ -244,7 +244,7 @@
         :on-dispose #(do)))))
 
 (rf/reg-sub
- :works-data-teacher-sorted
+  :works-data-teacher-sorted
   (fn [query-v _]
     (rf/subscribe [:works-data-teacher]))
   (fn [works-data-teacher query-v _]

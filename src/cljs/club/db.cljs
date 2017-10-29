@@ -382,8 +382,8 @@
                                    (map #(dissoc % :last_modified :teacher-id))
                                    vec)]
                     (rf/dispatch [:write-works-teacher works]))))
-              (catch (error "db/get-works! works step")))))
-        (catch (error "db/get-works! series step")))))
+              (catch (error "db/get-works-teacher! works step")))))
+        (catch (error "db/get-works-teacher! series step")))))
 
 (defn delete-work!
   [work-id]

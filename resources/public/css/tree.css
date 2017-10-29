@@ -1,20 +1,14 @@
-body {
-    margin:50px;
-    font-family:'Arial', sans-serif;
-}
-*{margin:0;padding: 0;}
+/*
+ * From https://github.com/traceybaird/CSS-Tree/
+ *
+ * I removed lines that are useless for me,
+ * and replaced `.tree li a` with `.tree li span`.
+ *
+ * */
 
-h1 {
-    color:#FA9A39;
-}
-
-p { padding-bottom:50px;}
-
-.content {
-    width:500px;
-    margin:auto;
-}
 .tree ul {
+    margin:0;
+    padding: 0;
     margin-left: 20px;
 }
 
@@ -64,20 +58,8 @@ ul.tree>li:first-child::after {
     border-radius:5px 0 0 0;
 }
 
-.tree li a {
+.tree li span {
     border: 1px #ccc solid;
     border-radius: 5px;
     padding:2px 5px;
-}
-
-.tree li a:hover, .tree li a:hover+ul li a,
-.tree li a:focus, .tree li a:focus+ul li a {
-    background: #ccc; color: #000; border: 1px solid #000;
-}
-
-.tree li a:hover+ul li::after, .tree li a:focus+ul li::after,
-.tree li a:hover+ul li::before, .tree li a:focus+ul li::before 
-.tree li a:hover+ul::before, .tree li a:focus+ul::before 
-.tree li a:hover+ul ul::before, .tree li a:focus+ul ul::before{
-    border-color:  #000; /*connector color on hover*/
 }

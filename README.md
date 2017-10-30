@@ -259,7 +259,15 @@ For this reason, beware of any `DELETE WHERE id=` from `psql`.
   filtered `:expressions`
 * [`:groups-page`](#groups-page) map containing data about the groups which the scholars of
    the user belong to
-* [`:works-teacher-page`](#teacher-works) vector containing the scheduled works of the user
+* [`:works-teacher-page`](#teacher-works) vector containing the works
+  scheduled by the user (teacher)
+* [`:works-scholar-page`](#scholar-works) vector containing the works
+  scheduled for the user (scholar)
+* `::scholar-working` boolean : is a scholar working?
+* `::scholar-work-id` string : the id of the work on which a scholar is working
+* [`::scholar-work`](#scholar-work) map containing data about the core of the
+  Club: a scholar working on a series of exprs
+
 
 Only nested data is explained below (links).
 
@@ -414,3 +422,17 @@ Direct mapping here between the state and a record in Kinto.
         :series-title "Seconde: démo"        |
       }                                      |
     ]                                        |
+
+## Scholar work
+
+    Under the `:scholar-work` key:
+
+    {:series
+     {:title "A title",
+      :desc "A description",
+      :exprs ["(Somme 1 2)" ... "(Somme 1 a)"]},
+     :current-expr-idx 0,
+     :current-expr "",
+     :interactive true,
+     :attempt "()",
+     :error ""}

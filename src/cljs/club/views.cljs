@@ -906,9 +906,12 @@
   [work]
   [:li (t ["Pour le "])
        [:strong (pretty-date (:to work))]
-       " : Série « "
-       (:series-title work)
-       " »"])
+       " : "
+       [:a {:on-click #(js/alert "PLZ fire up a modal!")}
+         (t ["Série"])
+         " « "
+         (:series-title work)
+         " »"]])
 
 (defn work-past
   [work]

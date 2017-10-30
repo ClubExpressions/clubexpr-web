@@ -537,3 +537,25 @@
   [check-spec-interceptor]
   (fn [db [_ new-value]]
     (assoc-in db [:works-scholar-page] new-value)))
+
+(rf/reg-event-db
+  :scholar-work
+  [check-spec-interceptor]
+  (fn [db [_ work]]
+    (-> db
+        (assoc-in [:scholar-working] true)
+        (assoc-in [:scholar-work-id] (:id work))
+        (assoc-in [:scholar-work :attempt] "()")
+    )))
+
+(rf/reg-event-db
+  :close-scholar-work
+  [check-spec-interceptor]
+  (fn [db [_ work]]
+    (assoc-in db [:scholar-working] false)))
+
+(rf/reg-event-db
+  :write-scholar-work
+  [check-spec-interceptor]
+  (fn [db [_ series]]
+    (assoc-in db [:scholar-work :series] series)))

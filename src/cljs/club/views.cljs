@@ -907,7 +907,7 @@
   [:li (t ["Pour le "])
        [:strong (pretty-date (:to work))]
        " : "
-       [:a {:on-click #(js/alert "PLZ fire up a modal!")}
+       [:a {:on-click #(rf/dispatch [:scholar-work work])}
          (t ["Série"])
          " « "
          (:series-title work)
@@ -923,8 +923,22 @@
 
 (defn page-work-scholar
   []
-  (let [[past-works future-works] @(rf/subscribe [:works-data-scholar-sorted])]
+  (let [[past-works future-works] @(rf/subscribe [:works-data-scholar-sorted])
+        scholar-working @(rf/subscribe [:scholar-working])
+        work-id @(rf/subscribe [:scholar-work-id])
+        work @(rf/subscribe [:scholar-work work-id])
+       ]
     [:div
+      [:> (bs 'Modal) {:show scholar-working
+                       :onHide #(rf/dispatch [:close-scholar-work])}
+        [:> (bs 'Modal 'Header) {:closeButton true}
+          [:> (bs 'Modal 'Title) (t ["Série "]) (-> work :series :title)]]
+        [:> (bs 'Modal 'Body)
+         [:h4 (t ["Ici l’élève reconstitue la série."])]
+        ]
+        [:> (bs 'Modal 'Footer)
+          (t ["Vous pouvez fermer cette fenêtre pour continuer plus tard"])]
+      ]
       [:div.jumbotron
         [:h2 (t ["Travail à faire"])]
         [:p (t ["Séries d’expressions données par votre professeur"])]]

@@ -16,6 +16,7 @@
                              fetch-groups-data!
                              fetch-series-data!
                              fetch-works-teacher!
+                             fetch-scholar-work!
                              fetch-works-scholar!]]))
 
 ; Placeholder for future translation mechanism
@@ -122,6 +123,16 @@
  :series-filtering-prevented-ops
  (fn [db]
    (-> db :series-filtering :prevented-ops)))
+
+(rf/reg-sub
+ :scholar-working
+ (fn [db]
+   (-> db :scholar-working)))
+
+(rf/reg-sub
+ :scholar-work-id
+ (fn [db]
+   (-> db :scholar-work-id)))
 
 ; Layer 2
 
@@ -268,3 +279,11 @@
       [(sort works-comparator-rev past-works)
        (sort works-comparator-rev future-works)]
       )))
+
+(rf/reg-sub-raw
+  :scholar-work
+  (fn [app-db [_ work-id]]
+    (let [_ (fetch-scholar-work! work-id)]
+      (make-reaction
+        (fn [] (:scholar-work @app-db))
+        :on-dispose #(do)))))

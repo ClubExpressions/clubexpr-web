@@ -85,6 +85,16 @@
          ; TODO each elt is a map
          ; {:id :from :to :series-id :series-title}
          ))
+(s/def ::scholar-working boolean?)
+(s/def ::scholar-work-id string?)
+(s/def ::scholar-work
+  (s/and map?
+         (s/keys :req-un [::series
+                          ::current-expr-idx
+                          ::current-expr
+                          ::interactive
+                          ::attempt
+                          ::error])))
 
 (s/def ::db
   (s/and map?
@@ -103,6 +113,9 @@
                               ::current-series
                               ::editing-series
                               ::series-filtering
+                              ::scholar-working
+                              ::scholar-work-id
+                              ::scholar-work
                               ]))))
 
 (def new-series
@@ -131,6 +144,15 @@
       :depth  [1 7]
       :nb-ops [1 7]
       :prevented-ops []}
+   :scholar-work-id ""
+   :scholar-working false
+   :scholar-work
+     {:series new-series
+      :current-expr-idx 0
+      :current-expr ""
+      :interactive true
+      :attempt ""
+      :error ""}
    :profile-page {:quality "scholar"
                   :school "fake-id-no-school"
                   :teachers-list []
@@ -436,6 +458,21 @@
                           (catch (error "db/fetch-works-scholar! works step")))))
                   (catch (error "db/fetch-works-scholar! series step"))))))
         (catch (error "db/fetch-works-scholar! groups step")))))
+
+(defn fetch-scholar-work!
+  [work-id]
+  (.. club.db/k-works
+      (getRecord work-id)
+      (then
+        (fn [work-record]
+          (.. club.db/k-series
+              (getRecord (-> work-record data-from-js-obj :series-id))
+              (then
+                (fn [series-record]
+                  (let [series (-> series-record data-from-js-obj :series)]
+                    (rf/dispatch [:write-scholar-work series]))))
+              (catch (error "db/fetch-scholar-works! works step")))))
+      (catch (error "db/fetch-scholar-works! series step"))))
 
 (defn get-schools!
   []; mettre un joli select

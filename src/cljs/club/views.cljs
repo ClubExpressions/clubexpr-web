@@ -3,7 +3,7 @@
             [re-frame.db :refer [app-db]]
             [goog.object :refer [getValueByKeys]]
             [webpack.bundle]
-            [reagent.core :as reagent]
+            [reagent.core :as r]
             [cljs-time.core :refer [today]]
             [club.utils :refer [t
                                 groups-option
@@ -719,8 +719,8 @@
                  :group ""}))
   ([{:keys [editing id to from series-id series-title group]
      :as init-state}]
-    (let [old-state (reagent/atom init-state)
-          new-state (reagent/atom init-state)
+    (let [old-state (r/atom init-state)
+          new-state (r/atom init-state)
           datetime-common {:dateFormat "DD/MM/YYYY"
                            :timeFormat false
                            :closeOnSelect true

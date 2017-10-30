@@ -251,9 +251,20 @@
       )))
 
 (rf/reg-sub-raw
-  :work-data-scholar
+  :works-data-scholar
   (fn [app-db _]
     (let [_ (fetch-works-scholar!)]
       (make-reaction
         (fn [] (:works-scholar-page @app-db))
         :on-dispose #(do)))))
+
+(rf/reg-sub
+  :works-data-scholar-sorted
+  (fn [query-v _]
+    (rf/subscribe [:works-data-scholar]))
+  (fn [works-data-scholar query-v _]
+    (let [past-works   (filter past-work? works-data-scholar)
+          future-works (filter future-work? works-data-scholar)]
+      [(sort works-comparator-rev past-works)
+       (sort works-comparator-rev future-works)]
+      )))

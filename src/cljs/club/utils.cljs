@@ -117,7 +117,7 @@
   {:pre [(ifn? on-change)]}
   (let [local-value (atom value)]
     (r/create-class
-      {:display-name            "FormControlFixed"
+      {:display-name "FormControlFixed"
        :should-component-update
          ; Update only if value is different from the rendered one or...
          (fn [_ [_ old-props] [_ new-props]]
@@ -128,7 +128,6 @@
             ; other props changed
             (not= (dissoc new-props :value)
                   (dissoc old-props :value))))
-
        :render
          (fn [this]
           [FormControl (-> (r/props this)

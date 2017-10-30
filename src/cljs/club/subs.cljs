@@ -250,11 +250,6 @@
        (sort works-comparator-rev future-works)]
       )))
 
-(rf/reg-sub
-  :work-data-scholar
- (fn [db]
-   db))
-
 (rf/reg-sub-raw
   :work-data-scholar
   (fn [app-db _]

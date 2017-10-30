@@ -389,8 +389,8 @@
                                    (map #(dissoc % :last_modified :teacher-id))
                                    vec)]
                     (rf/dispatch [:write-works-teacher works]))))
-              (catch (error "db/get-works-teacher! works step")))))
-        (catch (error "db/get-works-teacher! series step")))))
+              (catch (error "db/fetch-works-teacher! works step")))))
+        (catch (error "db/fetch-works-teacher! series step")))))
 
 (defn delete-work!
   [work-id]
@@ -433,9 +433,9 @@
                                                (map #(dissoc % :last_modified :teacher-id))
                                                vec)]
                                 (rf/dispatch [:write-works-scholar works]))))
-                          (catch (error "db/get-works-scholar! works step")))))
-                  (catch (error "db/get-works-scholar! series step"))))))
-        (catch (error "db/get-works-scholar! groups step")))))
+                          (catch (error "db/fetch-works-scholar! works step")))))
+                  (catch (error "db/fetch-works-scholar! series step"))))))
+        (catch (error "db/fetch-works-scholar! groups step")))))
 
 (defn get-schools!
   []; mettre un joli select

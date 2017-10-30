@@ -81,4 +81,6 @@
 
 (defn tree-rendition
   [src]
-  [:ul.tree (vec->hiccup (js->clj (parseLisp src)))])
+  (let [expr (try (js->clj (parseLisp src))
+                  (catch js/Object e (t ["Erreur"])))]
+    [:ul.tree (vec->hiccup expr)]))

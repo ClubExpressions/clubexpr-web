@@ -910,6 +910,14 @@
        (:series-title work)
        " »"])
 
+(defn work-past
+  [work]
+  [:li (t ["Fermé le "])
+       [:strong (pretty-date (:to work))]
+       " : Série « "
+       (:series-title work)
+       " »"])
+
 (defn page-work-scholar
   []
   (let [[past-works future-works] @(rf/subscribe [:works-data-scholar-sorted])]
@@ -917,7 +925,10 @@
       [:div.jumbotron
         [:h2 (t ["Travail à faire"])]
         [:p (t ["Séries d’expressions données par votre professeur"])]]
+      [:h2 (t ["À faire"])]
       [:ul (doall (map work-todo future-works))]
+      [:h2 (t ["Passés"])]
+      [:ul (doall (map work-past past-works))]
     ]))
 
 (defn page-teacher-only

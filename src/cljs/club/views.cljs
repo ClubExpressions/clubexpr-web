@@ -59,17 +59,16 @@
     [:> (bs 'HelpBlock) help]])
 
 (defn src-input
-  [{:keys [label help]}]
+  [{:keys [label subs-path evt-handler help]}]
   [:form {:role "form"}
     [:> (bs 'FormGroup) {:controlId "formBasicText"
                          :validationState nil}
       [:> (bs 'ControlLabel) label]
       [FormControlFixed {:type "text"
-                         :value @(rf/subscribe [:attempt-code])
-                         :placeholder "(Somme 1 2)"
+                         :value @(rf/subscribe [subs-path])
+                         :placeholder "Tapez du code Club comme : (Somme 1 2)"
                          :on-change #(rf/dispatch
-                                       [:user-code-club-src-change
-                                        (-> % .-target .-value)])}]
+                                       [evt-handler (-> % .-target .-value)])}]
       [:> (bs 'FormControl 'Feedback)]
       [:> (bs 'HelpBlock) help]]])
 
@@ -159,7 +158,10 @@
       [:h2 (t ["Première visite ?"])]
       (let [label (t ["Tapez du Code Club ci-dessous pour former une expression mathématique."])
             help available-ops]
-        [src-input {:label label :help help}])
+        [src-input {:label label
+                    :subs-path :attempt-code
+                    :evt-handler :user-code-club-src-change
+                    :help help}])
       [:br]
       [:> (bs 'Row)
         [:> (bs 'Col) {:xs 6 :md 6}

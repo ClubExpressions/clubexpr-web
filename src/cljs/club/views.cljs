@@ -919,27 +919,35 @@
 (defn scholar-work
   [work]
   (let [exprs (-> work :series :exprs)
+        current-expr-id (:current-expr-idx work)
         current-expr (:current-expr work)
-        attempt (:attempt work)]
-    (if (empty? exprs)
-      [:p (t ["La série est vide !"])]
-      [:div
-        [:p (t ["À reconstituer  :   "])
-          (infix-rendition current-expr true)]
-        [:p (t ["Votre tentative :   "])
-          (infix-rendition attempt true)]
-        [src-input {
-          :label ""
-          :subs-path :scholar-work-user-attempt
-          :evt-handler :scholar-work-attempt-change
-          :help available-ops}]
-        [:div.text-right
-          [:> (bs 'Button)
-            {:on-click #(rf/dispatch [:scholar-work-attempt])
-             :bsStyle "primary"}
-            (t ["Vérifier"])]]
-      ]
-  )))
+        attempt (:attempt work)
+        error (:error work)]
+    (cond
+      (empty? exprs)
+        [:p (t ["La série est vide !"])]
+      (= current-expr-id (count exprs))
+        [:p (t ["C’est terminé, bravo !"])]
+      :else
+        [:div
+          [:p.pull-right
+            (+ 1 current-expr-id) "/" (count exprs)]
+          [:p (t ["À reconstituer  :   "])
+            (infix-rendition current-expr true)]
+          [:p (t ["Votre tentative :   "])
+            (infix-rendition attempt true)]
+          [src-input {
+            :label ""
+            :subs-path :scholar-work-user-attempt
+            :evt-handler :scholar-work-attempt-change
+            :help available-ops}]
+          [:div.text-right
+            [:> (bs 'Button)
+              {:on-click #(rf/dispatch [:scholar-work-attempt])
+               :disabled (not (empty? error))
+               :bsStyle "primary"}
+              (t ["Vérifier"])]]]
+        )))
 
 (defn page-work-scholar
   []

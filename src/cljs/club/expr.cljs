@@ -78,6 +78,15 @@
              [:span error-style msg]
              [:div.text-center error-style msg])))))
 
+(defn expr-error
+  [src]
+  (try (do (renderLispAsLaTeX src) "")
+       (catch js/Object e
+         (let [[_err _val] (str/split (.-message e) ":")
+               msg (str (translate-error _err)
+                        (if _val (str ": " (translate-val (str/trim _val)))))]
+           msg))))
+
 (defn vec->hiccup
   [expr]
   (if (instance? PersistentVector expr)
@@ -90,3 +99,7 @@
   (let [expr (try (js->clj (parseLisp src))
                   (catch js/Object e (t ["Erreur"])))]
     [:ul.tree (vec->hiccup expr)]))
+
+(defn correct
+  [src1 src2]
+  (= (renderLispAsLaTeX src1) (renderLispAsLaTeX src2)))

@@ -16,8 +16,11 @@
                      fix-ranks
                      delete-series!
                      fetch-works-teacher!
-                     delete-work!]]
-    [club.utils :refer [error
+                     delete-work!
+                     save-attempt!]]
+    [club.expr :refer [expr-error correct]]
+    [club.utils :refer [t
+                        error
                         get-prop
                         data-from-js-obj
                         parse-url
@@ -41,6 +44,11 @@
 
 
 ;; Event Handlers
+
+(rf/reg-fx
+  :msg
+  (fn [msg]
+    (js/alert msg)))
 
 (rf/reg-event-fx
   :login
@@ -552,7 +560,10 @@
   :close-scholar-work
   [check-spec-interceptor]
   (fn [db [_ work]]
-    (assoc-in db [:scholar-working] false)))
+    (-> db
+        (assoc-in [:scholar-working] false)
+        (assoc-in [:scholar-work :current-expr-idx] 0)
+    )))
 
 (rf/reg-event-db
   :write-scholar-work
@@ -569,12 +580,35 @@
   :scholar-work-attempt-change
   [check-spec-interceptor]
   (fn [db [_ new-value]]
-    (assoc-in db [:scholar-work :attempt] new-value)))
+    (-> db
+        (assoc-in [:scholar-work :attempt] new-value)
+        (assoc-in [:scholar-work :error] (expr-error new-value)))))
 
-(rf/reg-event-db
+(rf/reg-event-fx
   :scholar-work-attempt
   [check-spec-interceptor]
   (fn [{:keys [db]} _]
-    (js/alert "test")
-    {:db db}
-    ))
+    (let [exprs (-> db :scholar-work :series :exprs)
+          idx (-> db :scholar-work :current-expr-idx)
+          current-expr (-> db :scholar-work :current-expr)
+          attempt (-> db :scholar-work :attempt)
+          ]
+      (if (correct attempt current-expr)
+        {:db (-> db
+                 (update-in [:scholar-work :current-expr-idx] inc)
+                 (assoc-in  [:scholar-work :current-expr] (get exprs idx))
+                 (assoc-in  [:scholar-work :attempt] "")
+                 (assoc-in  [:scholar-work :error] "Expression vide")
+                 )
+         :attempt [true (:scholar-work db)]}
+        {:msg (t ["Essaie encore !"])
+         :attempt [false (:scholar-work db)]}
+      ))))
+
+(rf/reg-fx
+  :attempt
+  (fn [success scholar-work]
+    (save-attempt!
+      ; work-id scholar-id
+      {:success success
+       :work-id scholar-work})))

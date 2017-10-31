@@ -152,7 +152,7 @@
       :current-expr ""
       :interactive true
       :attempt ""
-      :error ""}
+      :error "Expression vide"}
    :profile-page {:quality "scholar"
                   :school "fake-id-no-school"
                   :teachers-list []
@@ -191,6 +191,10 @@
 (def k-works (.. k-client
                  (bucket "default")
                  (collection "works")))
+
+(def k-attempts (.. k-client
+                    (bucket "default")
+                    (collection "attempts")))
 
 (defn base-user-record
   [auth0-id]
@@ -473,6 +477,12 @@
                     (rf/dispatch [:write-scholar-work series]))))
               (catch (error "db/fetch-scholar-works! works step")))))
       (catch (error "db/fetch-scholar-works! series step"))))
+
+(defn save-attempt!
+  [attempt]
+    (.. club.db/k-attempts
+        (createRecord (clj->js attempt))
+        (catch (error "db/save-attempt!"))))
 
 (defn get-schools!
   []; mettre un joli select

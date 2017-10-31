@@ -427,12 +427,16 @@ Direct mapping here between the state and a record in Kinto.
 
     Under the `:scholar-work` key:
 
-    {:series
-     {:title "A title",
-      :desc "A description",
-      :exprs ["(Somme 1 2)" ... "(Somme 1 a)"]},
-     :current-expr-idx 0,
-     :current-expr "",
-     :interactive true,
-     :attempt "()",
-     :error ""}
+    {
+      :series
+        {
+          :title "A title",
+           :desc "A description",
+           :exprs ["(Somme 1 2)" ... "(Somme 1 a)"]
+        }
+      :current-expr-idx 0,
+      :current-expr "",
+      :interactive true,
+      :attempt "()",
+      :error ""
+    }

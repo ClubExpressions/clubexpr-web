@@ -545,7 +545,7 @@
     (-> db
         (assoc-in [:scholar-working] true)
         (assoc-in [:scholar-work-id] (:id work))
-        (assoc-in [:scholar-work :attempt] "()")
+        (assoc-in [:scholar-work :attempt] "")
     )))
 
 (rf/reg-event-db

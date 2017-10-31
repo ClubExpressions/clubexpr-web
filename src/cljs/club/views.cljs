@@ -936,7 +936,7 @@
          [:h4 (t ["Ici l’élève reconstitue la série."])]
         ]
         [:> (bs 'Modal 'Footer)
-          (t ["Vous pouvez fermer cette fenêtre pour continuer plus tard"])]
+          (t ["Vous pouvez fermer cette fenêtre pour continuer plus tard."])]
       ]
       [:div.jumbotron
         [:h2 (t ["Travail à faire"])]

@@ -20,6 +20,7 @@
             [club.config :as config]
             [club.db]
             [club.expr :refer [clubexpr
+                               available-ops
                                infix-rendition
                                tree-rendition
                                reified-expressions]]
@@ -157,16 +158,7 @@
     [:div.jumbotron
       [:h2 (t ["Première visite ?"])]
       (let [label (t ["Tapez du Code Club ci-dessous pour former une expression mathématique."])
-            help [:span (t ["Commandes disponibles :"])
-                   [:code "Somme"] ", "
-                   [:code "Diff"] ", "
-                   [:code "Produit"] ", "
-                   [:code "Quotient"] ", "
-                   [:code "Opposé"] ", "
-                   [:code "Inverse"] ", "
-                   [:code "Carré"] ", "
-                   [:code "Puissance"] " et "
-                   [:code "Racine"] "."]]
+            help available-ops]
         [src-input {:label label :help help}])
       [:br]
       [:> (bs 'Row)

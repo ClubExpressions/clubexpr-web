@@ -32,6 +32,18 @@
 (def reified-expressions
   (map populate-properties (.-expressions clubexpr)))
 
+(def available-ops
+  [:span (t ["Commandes disponibles :"])
+    [:code "Somme"] ", "
+    [:code "Diff"] ", "
+    [:code "Produit"] ", "
+    [:code "Quotient"] ", "
+    [:code "Opposé"] ", "
+    [:code "Inverse"] ", "
+    [:code "Carré"] ", "
+    [:code "Puissance"] " et "
+    [:code "Racine"] "."])
+
 (defn translate-error
   [err]
   (case err

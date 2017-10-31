@@ -379,7 +379,7 @@ Direct mapping here between the state and a record in Kinto.
 
 ## Teacher works
 
-    Under the `:works-teacher-page` key:     |  Records in the work collection:
+    Under the `:works-teacher-page` key:     |  Records in the works collection:
                                              |
     [                                        |   {
       {                                      |     "teacher-id": "d6e...487",
@@ -402,7 +402,7 @@ Direct mapping here between the state and a record in Kinto.
 
 ## Scholar works
 
-    Under the `:works-scholar-page` key:     |  Records in the work collection:
+    Under the `:works-scholar-page` key:     |  Records in the works collection:
                                              |
     [                                        |   {
       {                                      |     "teacher-id": "d6e...487",

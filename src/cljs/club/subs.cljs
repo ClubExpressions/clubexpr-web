@@ -9,7 +9,7 @@
                                 past-work?
                                 future-work?
                                 works-comparator-rev]]
-            [club.expr :refer [rendition reified-expressions]]
+            [club.expr :refer [infix-rendition reified-expressions]]
             [club.db :refer [get-users!
                              fetch-teachers-list!
                              init-groups-data!
@@ -225,7 +225,7 @@
                   ; :series-exprs-sort event handler
                   {:src lisp
                    :on-double-click #(rf/dispatch [:series-exprs-delete rank])}
-                  (rendition lisp)])}))
+                  (infix-rendition lisp true)])}))
 
 (rf/reg-sub
   :series-exprs-with-content-key

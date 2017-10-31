@@ -20,8 +20,7 @@
             [club.config :as config]
             [club.db]
             [club.expr :refer [clubexpr
-                               rendition-block
-                               rendition
+                               infix-rendition
                                tree-rendition
                                reified-expressions]]
             [club.version]
@@ -172,7 +171,7 @@
       [:br]
       [:> (bs 'Row)
         [:> (bs 'Col) {:xs 6 :md 6}
-          [rendition-block @(rf/subscribe [:attempt-code])]]
+          [infix-rendition @(rf/subscribe [:attempt-code])]]
         [:> (bs 'Col) {:xs 6 :md 6}
           [tree-rendition @(rf/subscribe [:attempt-code])]]]]
     [:> (bs 'Grid)
@@ -507,7 +506,7 @@
     [:li
       {:style {:margin "0.5em"}  ; TODO CSS
        :on-double-click #(rf/dispatch [:series-exprs-add lisp])}
-      (rendition lisp)]))
+      (infix-rendition lisp true)]))
 
 (defn ops-cb-label
   [name]
@@ -606,7 +605,7 @@
   (let [lisp (:content expr)]
     ^{:key lisp}
     [:li {:style {:margin "0.3em"}}  ; TODO CSS
-         (rendition lisp)]))
+         (infix-rendition lisp true)]))
 
 (defn show-series
   []

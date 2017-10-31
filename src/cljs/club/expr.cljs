@@ -54,23 +54,17 @@
     "nb args > 2"  (t ["nbre d’opérandes > 2"])
     (t [value])))
 
-(defn rendition-block
-  [src]
-  (try [:> ctx [:> node (renderLispAsLaTeX src)]]
+(defn infix-rendition
+  [src inline]
+  (try [:> ctx [:> node {:inline inline} (renderLispAsLaTeX src)]]
        (catch js/Object e
-         (let [[_err _val] (str/split (.-message e) ":")]
-           [:div.text-center
-             {:style {:color "red"}}  ; TODO CSS
-             (str (translate-error _err)
-                  (if _val (str ": " (translate-val (str/trim _val)))))]))))
-
-(defn rendition
-  [src]
-  (let [react-mathjax (getValueByKeys js/window "deps" "react-mathjax")
-        ctx (getValueByKeys react-mathjax "Context")
-        node (getValueByKeys react-mathjax "Node")
-        renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr)]
-    [:> ctx [:> node {:inline true} (renderLispAsLaTeX src)]]))
+         (let [[_err _val] (str/split (.-message e) ":")
+               error-style {:style {:color "red"}}  ; TODO CSS
+               msg (str (translate-error _err)
+                        (if _val (str ": " (translate-val (str/trim _val)))))]
+           (if inline
+             [:span error-style msg]
+             [:div.text-center error-style msg])))))
 
 (defn vec->hiccup
   [expr]

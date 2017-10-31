@@ -558,4 +558,9 @@
   :write-scholar-work
   [check-spec-interceptor]
   (fn [db [_ series]]
-    (assoc-in db [:scholar-work :series] series)))
+    (-> db
+        (assoc-in [:scholar-work :series] series)
+        (assoc-in [:scholar-work :current-expr] (if (empty? (:exprs series))
+                                                  ""
+                                                  (first (:exprs series))))
+    )))

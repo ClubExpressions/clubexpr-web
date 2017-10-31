@@ -564,3 +564,17 @@
                                                   ""
                                                   (first (:exprs series))))
     )))
+
+(rf/reg-event-db
+  :scholar-work-attempt-change
+  [check-spec-interceptor]
+  (fn [db [_ new-value]]
+    (assoc-in db [:scholar-work :attempt] new-value)))
+
+(rf/reg-event-db
+  :scholar-work-attempt
+  [check-spec-interceptor]
+  (fn [{:keys [db]} _]
+    (js/alert "test")
+    {:db db}
+    ))

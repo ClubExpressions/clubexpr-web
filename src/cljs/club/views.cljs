@@ -916,6 +916,31 @@
        (:series-title work)
        " »"])
 
+(defn scholar-work
+  [work]
+  (let [exprs (-> work :series :exprs)
+        current-expr (:current-expr work)
+        attempt (:attempt work)]
+    (if (empty? exprs)
+      [:p (t ["La série est vide !"])]
+      [:div
+        [:p (t ["À reconstituer  :   "])
+          (infix-rendition current-expr true)]
+        [:p (t ["Votre tentative :   "])
+          (infix-rendition attempt true)]
+        [src-input {
+          :label ""
+          :subs-path :scholar-work-user-attempt
+          :evt-handler :scholar-work-attempt-change
+          :help available-ops}]
+        [:div.text-right
+          [:> (bs 'Button)
+            {:on-click #(rf/dispatch [:scholar-work-attempt])
+             :bsStyle "primary"}
+            (t ["Vérifier"])]]
+      ]
+  )))
+
 (defn page-work-scholar
   []
   (let [[past-works future-works] @(rf/subscribe [:works-data-scholar-sorted])
@@ -929,8 +954,7 @@
         [:> (bs 'Modal 'Header) {:closeButton true}
           [:> (bs 'Modal 'Title) (t ["Série "]) (-> work :series :title)]]
         [:> (bs 'Modal 'Body)
-         [:h4 (t ["Ici l’élève reconstitue la série."])]
-        ]
+         [scholar-work work]]
         [:> (bs 'Modal 'Footer)
           (t ["Vous pouvez fermer cette fenêtre pour continuer plus tard."])]
       ]

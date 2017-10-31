@@ -134,6 +134,11 @@
  (fn [db]
    (-> db :scholar-work-id)))
 
+(rf/reg-sub
+ :scholar-work-user-attempt
+ (fn [db]
+   (-> db :scholar-work :attempt)))
+
 ; Layer 2
 
 (rf/reg-sub

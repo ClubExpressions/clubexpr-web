@@ -391,11 +391,13 @@
         [:> (bs 'Button)
           {:style {:margin "1em"}  ; TODO CSS
            :on-click #(rf/dispatch [:profile-cancel])
-           :bsStyle "warning"} (t ["Annuler les modifications"])]
+           :bsStyle "warning"}
+          (t ["Annuler les modifications"])]
         [:> (bs 'Button)
           {:style {:margin "1em"}  ; TODO CSS
            :on-click #(rf/dispatch [:profile-save])
-           :bsStyle "success"} (t ["Enregistrer les modifications"])]
+           :bsStyle "success"}
+          (t ["Enregistrer les modifications"])]
       ]
     ]))
 

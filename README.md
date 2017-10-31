@@ -423,6 +423,9 @@ Direct mapping here between the state and a record in Kinto.
       }                                      |
     ]                                        |
 
+The `:group` item is not needed in the elements under the `:works-scholar-page`
+key. We leave it for now.
+
 ## Scholar work
 
     Under the `:scholar-work` key:

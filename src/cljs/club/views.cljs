@@ -899,6 +899,7 @@
 
 (defn work-todo
   [work]
+  ^{:key (:id work)}
   [:li (t ["Pour le "])
        [:strong (pretty-date (:to work))]
        " : "
@@ -910,6 +911,7 @@
 
 (defn work-past
   [work]
+  ^{:key (:id work)}
   [:li (t ["Fermé le "])
        [:strong (pretty-date (:to work))]
        " : Série « "

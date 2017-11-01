@@ -919,8 +919,9 @@
        " »"])
 
 (defn scholar-work
-  [work]
-  (let [exprs (-> work :series :exprs)
+  []
+  (let [work @(rf/subscribe [:scholar-work])
+        exprs (-> work :series :exprs)
         current-expr-id (:current-expr-idx work)
         current-expr (:current-expr work)
         attempt (:attempt work)

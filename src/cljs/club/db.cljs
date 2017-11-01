@@ -480,9 +480,9 @@
 
 (defn save-attempt!
   [attempt]
-    (.. club.db/k-attempts
-        (createRecord (clj->js attempt))
-        (catch (error "db/save-attempt!"))))
+  (.. club.db/k-attempts
+      (createRecord (clj->js attempt))
+      (catch (error "db/save-attempt!"))))
 
 (defn get-schools!
   []; mettre un joli select

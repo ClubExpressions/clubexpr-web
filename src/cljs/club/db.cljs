@@ -93,6 +93,7 @@
                           ::current-expr-idx
                           ::current-expr
                           ::interactive
+                          ::shown-at
                           ::attempt
                           ::error])))
 
@@ -151,6 +152,7 @@
       :current-expr-idx 0
       :current-expr ""
       :interactive true
+      :shown-at ""
       :attempt ""
       :error "Expression vide"}
    :profile-page {:quality "scholar"

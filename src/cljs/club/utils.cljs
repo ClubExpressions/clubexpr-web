@@ -145,6 +145,10 @@
                                        ; in global state atom
                                        (original-on-change e)))))])})))
 
+(defn epoch
+  []
+  (.getTime (js/Date.)))
+
 (def date-formatter (formatter "dd/MM/yyyy"))
 
 (defn today-str

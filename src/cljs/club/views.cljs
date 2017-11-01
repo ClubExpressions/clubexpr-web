@@ -919,56 +919,54 @@
        " »"])
 
 (defn scholar-work
-  []
-  (let [work @(rf/subscribe [:scholar-work])
+  [work-id]
+  (let [working @(rf/subscribe [:scholar-working])
+        work @(rf/subscribe [:scholar-work work-id])
         exprs (-> work :series :exprs)
-        current-expr-id (:current-expr-idx work)
+        current-expr-idx (:current-expr-idx work)
         current-expr (:current-expr work)
         attempt (:attempt work)
         error (:error work)]
-    (cond
-      (empty? exprs)
-        [:p (t ["La série est vide !"])]
-      (= current-expr-id (count exprs))
-        [:p (t ["C’est terminé, bravo !"])]
-      :else
-        [:div
-          [:p.pull-right
-            (+ 1 current-expr-id) "/" (count exprs)]
-          [:p (t ["À reconstituer  :   "])
-            (infix-rendition current-expr true)]
-          [:p (t ["Votre tentative :   "])
-            (infix-rendition attempt true)]
-          [src-input {
-            :label ""
-            :subs-path :scholar-work-user-attempt
-            :evt-handler :scholar-work-attempt-change
-            :help available-ops}]
-          [:div.text-right
-            [:> (bs 'Button)
-              {:on-click #(rf/dispatch [:scholar-work-attempt])
-               :disabled (not (empty? error))
-               :bsStyle "primary"}
-              (t ["Vérifier"])]]]
-        )))
+    [:> (bs 'Modal) {:show working
+                     :onHide #(rf/dispatch [:close-scholar-work])}
+      [:> (bs 'Modal 'Header) {:closeButton true}
+        [:> (bs 'Modal 'Title) (t ["Série "]) (-> work :series :title)]]
+      [:> (bs 'Modal 'Body)
+        (cond
+          (empty? exprs)
+            [:p (t ["La série est vide !"])]
+          (= current-expr-idx (count exprs))
+            [:p (t ["C’est terminé, bravo !"])]
+          :else
+            [:div
+              [:p.pull-right
+                (+ 1 current-expr-idx) "/" (count exprs)]
+              [:p (t ["À reconstituer  :   "])
+                (infix-rendition current-expr true)]
+              [:p (t ["Votre tentative :   "])
+                (infix-rendition attempt true)]
+              [src-input {
+                :label ""
+                :subs-path :scholar-work-user-attempt
+                :evt-handler :scholar-work-attempt-change
+                :help available-ops}]
+              [:div.text-right
+                [:> (bs 'Button)
+                  {:on-click #(rf/dispatch [:scholar-work-attempt])
+                   :disabled (not (empty? error))
+                   :bsStyle "primary"}
+                  (t ["Vérifier"])]]])]
+      [:> (bs 'Modal 'Footer)
+        (t ["Vous pouvez fermer cette fenêtre pour continuer plus tard."])]]))
 
 (defn page-work-scholar
   []
   (let [[past-works future-works] @(rf/subscribe [:works-data-scholar-sorted])
         scholar-working @(rf/subscribe [:scholar-working])
-        work-id @(rf/subscribe [:scholar-work-id])
-        work @(rf/subscribe [:scholar-work work-id])
-       ]
+        work-id @(rf/subscribe [:scholar-work-id])]
     [:div
-      [:> (bs 'Modal) {:show scholar-working
-                       :onHide #(rf/dispatch [:close-scholar-work])}
-        [:> (bs 'Modal 'Header) {:closeButton true}
-          [:> (bs 'Modal 'Title) (t ["Série "]) (-> work :series :title)]]
-        [:> (bs 'Modal 'Body)
-         [scholar-work work]]
-        [:> (bs 'Modal 'Footer)
-          (t ["Vous pouvez fermer cette fenêtre pour continuer plus tard."])]
-      ]
+      (if scholar-working
+        [scholar-work work-id])
       [:div.jumbotron
         [:h2 (t ["Travail à faire"])]
         [:p (t ["Séries d’expressions données par votre professeur"])]]

@@ -23,6 +23,7 @@
                         error
                         get-prop
                         data-from-js-obj
+                        epoch
                         parse-url
                         get-url-all!
                         get-url-root!]]
@@ -556,25 +557,40 @@
         (assoc-in [:scholar-work :attempt] "")
     )))
 
-(rf/reg-event-db
+(rf/reg-event-fx
   :close-scholar-work
   [check-spec-interceptor]
-  (fn [db [_ work]]
-    (-> db
-        (assoc-in [:scholar-working] false)
-        (assoc-in [:scholar-work :current-expr-idx] 0)
-    )))
+  (fn [{:keys [db]} _]
+    (let [work (:scholar-work db)
+          exprs (-> work :series :exprs)
+          current-expr-idx (:current-expr-idx work)
+          reset-db (-> db (assoc-in [:scholar-working] false)
+                          (assoc-in [:scholar-work-id] "")
+                          (assoc-in [:scholar-work :series] new-series)
+                          (assoc-in [:scholar-work :current-expr-idx] 0)
+                          (assoc-in [:scholar-work :current-expr] "")
+                          (assoc-in [:scholar-work :interactive] "")
+                          (assoc-in [:scholar-work :shown-at] "")
+                          (assoc-in [:scholar-work :attempt] "")
+                          (assoc-in [:scholar-work :error] ""))]
+      (if (= current-expr-idx (count exprs))
+        {:db reset-db}
+        {:db reset-db
+         :attempt {:status "aborted"}}))))
 
 (rf/reg-event-db
   :write-scholar-work
   [check-spec-interceptor]
   (fn [db [_ series]]
-    (-> db
-        (assoc-in [:scholar-work :series] series)
-        (assoc-in [:scholar-work :current-expr] (if (empty? (:exprs series))
-                                                  ""
-                                                  (first (:exprs series))))
-    )))
+    ; Only write if scholar work empty. We know this with :shown-at.
+    (if (= "" (-> db :scholar-work :shown-at))
+      (-> db
+          (assoc-in [:scholar-work :series] series)
+          (assoc-in [:scholar-work :shown-at] (epoch))
+          (assoc-in [:scholar-work :current-expr] (if (empty? (:exprs series))
+                                                    ""
+                                                    (first (:exprs series)))))
+      db)))
 
 (rf/reg-event-db
   :scholar-work-attempt-change
@@ -588,27 +604,37 @@
   :scholar-work-attempt
   [check-spec-interceptor]
   (fn [{:keys [db]} _]
-    (let [exprs (-> db :scholar-work :series :exprs)
-          idx (-> db :scholar-work :current-expr-idx)
+    (let [exprs        (-> db :scholar-work :series :exprs)
+          idx          (-> db :scholar-work :current-expr-idx)
           current-expr (-> db :scholar-work :current-expr)
-          attempt (-> db :scholar-work :attempt)
+          attempt      (-> db :scholar-work :attempt)
+
+          scholar-id (-> db :auth-data :kinto-id)
+          work-id (-> db :scholar-work-id)
           ]
       (if (correct attempt current-expr)
         {:db (-> db
                  (update-in [:scholar-work :current-expr-idx] inc)
-                 (assoc-in  [:scholar-work :current-expr] (get exprs idx))
+                 (assoc-in  [:scholar-work :current-expr] (get exprs (+ idx 1)))
+                 (assoc-in  [:scholar-work :shown-at] (epoch))
                  (assoc-in  [:scholar-work :attempt] "")
                  (assoc-in  [:scholar-work :error] "Expression vide")
                  )
-         :attempt [true (:scholar-work db)]}
+         :attempt ["ok" scholar-id work-id (:scholar-work db)]}
         {:msg (t ["Essaie encore !"])
-         :attempt [false (:scholar-work db)]}
+         :attempt ["mistake" scholar-id work-id (:scholar-work db)]}
       ))))
 
 (rf/reg-fx
   :attempt
-  (fn [success scholar-work]
+  (fn [status scholar-id work-id work]
     (save-attempt!
-      ; work-id scholar-id
-      {:success success
-       :work-id scholar-work})))
+      {:status status
+       :scholar-id scholar-id
+       :work-id work-id
+       :expr-idx (:current-expr-idx work)
+       :expr (:current-expr work)
+       :shown-at (:shown-at work)
+       :attempted-at (epoch)
+       :attempt (:attempt work)
+       })))

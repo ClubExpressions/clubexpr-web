@@ -64,11 +64,11 @@
     [:> (bs 'FormGroup) {:controlId "formBasicText"
                          :validationState nil}
       [:> (bs 'ControlLabel) label]
-      [FormControlFixed {:type "text"
-                         :value @(rf/subscribe [subs-path])
-                         :placeholder "Tapez du code Club comme : (Somme 1 2)"
-                         :on-change #(rf/dispatch
-                                       [evt-handler (-> % .-target .-value)])}]
+      [:textarea
+        {:style {:width "100%"}
+         :value @(rf/subscribe [subs-path])
+         :placeholder "Tapez du code Club comme : (Somme 1 2)"
+         :on-change #(rf/dispatch [evt-handler (-> % .-target .-value)])}]
       [:> (bs 'FormControl 'Feedback)]
       [:> (bs 'HelpBlock) help]]])
 

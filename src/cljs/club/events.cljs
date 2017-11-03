@@ -564,6 +564,8 @@
     (let [work (:scholar-work db)
           exprs (-> work :series :exprs)
           current-expr-idx (:current-expr-idx work)
+          scholar-id (-> db :auth-data :kinto-id)
+          work-id (-> db :scholar-work-id)
           reset-db (-> db (assoc-in [:scholar-working] false)
                           (assoc-in [:scholar-work-id] "")
                           (assoc-in [:scholar-work :series] new-series)
@@ -576,7 +578,7 @@
       (if (= current-expr-idx (count exprs))
         {:db reset-db}
         {:db reset-db
-         :attempt {:status "aborted"}}))))
+         :attempt ["aborted" scholar-id work-id work]}))))
 
 (rf/reg-event-db
   :write-scholar-work

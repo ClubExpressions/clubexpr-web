@@ -627,14 +627,19 @@
 
 (rf/reg-fx
   :attempt
-  (fn [status scholar-id work-id work]
-    (save-attempt!
-      {:status status
-       :scholar-id scholar-id
-       :work-id work-id
-       :expr-idx (:current-expr-idx work)
-       :expr (:current-expr work)
-       :shown-at (:shown-at work)
-       :attempted-at (epoch)
-       :attempt (:attempt work)
-       })))
+  (fn [[status scholar-id work-id work]]
+    (let [t-i (:shown-at work)
+          t-f (epoch)]
+      (save-attempt!
+        {:status status
+         :scholar-id scholar-id
+         :work-id work-id
+         :expr-idx (:current-expr-idx work)
+         :expr (:current-expr work)
+         :expr-nature nil
+         :shown-at     t-i
+         :attempted-at t-f
+         :duration     (- t-f t-i)
+         :attempt (:attempt work)
+         :attempt-nature nil
+         }))))

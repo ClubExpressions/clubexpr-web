@@ -569,7 +569,7 @@
                           (assoc-in [:scholar-work :series] new-series)
                           (assoc-in [:scholar-work :current-expr-idx] 0)
                           (assoc-in [:scholar-work :current-expr] "")
-                          (assoc-in [:scholar-work :interactive] "")
+                          (assoc-in [:scholar-work :interactive] true)
                           (assoc-in [:scholar-work :shown-at] "")
                           (assoc-in [:scholar-work :attempt] "")
                           (assoc-in [:scholar-work :error] ""))]

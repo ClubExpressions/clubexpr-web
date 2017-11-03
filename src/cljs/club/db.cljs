@@ -508,7 +508,7 @@
                  (catch (error "db/save-progress! create"))))))
 
 (defn get-schools!
-  []; mettre un joli select
+  []
   [
     ; 655 établissements de l’académie de Nantes
     ; http://annuaire-ec.ac-nantes.fr/indexAnnuaire.jsp

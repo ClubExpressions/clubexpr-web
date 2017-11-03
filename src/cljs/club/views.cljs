@@ -356,7 +356,7 @@
                                           help-text-find-you)
                                :value-id :profile-firstname
                                :event-id :profile-firstname}]
-        school [:> (bs 'DropdownButton)
+        school [:> (bs 'DropdownButton)  ; TODO use a Select (react-select)
                    {:title @(rf/subscribe [:profile-school-pretty])
                     :on-select #(rf/dispatch [:profile-school %])}
                   [:> (bs 'MenuItem) {:eventKey "fake-id-no-school"}

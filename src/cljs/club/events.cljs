@@ -589,7 +589,8 @@
           (assoc-in [:scholar-work :shown-at] (epoch))
           (assoc-in [:scholar-work :current-expr] (if (empty? (:exprs series))
                                                     ""
-                                                    (first (:exprs series)))))
+                                                    (first (:exprs series))))
+          (assoc-in [:scholar-work :error] "Expression vide"))
       db)))
 
 (rf/reg-event-db

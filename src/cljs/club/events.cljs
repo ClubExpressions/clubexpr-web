@@ -609,7 +609,6 @@
           idx          (-> db :scholar-work :current-expr-idx)
           current-expr (-> db :scholar-work :current-expr)
           attempt      (-> db :scholar-work :attempt)
-
           scholar-id (-> db :auth-data :kinto-id)
           work-id (-> db :scholar-work-id)
           ]

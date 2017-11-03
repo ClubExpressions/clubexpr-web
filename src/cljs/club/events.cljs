@@ -17,7 +17,8 @@
                      delete-series!
                      fetch-works-teacher!
                      delete-work!
-                     save-attempt!]]
+                     save-attempt!
+                     save-progress!]]
     [club.expr :refer [expr-error correct]]
     [club.utils :refer [t
                         error
@@ -630,18 +631,22 @@
 (rf/reg-fx
   :attempt
   (fn [[status scholar-id work-id work]]
-    (let [t-i (:shown-at work)
+    (let [expr-idx (:current-expr-idx work)
+          t-i (:shown-at work)
           t-f (epoch)]
       (save-attempt!
         {:status status
          :scholar-id scholar-id
          :work-id work-id
-         :expr-idx (:current-expr-idx work)
+         :expr-idx expr-idx
          :expr (:current-expr work)
          :expr-nature nil
          :shown-at     t-i
          :attempted-at t-f
          :duration     (- t-f t-i)
          :attempt (:attempt work)
-         :attempt-nature nil
-         }))))
+         :attempt-nature nil})
+      (if (= "ok" status)
+        (save-progress!
+          {:id work-id
+           scholar-id expr-idx})))))

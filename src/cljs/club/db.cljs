@@ -198,6 +198,10 @@
                     (bucket "default")
                     (collection "attempts")))
 
+(def k-progress (.. k-client
+                    (bucket "default")
+                    (collection "progress")))
+
 (defn base-user-record
   [auth0-id]
   {:auth0-id auth0-id
@@ -491,6 +495,17 @@
   (.. club.db/k-attempts
       (createRecord (clj->js attempt))
       (catch (error "db/save-attempt!"))))
+
+(defn save-progress!
+  [progress]
+  ; We pass data and an options
+  ; `:patch true` allows us to merge into existing entries
+  (.. club.db/k-progress
+      (updateRecord (clj->js progress)       ; data
+                    (clj->js {:patch true})) ; options in a map
+      (catch (.. club.db/k-progress          ; errors if id not found
+                 (createRecord (clj->js progress))  ; so we create it
+                 (catch (error "db/save-progress! create"))))))
 
 (defn get-schools!
   []; mettre un joli select

@@ -974,6 +974,10 @@
       (if (empty? future-works)
         [:p (t ["Pas de travail à faire pour le moment."])]
         [:ul (doall (map work-todo future-works))])
+      [:p (t ["Vous pouvez vous entraîner avec "])
+          [:a {:on-click #(rf/dispatch [:scholar-work {:id "training"}])}
+              (t ["ce travail"])
+          "."]]
       [:h2 (t ["Passés"])]
       (if (empty? past-works)
         [:p (t ["Pas de travaux dans le passé."])]

@@ -467,18 +467,24 @@
 
 (defn fetch-scholar-work!
   [work-id]
-  (.. club.db/k-works
-      (getRecord work-id)
-      (then
-        (fn [work-record]
-          (.. club.db/k-series
-              (getRecord (-> work-record data-from-js-obj :series-id))
-              (then
-                (fn [series-record]
-                  (let [series (-> series-record data-from-js-obj :series)]
-                    (rf/dispatch [:write-scholar-work series]))))
-              (catch (error "db/fetch-scholar-works! works step")))))
-      (catch (error "db/fetch-scholar-works! series step"))))
+  (if (= "training" work-id)
+    (let [series {:title "Entraînement"
+                  :desc  "Série proposée à tous les élèves"
+                  :exprs ["(Somme 1 2)"
+                          "(Produit 3 4)"]}]
+      (rf/dispatch [:write-scholar-work series]))
+    (.. club.db/k-works
+        (getRecord work-id)
+        (then
+          (fn [work-record]
+            (.. club.db/k-series
+                (getRecord (-> work-record data-from-js-obj :series-id))
+                (then
+                  (fn [series-record]
+                    (let [series (-> series-record data-from-js-obj :series)]
+                      (rf/dispatch [:write-scholar-work series]))))
+                (catch (error "db/fetch-scholar-works! works step")))))
+        (catch (error "db/fetch-scholar-works! series step")))))
 
 (defn save-attempt!
   [attempt]

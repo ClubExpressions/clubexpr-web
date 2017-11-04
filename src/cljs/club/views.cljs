@@ -20,6 +20,7 @@
             [club.config :as config]
             [club.db]
             [club.expr :refer [clubexpr
+                               natureFromLisp
                                available-ops
                                infix-rendition
                                tree-rendition
@@ -953,6 +954,11 @@
                 (if interactive
                   (infix-rendition attempt true)
                   [:span (t ["Mode non interactif"])])]
+              (if (and (empty? error)
+                       (not (= (natureFromLisp current-expr)
+                               (natureFromLisp attempt))))
+                [:p.text-center {:style {:color "#f00"}}  ; TODO CSS
+                 (t ["La nature ne correspond pas !"])])
               [src-input {
                 :label ""
                 :subs-path :scholar-work-user-attempt

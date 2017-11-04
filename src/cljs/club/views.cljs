@@ -164,9 +164,15 @@
                     :help help}])
       [:br]
       [:> (bs 'Row)
-        [:> (bs 'Col) {:xs 6 :md 6}
+        [:> (bs 'Col) {:xs 4 :md 4}
+          [:p {:style {:font-size "100%"}}
+              (t ["Essayez par exemple de reconstituer :"])]
+          [infix-rendition "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"]]
+        [:> (bs 'Col) {:xs 4 :md 4}
+          [:p {:style {:font-size "100%"}}
+              (t ["Voici votre tentative :"])]
           [infix-rendition @(rf/subscribe [:attempt-code])]]
-        [:> (bs 'Col) {:xs 6 :md 6}
+        [:> (bs 'Col) {:xs 4 :md 4}
           [tree-rendition @(rf/subscribe [:attempt-code])]]]]
     [:> (bs 'Grid)
       [:> (bs 'Row)

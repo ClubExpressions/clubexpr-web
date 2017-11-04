@@ -584,16 +584,23 @@
 (rf/reg-event-db
   :write-scholar-work
   [check-spec-interceptor]
-  (fn [db [_ series]]
+  (fn [db [_ series progress]]
     ; Only write if scholar work empty. We know this with :shown-at.
     (if (= "" (-> db :scholar-work :shown-at))
-      (-> db
-          (assoc-in [:scholar-work :series] series)
-          (assoc-in [:scholar-work :shown-at] (epoch))
-          (assoc-in [:scholar-work :current-expr] (if (empty? (:exprs series))
-                                                    ""
-                                                    (first (:exprs series))))
-          (assoc-in [:scholar-work :error] "Expression vide"))
+      (let [scholar-id-kw (-> db :auth-data :kinto-id keyword)
+            stored-progress-idx (scholar-id-kw progress)
+            progress-idx (if stored-progress-idx stored-progress-idx -1)
+            next-expr-idx (+ progress-idx 1)
+            exprs (:exprs series)
+            expr (if (>= progress-idx (count exprs))
+                     ""
+                     (get exprs next-expr-idx))]
+        (-> db
+            (assoc-in [:scholar-work :series] series)
+            (assoc-in [:scholar-work :shown-at] (epoch))
+            (assoc-in [:scholar-work :current-expr-idx] next-expr-idx)
+            (assoc-in [:scholar-work :current-expr] expr)
+            (assoc-in [:scholar-work :error] "Expression vide")))
       db)))
 
 (rf/reg-event-db

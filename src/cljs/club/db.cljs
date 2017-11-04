@@ -470,25 +470,38 @@
                   (catch (error "db/fetch-works-scholar! series step"))))))
         (catch (error "db/fetch-works-scholar! groups step")))))
 
-(defn fetch-scholar-work!
-  [work-id]
+(defn with-progress-and-work-id
+  [progress work-id]
   (if (= "training" work-id)
     (let [series {:title "Entraînement"
                   :desc  "Série proposée à tous les élèves"
                   :exprs all-exprs}]
-      (rf/dispatch [:write-scholar-work series]))
+      (rf/dispatch [:write-scholar-work series progress]))
     (.. club.db/k-works
         (getRecord work-id)
         (then
           (fn [work-record]
             (.. club.db/k-series
-                (getRecord (-> work-record data-from-js-obj :series-id))
+                (getRecord (-> work-record
+                               data-from-js-obj
+                               :series-id))
                 (then
                   (fn [series-record]
-                    (let [series (-> series-record data-from-js-obj :series)]
-                      (rf/dispatch [:write-scholar-work series]))))
+                    (let [series (-> series-record
+                                     data-from-js-obj
+                                     :series)]
+                      (rf/dispatch [:write-scholar-work series progress]))))
                 (catch (error "db/fetch-scholar-works! works step")))))
         (catch (error "db/fetch-scholar-works! series step")))))
+
+(defn fetch-scholar-work!
+  [work-id]
+  (.. club.db/k-progress
+      (getRecord work-id)
+      (then #(-> % data-from-js-obj (with-progress-and-work-id work-id)))
+      (catch #(if (= error-404 (str %))  ; no such id in the progress coll?
+                  (with-progress-and-work-id {} work-id)
+                  (error "db/fetch-scholar-works! progress step")))))
 
 (defn save-attempt!
   [attempt]

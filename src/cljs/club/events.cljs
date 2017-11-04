@@ -665,6 +665,8 @@
   :attempt
   (fn [[status scholar-id work-id work]]
     (let [expr-idx (:current-expr-idx work)
+          expr (:current-expr work)
+          attempt (:attempt work)
           t-i (:shown-at work)
           t-f (epoch)]
       (save-attempt!
@@ -672,13 +674,13 @@
          :scholar-id scholar-id
          :work-id work-id
          :expr-idx expr-idx
-         :expr (:current-expr work)
-         :expr-nature nil
+         :expr expr
+         :expr-nature (natureFromLisp expr)
          :shown-at     t-i
          :attempted-at t-f
          :duration     (- t-f t-i)
-         :attempt (:attempt work)
-         :attempt-nature nil})
+         :attempt attempt
+         :attempt-nature (natureFromLisp attempt)})
       (if (= "ok" status)
         (save-progress!
           {:id work-id

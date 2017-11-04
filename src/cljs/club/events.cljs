@@ -612,27 +612,53 @@
         (assoc-in [:scholar-work :error] (expr-error new-value)))))
 
 (rf/reg-event-fx
+  :back-to-interactive
+  [check-spec-interceptor]
+  (fn [{:keys [db]} _]
+    (js/alert "back")
+    (let [scholar-id   (-> db :auth-data :kinto-id)
+          work-id      (-> db :scholar-work-id)
+          work         (-> db :scholar-work)]
+      {:db (assoc-in db [:scholar-work :interactive] true)
+       :attempt ["back to interactive" scholar-id work-id work]})))
+
+(rf/reg-event-fx
   :scholar-work-attempt
   [check-spec-interceptor]
   (fn [{:keys [db]} _]
     (let [exprs        (-> db :scholar-work :series :exprs)
           idx          (-> db :scholar-work :current-expr-idx)
           current-expr (-> db :scholar-work :current-expr)
+          interactive  (-> db :scholar-work :interactive)
           attempt      (-> db :scholar-work :attempt)
-          scholar-id (-> db :auth-data :kinto-id)
-          work-id (-> db :scholar-work-id)
+          scholar-id   (-> db :auth-data :kinto-id)
+          work-id      (-> db :scholar-work-id)
+          work         (-> db :scholar-work)
+          sw :scholar-work  ; just to shorten the code below
           ]
       (if (correct attempt current-expr)
-        {:db (-> db
-                 (update-in [:scholar-work :current-expr-idx] inc)
-                 (assoc-in  [:scholar-work :current-expr] (get exprs (+ idx 1)))
-                 (assoc-in  [:scholar-work :shown-at] (epoch))
-                 (assoc-in  [:scholar-work :attempt] "")
-                 (assoc-in  [:scholar-work :error] "Expression vide")
-                 )
-         :attempt ["ok" scholar-id work-id (:scholar-work db)]}
-        {:msg (t ["Essaie encore !"])
-         :attempt ["mistake" scholar-id work-id (:scholar-work db)]}
+        (if interactive
+          {:db (-> db
+                   (assoc-in  [sw :shown-at] (epoch))
+                   (assoc-in  [sw :interactive] false)
+                   (assoc-in  [sw :attempt] "")
+                   (assoc-in  [sw :error] "Expression vide")
+                   )
+           :attempt ["ok interactive" scholar-id work-id work]
+           :msg (t ["Bravo, la même en mode non interactif."])}
+          {:db (-> db
+                   (update-in [sw :current-expr-idx] inc)
+                   (assoc-in  [sw :current-expr] (get exprs (+ idx 1)))
+                   (assoc-in  [sw :shown-at] (epoch))
+                   (assoc-in  [sw :attempt] "")
+                   (assoc-in  [sw :error] "Expression vide")
+                   )
+           :attempt ["ok" scholar-id work-id work]})
+        (if interactive
+          {:msg (t ["Essaie encore !"])
+           :attempt ["mistake interactive" scholar-id work-id work]}
+          {:msg (t ["Essaie encore !"])
+           :attempt ["mistake" scholar-id work-id work]})
       ))))
 
 (rf/reg-fx

@@ -930,6 +930,7 @@
         exprs (-> work :series :exprs)
         current-expr-idx (:current-expr-idx work)
         current-expr (:current-expr work)
+        interactive (:interactive work)
         attempt (:attempt work)
         error (:error work)]
     [:> (bs 'Modal) {:show working
@@ -949,12 +950,20 @@
               [:p (t ["À reconstituer  :   "])
                 (infix-rendition current-expr true)]
               [:p (t ["Votre tentative :   "])
-                (infix-rendition attempt true)]
+                (if interactive
+                  (infix-rendition attempt true)
+                  [:span (t ["Mode non interactif"])])]
               [src-input {
                 :label ""
                 :subs-path :scholar-work-user-attempt
                 :evt-handler :scholar-work-attempt-change
                 :help available-ops}]
+              (if (not interactive)
+                [:p.pull-left
+                 (t ["Trop difficile !"])
+                 " "
+                 [:a {:on-click #(rf/dispatch [:back-to-interactive])}
+                     (t ["Je repasse en mode interactif."])]])
               [:div.text-right
                 [:> (bs 'Button)
                   {:on-click #(rf/dispatch [:scholar-work-attempt])

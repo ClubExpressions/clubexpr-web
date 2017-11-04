@@ -15,7 +15,6 @@
                      wrap-series
                      fix-ranks
                      delete-series!
-                     fetch-works-teacher!
                      delete-work!
                      save-attempt!
                      save-progress!]]

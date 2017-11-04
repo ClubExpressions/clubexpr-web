@@ -440,6 +440,51 @@ key. We leave it for now.
       :current-expr-idx 0,
       :current-expr "",
       :interactive true,
+      :shown-at
       :attempt "()",
       :error ""
     }
+
+We can loosely consider that it is stored in the `attempts` collection.
+
+## Attempts
+
+
+    Records in the attempts collection
+
+    {
+      "scholar-id": "a1c69a95-81da-4e09-a2ae-e99a9eec2d98",
+      "work-id": "training",
+      "status": "aborted",
+      "expr-idx": 4,
+      "expr": "(Diff 1 2)",
+      "expr-nature": "Diff",
+      "shown-at": 1509790452423,
+      "attempt": "(Diff 1 3)",
+      "attempt-nature": "Diff"
+      "attempted-at": 1509791480404,
+      "duration": 1027981,
+    }
+
+`status` can be either
+
+* `ok`
+* `ok interactive`
+* `mistake`
+* `mistake interactive`
+* `back to interactive`
+
+## Progress
+
+    Records in the progress collection
+
+    {
+      "81da...4e98": 0,
+      "a1c6...7a09": 2,
+      "9a95...a2ae": 3
+    }
+
+Their `id` is the relevant `work-id`.
+
+With each `scholar-id` is associated the index of last expression passed in
+non interactive mode.

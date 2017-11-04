@@ -19,7 +19,7 @@
                      delete-work!
                      save-attempt!
                      save-progress!]]
-    [club.expr :refer [expr-error correct]]
+    [club.expr :refer [expr-error correct natureFromLisp]]
     [club.utils :refer [t
                         error
                         get-prop

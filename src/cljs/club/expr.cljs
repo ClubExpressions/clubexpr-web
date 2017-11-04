@@ -32,6 +32,10 @@
 (def reified-expressions
   (map populate-properties (.-expressions clubexpr)))
 
+(defn natureFromLisp
+  [src]
+  (-> src parseLisp first))
+
 (def available-ops
   [:span (t ["Commandes disponibles :"])
     [:code "Somme"] ", "

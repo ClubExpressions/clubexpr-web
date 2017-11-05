@@ -63,7 +63,7 @@
          ; TODO each elt is a map {:id string? :series ::series}
          ))
 (s/def ::expressions #(instance? PersistentVector %))
-(s/def ::filters map?)
+(s/def ::filters map?)  ; TODO {:kw1 callable1 :kw2 callable2}
 (s/def ::nature string?)
 (s/def ::depth  #(instance? PersistentVector %))
 (s/def ::nb-ops #(instance? PersistentVector %))

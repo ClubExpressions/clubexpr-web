@@ -239,6 +239,8 @@ which is a Kinto instance with those collections :
 * `series`
 * `groups`
 * `works`
+* `attempts`
+* `progress`
 
 **Warning** :  
 Different records can have the same kinto id and in different collections.  
@@ -376,6 +378,7 @@ Direct mapping here between the state and a record in Kinto.
         }                                |    }
     }                                    |  }
 
+The `id` of a record is the `id` of the owning teacher.
 
 ## Teacher works
 

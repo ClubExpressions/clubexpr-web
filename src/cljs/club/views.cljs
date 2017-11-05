@@ -22,6 +22,7 @@
             [club.expr :refer [clubexpr
                                natureFromLisp
                                available-ops
+                               renderLispAsLaTeX
                                infix-rendition
                                tree-rendition
                                reified-expressions]]
@@ -158,22 +159,33 @@
     [:div.jumbotron
       [:h2 (t ["Première visite ?"])]
       (let [label (t ["Tapez du Code Club ci-dessous pour former une expression mathématique."])
+            game-src "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"
+            attempt @(rf/subscribe [:attempt-code])
             help available-ops]
-        [src-input {:label label
-                    :subs-path :attempt-code
-                    :evt-handler :user-code-club-src-change
-                    :help help}])
-      [:br]
-      [:> (bs 'Row)
-        [:> (bs 'Col) {:xs 4 :md 4}
-          [:p {:style {:font-size "100%"}}
-              (t ["Essayez par exemple de reconstituer :"])]
-          [infix-rendition "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"]]
-        [:> (bs 'Col) {:xs 4 :md 4 :style {:border "solid 1px #999"
-                                           :background-color "white"}}
-          [infix-rendition @(rf/subscribe [:attempt-code])]]
-        [:> (bs 'Col) {:xs 4 :md 4}
-          [tree-rendition @(rf/subscribe [:attempt-code])]]]]
+        [:div
+          [src-input {:label label
+                      :subs-path :attempt-code
+                      :evt-handler :user-code-club-src-change
+                      :help help}]
+          [:br]
+          [:> (bs 'Grid)
+            [:> (bs 'Row)
+              [:> (bs 'Col) {:xs 4 :md 4}
+                [:p {:style {:font-size "100%"}}
+                    (t ["Essayez par exemple de reconstituer :"])]
+                [infix-rendition game-src]]
+              [:> (bs 'Col) {:xs 4 :md 4 :style {:border "solid 1px #999"
+                                                 :background-color "white"}}
+                [infix-rendition attempt]
+                (try (if (= (renderLispAsLaTeX game-src)
+                            (renderLispAsLaTeX attempt))
+                       [:div {:style {:color "#0f0"
+                                      :font-size "200%"
+                                      :text-align "center"}}  ; TODO CSS
+                         (t ["Bravo !"])])
+                     (catch js/Object e))]
+              [:> (bs 'Col) {:xs 4 :md 4}
+                [tree-rendition attempt]]]]])]
     [:> (bs 'Grid)
       [:> (bs 'Row)
         [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]

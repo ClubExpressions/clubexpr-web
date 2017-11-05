@@ -394,9 +394,9 @@
         (catch (error "db/delete-series!")))))
 
 (defn label-feeder
-  [series-list]
+  [series-clj]
   (fn [work]
-    (let [title (->> series-list
+    (let [title (->> series-clj
                      (filter #(= (:series-id work) (-> % :id)))
                      first
                      :series

@@ -721,6 +721,27 @@
                 (show-series))]
         ]]]))
 
+(defn prettifier
+  [progress]
+  (fn [[id scholar-id-info]]
+    (let [scholar-data (merge scholar-id-info {:progress (id progress)})
+          {:keys [lastname firstname progress]} scholar-data]
+      [:span
+        lastname
+        " "
+        firstname
+        " : "
+        (cond
+          (nil? progress) (t ["pas commencé"])
+          (= -666 progress) "travail terminé"
+          :else (str (t ["expr n°"]) (+ progress 1)))])))
+
+(defn progress-viz
+  [scholars progress]
+  ; swp for "scholars with progress"
+  (let [swp (map (prettifier progress) scholars)]
+    [:ul (doall (map #(identity [:li %]) swp))]))
+
 (defn work-input
   ([]
     (work-input {:editing true
@@ -731,7 +752,8 @@
                  :series-title ""
                  :group ""
                  :scholars {}
-                 :progress {}}))
+                 :progress {}
+                 :show-progress false}))
   ([{:keys [editing id to from series-id series-title group scholars progress]
      :as init-state}]
     (let [old-state (r/atom init-state)
@@ -759,7 +781,8 @@
                     wip (- (count progress) finished)
                     nothing (- total wip)]
                 [:div labels-common
-                  nothing  "/" wip "/" finished])])
+                  [:a {:on-click #(swap! old-state assoc :show-progress true)}
+                    nothing  "/" wip "/" finished]])])
           ; TO date selection
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
@@ -865,7 +888,13 @@
                 (merge buttons-common
                        {:on-click #(swap! new-state assoc :editing true)})
                 (t ["Modifier ou supprimer"])])]
-         ]))))
+          [:> (bs 'Modal) {:show (:show-progress @old-state)
+                           :onHide #(swap! old-state assoc :show-progress false)}
+            [:> (bs 'Modal 'Header) {:closeButton true}
+              [:> (bs 'Modal 'Title) (t ["Série "]) (:series-title @old-state)]]
+            [:> (bs 'Modal 'Body) [progress-viz scholars progress]]
+            [:> (bs 'Modal 'Footer)
+              (t ["Si vous voulez voir d’autres informations sur ce travail, prenez contact."])]]]))))
 
 (defn page-work-teacher
   []

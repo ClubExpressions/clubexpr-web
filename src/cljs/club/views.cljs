@@ -954,7 +954,7 @@
         (cond
           (empty? exprs)
             [:p (t ["La série est vide !"])]
-          (= current-expr-idx (count exprs))
+          (= current-expr-idx -666)
             [:p (t ["C’est terminé, bravo !"])]
           :else
             [:div

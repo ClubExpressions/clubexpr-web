@@ -627,6 +627,9 @@
   (fn [{:keys [db]} _]
     (let [exprs        (-> db :scholar-work :series :exprs)
           idx          (-> db :scholar-work :current-expr-idx)
+          next-idx     (if (= idx (- (count exprs) 1))
+                         -666  ; marker for finished series
+                         (+ idx 1))
           current-expr (-> db :scholar-work :current-expr)
           interactive  (-> db :scholar-work :interactive)
           attempt      (-> db :scholar-work :attempt)
@@ -638,19 +641,19 @@
       (if (correct attempt current-expr)
         (if interactive
           {:db (-> db
-                   (assoc-in  [sw :shown-at] (epoch))
-                   (assoc-in  [sw :interactive] false)
-                   (assoc-in  [sw :attempt] "")
-                   (assoc-in  [sw :error] "Expression vide")
+                   (assoc-in [sw :shown-at] (epoch))
+                   (assoc-in [sw :interactive] false)
+                   (assoc-in [sw :attempt] "")
+                   (assoc-in [sw :error] "Expression vide")
                    )
            :attempt ["ok interactive" scholar-id work-id work]
            :msg (t ["Bravo, la même en mode non interactif."])}
           {:db (-> db
-                   (update-in [sw :current-expr-idx] inc)
-                   (assoc-in  [sw :current-expr] (get exprs (+ idx 1)))
-                   (assoc-in  [sw :shown-at] (epoch))
-                   (assoc-in  [sw :attempt] "")
-                   (assoc-in  [sw :error] "Expression vide")
+                   (assoc-in [sw :current-expr-idx] next-idx)
+                   (assoc-in [sw :current-expr] (or (get exprs next-idx) ""))
+                   (assoc-in [sw :shown-at] (epoch))
+                   (assoc-in [sw :attempt] "")
+                   (assoc-in [sw :error] "Expression vide")
                    )
            :attempt ["ok" scholar-id work-id work]})
         (if interactive
@@ -664,6 +667,8 @@
   :attempt
   (fn [[status scholar-id work-id work]]
     (let [expr-idx (:current-expr-idx work)
+          exprs-count (count (-> work :series :exprs))
+          expr-idx-to-store (if (= expr-idx (- exprs-count 1)) -666 expr-idx)
           expr (:current-expr work)
           attempt (:attempt work)
           t-i (:shown-at work)
@@ -683,4 +688,4 @@
       (if (= "ok" status)
         (save-progress!
           {:id work-id
-           scholar-id expr-idx})))))
+           scholar-id expr-idx-to-store})))))

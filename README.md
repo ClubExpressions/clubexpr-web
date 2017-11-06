@@ -450,6 +450,9 @@ key. We leave it for now.
 
 We can loosely consider that it is stored in the `attempts` collection.
 
+A `:current-expr-idx` of `-666` means « the scholar finished the series
+successfuly ».
+
 ## Attempts
 
 
@@ -483,11 +486,12 @@ We can loosely consider that it is stored in the `attempts` collection.
 
     {
       "81da...4e98": 0,
-      "a1c6...7a09": 2,
+      "a1c6...7a09": -666,
       "9a95...a2ae": 3
     }
 
 Their `id` is the relevant `work-id`.
 
 With each `scholar-id` is associated the index of last expression passed in
-non interactive mode.
+non interactive mode. `-666` means « the scholar finished the series
+successfuly ».

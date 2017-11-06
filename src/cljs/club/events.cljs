@@ -16,6 +16,7 @@
                      fix-ranks
                      delete-series!
                      delete-work!
+                     fetch-progress!
                      save-attempt!
                      save-progress!]]
     [club.expr :refer [expr-error correct natureFromLisp]]
@@ -535,11 +536,26 @@
           not-the-deleted #(not (= id (:id %)))]
       (update db :works-teacher-page #(vec (filter not-the-deleted %))))))
 
-(rf/reg-event-db
+(rf/reg-event-fx
   :write-works-teacher
   [check-spec-interceptor]
-  (fn [db [_ new-value]]
-    (assoc-in db [:works-teacher-page] new-value)))
+  (fn [{:keys [db]} [_ new-value]]
+    {:db (assoc-in db [:works-teacher-page] new-value)
+     :dispatch-progress-writes new-value}))
+
+(rf/reg-fx
+  :dispatch-progress-writes
+  (fn [works]
+    (doall (map fetch-progress! works))))
+
+(rf/reg-event-db
+  :progress-write
+  (fn [db [_ work-id progress]]
+    (let [works-data (:works-teacher-page db)
+          works-indexed (map-indexed vector works-data)
+          keep-the-good-one #(= work-id (-> % second :id))
+          idx (first (first (filter keep-the-good-one works-indexed)))]
+      (assoc-in db [:works-teacher-page idx :progress] progress))))
 
 (rf/reg-event-db
   :write-works-scholar

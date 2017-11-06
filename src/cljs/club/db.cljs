@@ -403,27 +403,63 @@
                      :title)]
       (merge work {:series-title title}))))
 
+(defn scholars-feeder
+  [groups-record]
+  (fn [work]
+    (let [groups-clj (data-from-js-obj groups-record)
+          group (:group work)
+          scholars (->> groups-clj
+                       (filter #(some #{group} (:groups (second %))))
+                       (map #(identity [(first %)
+                                        (dissoc (second %) :groups)]))
+                       (into {}))]
+      (assoc work :scholars scholars))))
+
 (defn fetch-works-teacher!
   []
   (let [teacher-id (-> @app-db :auth-data :kinto-id)]
-    (.. club.db/k-series
-        (listRecords)
+    (.. club.db/k-groups
+      (getRecord teacher-id)
+      (then
+        (fn [groups-record]
+          (.. club.db/k-series
+            (listRecords)
+            (then
+              (fn [series-list]
+                (.. club.db/k-works
+                  (listRecords)
+                  (then
+                    (fn [works-list]
+                      (let [groups-clj (data-from-js-obj groups-record)
+                            series-clj (data-from-js-obj series-list)
+                            works (->> works-list
+                                       data-from-js-obj
+                                       (filter #(= teacher-id
+                                                   (:teacher-id %)))
+                                       (map #(dissoc % :last_modified
+                                                       :teacher-id))
+                                       (map (label-feeder series-clj))
+                                       (map (scholars-feeder groups-record))
+                                       vec)]
+                        (rf/dispatch [:write-works-teacher works]))))
+                  (catch (error "db/fetch-works-teacher! works step")))))
+            (catch (error "db/fetch-works-teacher! series step")))))
+      (catch (error "db/fetch-works-teacher! groups step")))))
+
+(defn fetch-progress!
+  [work]
+  (let [work-id (:id work)]
+    (.. club.db/k-progress
+        (getRecord work-id)
         (then
-          (fn [series-list]
-            (.. club.db/k-works
-              (listRecords)
-              (then
-                (fn [works-list]
-                  (let [series-clj (data-from-js-obj series-list)
-                        works (->> works-list
+          (fn [progress-record]
+            (let [progress-clj (-> progress-record
                                    data-from-js-obj
-                                   (filter #(= teacher-id (:teacher-id %)))
-                                   (map (label-feeder series-clj))
-                                   (map #(dissoc % :last_modified :teacher-id))
-                                   vec)]
-                    (rf/dispatch [:write-works-teacher works]))))
-              (catch (error "db/fetch-works-teacher! works step")))))
-        (catch (error "db/fetch-works-teacher! series step")))))
+                                   (dissoc :id :last_modified))]
+              (rf/dispatch [:progress-write work-id progress-clj]))))
+        (catch #(if (= error-404 (str %))  ; no such id in the works coll?
+                    (rf/dispatch [:progress-write work-id {}])
+                    (error "db/fetch-progress!"))))))
 
 (defn delete-work!
   [work-id]

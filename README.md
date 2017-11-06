@@ -392,16 +392,28 @@ The `id` of a record is the `id` of the owning teacher.
         :group "1S",                         |     "from": "23/09/2017"
         :from "28/10/2017",                  |   }
         :series-title "Seconde: démo"        |
+        :scholars                            |
+          {                                  |
+            :id                              |
+              {                              |
+                :lastname "Tartopil"         |
+                :firstname "Alix"            |
+              }                              |
+            ...                              |
+          }                                  |
+        :progress                            |
+          {                                  |
+            :id1 expr-code1                  |
+            :id2 expr-code2                  |
+            ...                              |
+          }                                  |
       }                                      |
-      {                                      |
-        :id "88417fb0-c8361f2c5d8d",         |
-        :to "28/10/2017",                    |
-        :series-id "28fb58de-d78eab50de0e",  |
-        :group "2.1 gr1",                    |
-        :from "26/10/2017",                  |
-        :series-title "Seconde: démo"        |
-      }                                      |
+      ...                                    |
     ]                                        |
+
+In the `:progress` map each `scholar-id` is associated to the index of the
+last expression passed in non interactive mode. `-666` means « the scholar
+finished the series successfuly ».
 
 ## Scholar works
 

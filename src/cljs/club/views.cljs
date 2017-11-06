@@ -729,8 +729,10 @@
                  :from (today-str)
                  :series-id ""
                  :series-title ""
-                 :group ""}))
-  ([{:keys [editing id to from series-id series-title group]
+                 :group ""
+                 :scholars {}
+                 :progress {}}))
+  ([{:keys [editing id to from series-id series-title group scholars progress]
      :as init-state}]
     (let [old-state (r/atom init-state)
           new-state (r/atom init-state)
@@ -743,7 +745,7 @@
           buttons-common {:style {:width "100%"}}  ; TODO CSS
           labels-common {:style {:text-align "center"  ; TODO CSS
                                  :margin "0.5em"}}]
-      (fn [{:keys [editing id to from series-id series-title group]}]
+      (fn [{:keys [editing id to from series-id series-title group scholars progress]}]
         ^{:key (if (empty? id) "empty-id" id)}
         [:> (bs 'Row)
           (if (:editing @new-state)
@@ -752,7 +754,12 @@
                 [:div labels-common (t ["Création :"])]
                 [:div labels-common (t ["Modif."])])]
             [:> (bs 'Col) {:xs 1 :md 1}
-              [:div labels-common (t ["Avancement"])]])
+              (let [total (count scholars)
+                    finished (count (filter #(= -666 (second %)) progress))
+                    wip (- (count progress) finished)
+                    nothing (- total wip)]
+                [:div labels-common
+                  nothing  "/" wip "/" finished])])
           ; TO date selection
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)

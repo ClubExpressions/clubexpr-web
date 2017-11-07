@@ -591,7 +591,9 @@
                           (assoc-in [:scholar-work :shown-at] "")
                           (assoc-in [:scholar-work :attempt] "")
                           (assoc-in [:scholar-work :error] ""))]
-      (if (= current-expr-idx (count exprs))
+      (if (or (= current-expr-idx (count exprs))
+              (= current-expr-idx -666)  ; just finished
+              (= current-expr-idx -665)) ; back to a finished work
         {:db reset-db}
         {:db reset-db
          :attempt ["aborted" scholar-id work-id work]}))))

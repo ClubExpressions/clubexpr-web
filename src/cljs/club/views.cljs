@@ -1003,7 +1003,8 @@
         (cond
           (empty? exprs)
             [:p (t ["La série est vide !"])]
-          (= current-expr-idx -666)
+          (or (= current-expr-idx -666)  ; just finished
+              (= current-expr-idx -665)) ; back to a finished work
             [:p (t ["C’est terminé, bravo !"])]
           :else
             [:div

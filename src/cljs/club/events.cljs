@@ -704,4 +704,8 @@
       (if (= "ok" status)
         (save-progress!
           {:id work-id
-           scholar-id expr-idx-to-store})))))
+           scholar-id expr-idx-to-store}))
+      (if (and (= "aborted" status) (= 0 expr-idx))
+        (save-progress!
+          {:id work-id
+           scholar-id (- expr-idx 1)})))))

@@ -791,7 +791,7 @@
               (let [total (count scholars)
                     finished (count (filter #(= -666 (second %)) progress))
                     wip (- (count progress) finished)
-                    nothing (- total wip)]
+                    nothing (- total (count progress))]
                 [:div labels-common
                   [:a {:on-click #(swap! old-state assoc :show-progress true)}
                     nothing  "/" wip "/" finished]])])

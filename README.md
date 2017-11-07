@@ -505,5 +505,7 @@ successfuly ».
 Their `id` is the relevant `work-id`.
 
 With each `scholar-id` is associated the index of last expression passed in
-non interactive mode. `-666` means « the scholar finished the series
-successfuly ».
+non interactive mode.
+
+ * `-666` means « the scholar finished the series successfuly ».
+ * `-1` means « the scholar aborted trying the first expr ».

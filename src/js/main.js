@@ -11,6 +11,7 @@ window.deps = {
     'react-drag-sortable' : require('react-drag-sortable'),
     'moment' : require('moment'),
     'react-datetime' : require('react-datetime'),
+    'react-codemirror2' : require('react-codemirror2'),
     'clubexpr' : require('clubexpr')
 };
 

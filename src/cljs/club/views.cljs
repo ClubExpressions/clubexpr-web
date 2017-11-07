@@ -734,11 +734,16 @@
         (nil? progress)
           [:span {:style {:color "#f00"}}  ; TODO CSS
                  (t ["pas commencé"])]
+        (= -1 progress)
+          [:span {:style {:color "#da0"}}  ; TODO CSS
+                 (t ["aucune expr. réussie"])]
         (= -666 progress)
           [:span {:style {:color "#3b0"}}  ; TODO CSS
                  (t ["travail terminé"])]
+        (= 0 progress)
+          (t ["une expr. réussie"])
         :else
-          (str (t ["expr n°"]) (+ progress 1)))]))
+          (str (+ progress 1) (t [" expr. réussies"])))]))
 
 (defn progress-viz
   [scholars progress]

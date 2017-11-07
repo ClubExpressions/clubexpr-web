@@ -793,7 +793,8 @@
                     wip (- (count progress) finished)
                     nothing (- total (count progress))]
                 [:div labels-common
-                  [:a {:on-click #(swap! old-state assoc :show-progress true)}
+                  [:a {:on-click #(swap! old-state assoc :show-progress true)
+                       :title (t ["rien / en cours / terminé"])}
                     nothing  "/" wip "/" finished]])])
           ; TO date selection
           [:> (bs 'Col) {:xs 2 :md 2}

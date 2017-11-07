@@ -246,6 +246,8 @@ which is a Kinto instance with those collections :
 Different records can have the same kinto id and in different collections.  
 For this reason, beware of any `DELETE WHERE id=` from `psql`.
 
+cohérence nettoyages data-from-js-obj: dans db, sub ou events
+
 ## First level keys
 
 * `:current-page` keyword identifying the current page

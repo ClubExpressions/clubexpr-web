@@ -50,6 +50,19 @@
         t2 (-> series2 :series :title)]
     (compare t1 t2)))
 
+(defn scholar-progress-comparator
+  [scholar1 scholar2]
+  (let [p1 (:progress scholar1)
+        p2 (:progress scholar2)]
+    (if (= p1 p2)
+      (compare (:lastname scholar1) (:lastname scholar2))
+      (cond
+        (= -666 p1)  1
+        (= -666 p2) -1
+        (nil? p1)   -1
+        (nil? p2)    1
+        :else (compare p1 p2)))))
+
 (defn series-option
   [series]
   {:value (:id series) :label (-> series :series :title)})

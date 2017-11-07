@@ -9,6 +9,7 @@
                                 groups-option
                                 scholar-comparator
                                 series-comparator
+                                scholar-progress-comparator
                                 FormControlFixed
                                 pretty-date
                                 today-str
@@ -721,26 +722,32 @@
                 (show-series))]
         ]]]))
 
-(defn prettifier
-  [progress]
-  (fn [[id scholar-id-info]]
-    (let [scholar-data (merge scholar-id-info {:progress (id progress)})
-          {:keys [lastname firstname progress]} scholar-data]
-      [:span
-        lastname
-        " "
-        firstname
-        " : "
-        (cond
-          (nil? progress) (t ["pas commencé"])
-          (= -666 progress) "travail terminé"
-          :else (str (t ["expr n°"]) (+ progress 1)))])))
+(defn swp-prettifier
+  [scholar-data]
+  (let [{:keys [lastname firstname progress]} scholar-data]
+    [:span
+      lastname
+      " "
+      firstname
+      " : "
+      (cond
+        (nil? progress)
+          [:span {:style {:color "#f00"}}  ; TODO CSS
+                 (t ["pas commencé"])]
+        (= -666 progress)
+          [:span {:style {:color "#3b0"}}  ; TODO CSS
+                 (t ["travail terminé"])]
+        :else
+          (str (t ["expr n°"]) (+ progress 1)))]))
 
 (defn progress-viz
   [scholars progress]
   ; swp for "scholars with progress"
-  (let [swp (map (prettifier progress) scholars)]
-    [:ul (doall (map #(identity [:li %]) swp))]))
+  (let [
+        swp (map #(merge (second %) {:progress ((first %) progress)}) scholars)
+        swp-sorted (sort scholar-progress-comparator swp)
+        swp-pretty (map swp-prettifier swp-sorted)]
+    [:ul (doall (map #(identity [:li %]) swp-pretty))]))
 
 (defn work-input
   ([]

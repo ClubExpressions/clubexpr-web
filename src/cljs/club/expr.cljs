@@ -34,7 +34,8 @@
 
 (defn natureFromLisp
   [src]
-  (-> src parseLisp first))
+  (try (-> src parseLisp first)
+       (catch js/Object e "error")))
 
 (def available-ops
   [:span (t ["Commandes disponibles :"])

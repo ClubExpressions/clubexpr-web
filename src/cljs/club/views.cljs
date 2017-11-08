@@ -71,7 +71,7 @@
                          :validationState nil}
       [:> (bs 'ControlLabel) label]
       [:> CodeMirror {:value @(rf/subscribe [subs-path])
-                      :options {}
+                      :options {:mode "clubexpr"}
                       :onChange #(rf/dispatch [evt-handler (.. % getValue)])}]
       [:> (bs 'FormControl 'Feedback)]
       [:> (bs 'HelpBlock) help]]])

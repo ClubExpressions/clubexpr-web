@@ -12,6 +12,7 @@ window.deps = {
     'moment' : require('moment'),
     'react-datetime' : require('react-datetime'),
     'react-codemirror2' : require('react-codemirror2'),
+    'cm-mode' : require('./codemirror/clubexpr.js'),
     'clubexpr' : require('clubexpr')
 };
 

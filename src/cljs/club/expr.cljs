@@ -138,10 +138,9 @@
   (case err
     "Empty expr"         (t ["Expression vide"])
     "Missing starting (" (t ["Première « ( » manquante"])
-    "Trailing )"         (t ["Trop de « ) »"])
+    "Already closed"     (t ["Expression déjà fermée"])
     "Missing )"          (t ["Au moins une « ) » manquante"])
     "Double ("           (t ["Erreur : « (( »"])
-    "More than one root" (t ["Expression déjà fermée"])
     "Missing cmd"        (t ["Une commande est manquante"])
     "Unknown cmd"        (t ["Commande inconnue"])
     (t [err])))  ; beware: some msg are like "Somme: nb args < 2"

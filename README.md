@@ -50,6 +50,7 @@ See the running app here:
     * [moment](https://www.npmjs.com/package/moment)
     * [CodeMirror (2)](https://www.npmjs.com/package/react-codemirror2) (text editor)
   * Modules that are planned to be used:
+    * [react-table](https://www.npmjs.com/package/react-table) (tabular presentation)
     * [Tempura](https://github.com/ptaoussanis/tempura) (i18n)
     * [re-learn](https://github.com/oliyh/re-learn) (quick interactive tuto for
       users)

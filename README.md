@@ -48,8 +48,7 @@ See the running app here:
     * [react-drag-sortable](https://www.npmjs.com/package/react-drag-sortable)
     * [react-datetime](https://www.npmjs.com/package/react-datetime)
     * [moment](https://www.npmjs.com/package/moment)
-  * Modules that caused problems (there is a branch for the attempt)
-    * [CodeMirror](https://www.npmjs.com/package/react-codemirror) (text editor)
+    * [CodeMirror (2)](https://www.npmjs.com/package/react-codemirror2) (text editor)
   * Modules that are planned to be used:
     * [Tempura](https://github.com/ptaoussanis/tempura) (i18n)
     * [re-learn](https://github.com/oliyh/re-learn) (quick interactive tuto for

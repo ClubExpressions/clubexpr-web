@@ -65,12 +65,12 @@
     [:> (bs 'HelpBlock) help]])
 
 (defn src-input
-  [{:keys [label subs-path evt-handler help]}]
+  [{:keys [label default-value evt-handler help]}]
   [:form {:role "form"}
     [:> (bs 'FormGroup) {:controlId "formBasicText"
                          :validationState nil}
       [:> (bs 'ControlLabel) label]
-      [:> CodeMirror {:value @(rf/subscribe [subs-path])
+      [:> CodeMirror {:value default-value
                       :options {:mode "clubexpr"}
                       :onChange #(rf/dispatch [evt-handler (.. % getValue)])}]
       [:> (bs 'FormControl 'Feedback)]
@@ -166,7 +166,7 @@
             help available-ops]
         [:div
           [src-input {:label label
-                      :subs-path :attempt-code
+                      :default-value "(Somme 1 (Produit 2 x))"
                       :evt-handler :user-code-club-src-change
                       :help help}]
           [:br]
@@ -1024,7 +1024,7 @@
                  (t ["La nature ne correspond pas !"])])
               [src-input {
                 :label ""
-                :subs-path :scholar-work-user-attempt
+                :default-value ""
                 :evt-handler :scholar-work-attempt-change
                 :help available-ops}]
               (if (not interactive)

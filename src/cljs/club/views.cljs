@@ -45,6 +45,9 @@
 (def CheckboxGroup (getValueByKeys CBG "CheckboxGroup"))
 (def Sortable (getValueByKeys js/window "deps" "react-drag-sortable" "default"))
 (def DateTime (getValueByKeys js/window "deps" "react-datetime"))
+(def CodeMirror (getValueByKeys js/window "deps"
+                                          "react-codemirror2"
+                                          "UnControlled"))
 
 (defn text-input [{:keys [component-class label placeholder help
                           value-id event-id]
@@ -67,11 +70,9 @@
     [:> (bs 'FormGroup) {:controlId "formBasicText"
                          :validationState nil}
       [:> (bs 'ControlLabel) label]
-      [:textarea
-        {:style {:width "100%"}
-         :value @(rf/subscribe [subs-path])
-         :placeholder "Tapez du code Club comme : (Somme 1 2)"
-         :on-change #(rf/dispatch [evt-handler (-> % .-target .-value)])}]
+      [:> CodeMirror {:value @(rf/subscribe [subs-path])
+                      :options {}
+                      :onChange #(rf/dispatch [evt-handler (.. % getValue)])}]
       [:> (bs 'FormControl 'Feedback)]
       [:> (bs 'HelpBlock) help]]])
 

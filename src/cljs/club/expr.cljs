@@ -142,6 +142,8 @@
     "Double ("           (t ["Erreur : « (( »"])
     "Missing cmd"        (t ["Une commande est manquante"])
     "Unknown cmd"        (t ["Commande inconnue"])
+    "Invalid char"       (t ["Caractère non autorisé"])
+    "Bad leaf"           (t ["Opérande non autorisée"])
     (t [err])))  ; beware: some msg are like "Somme: nb args < 2"
 
 (defn translate-val

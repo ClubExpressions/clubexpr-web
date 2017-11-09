@@ -159,7 +159,9 @@
            {:math (renderLispAsLaTeX src)}]
        (catch js/Object e
          (let [[_err _val] (str/split (.-message e) ":")
-               error-style {:style {:color "red"}}  ; TODO CSS
+               error-style {:style {:height "3.5em"
+                                    :padding-top "1em"
+                                    :color "red"}}  ; TODO CSS
                msg (str (translate-error _err)
                         (if _val (str ": " (translate-val (str/trim _val)))))]
            (if inline

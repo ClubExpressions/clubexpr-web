@@ -35,7 +35,7 @@ See the running app here:
   * Working integration of npm packages in ClojureScript (done
     [this way](http://blob.tomerweller.com/reagent-import-react-components-from-npm)
     but [there may be a cleaner way](https://clojurescript.org/news/2017-07-12-clojurescript-is-not-an-island-integrating-node-modules))
-    * [react-mathjax](https://www.npmjs.com/package/react-mathjax)
+    * [react-katex](https://www.npmjs.com/package/react-katex)
       (math typesetting in the browser)
     * [clubexpr](https://www.npmjs.com/package/clubexpr) (math expressions)
     * [Kinto](https://www.npmjs.com/package/kinto) (persistency)

@@ -13,9 +13,8 @@
 (def renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr))
 (def parseLisp (.-parse clubexpr))
 
-(def react-mathjax (getValueByKeys js/window "deps" "react-mathjax"))
-(def ctx (getValueByKeys react-mathjax "Context"))
-(def node (getValueByKeys react-mathjax "Node"))
+(def tex-inline (getValueByKeys js/window "deps" "react-katex" "InlineMath"))
+(def tex-block (getValueByKeys js/window "deps" "react-katex" "BlockMath"))
 
 (defn populate-properties
   [expr-obj]
@@ -156,7 +155,8 @@
 
 (defn infix-rendition
   [src inline]
-  (try [:> ctx [:> node {:inline inline} (renderLispAsLaTeX src)]]
+  (try [:> (if inline tex-inline tex-block)
+           {:math (renderLispAsLaTeX src)}]
        (catch js/Object e
          (let [[_err _val] (str/split (.-message e) ":")
                error-style {:style {:color "red"}}  ; TODO CSS

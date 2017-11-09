@@ -4,7 +4,7 @@ window.deps = {
     'react-bootstrap' : require('react-bootstrap'),
     'auth0' : require('auth0-js'),
     'kinto' : require('kinto'),
-    'react-mathjax' : require('react-mathjax'),
+    'react-katex' : require('react-katex'),
     'react-select' : require('react-select'),
     'rc-slider' : require('rc-slider'),
     'react-checkbox-group' : require('react-checkbox-group'),

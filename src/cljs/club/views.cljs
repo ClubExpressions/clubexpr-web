@@ -111,9 +111,13 @@
                                  :class (active page :profile)} (t ["Profil"])])
             (if authenticated
               [:> (bs 'NavItem)
-                  {:on-click #(rf/dispatch [:logout])} (t ["Déconnexion"])]
+                  {:on-click #(rf/dispatch [:logout])}
+                   (t ["Déconnexion"])]
               [:> (bs 'NavItem)
-                  {:on-click #(rf/dispatch [:login])}  (t ["Connexion"])])
+                  {:on-click #(rf/dispatch [:login])
+                   :style {:background-color "#0e3"
+                           :border-radius "6px"}}
+                  (t ["Connexion"])])
           ]]]]
      ))
 

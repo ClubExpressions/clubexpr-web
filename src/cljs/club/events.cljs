@@ -643,7 +643,6 @@
   :back-to-interactive
   [check-spec-interceptor]
   (fn [{:keys [db]} _]
-    (js/alert "back")
     (let [scholar-id   (-> db :auth-data :kinto-id)
           work-id      (-> db :scholar-work-id)
           work         (-> db :scholar-work)]

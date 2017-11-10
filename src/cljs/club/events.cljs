@@ -683,7 +683,8 @@
                    (assoc-in [sw :attempt] "")
                    (assoc-in [sw :error] "Expression vide")
                    )
-           :attempt ["ok" scholar-id work-id work]})
+           :attempt ["ok" scholar-id work-id work]
+           :msg (t ["Bravo."])})
         (if interactive
           {:msg (t ["Essaie encore !"])
            :attempt ["mistake interactive" scholar-id work-id work]}

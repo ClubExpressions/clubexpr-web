@@ -642,7 +642,7 @@
       [:div
         [:div.pull-right
           [:> (bs 'Button)
-            {:style {:margin-right "1em"}
+            {:style {:margin-right "1em"}  ; TODO CSS
              :on-click #(rf/dispatch [:series-edit])
              :bsStyle "warning"} (t ["Modifier cette série"])]
           [:> (bs 'Button)
@@ -690,13 +690,15 @@
         [:p
           [:strong (t ["La série est vide."])]
           " "
-          (t ["En double-cliquant sur une expression sur la gauche, vous pouvez l’ajouter à votre série. Pour la supprimer de la série (liste de droite), double-cliquez à nouveau mais dans la liste de droite."])]
-        [:> Sortable
+          (t ["En double-cliquant sur une expression sur la gauche, vous pouvez l’ajouter à votre série. "])]
+        [:div {:style {:padding-bottom "1em"}}
+         [:> Sortable
           {:items exprs
            :moveTransitionDuration 0.3
            :dropBackTransitionDuration 0.3
            :placeholder "< ici >"
-           :onSort #(rf/dispatch [:series-exprs-sort %])}])
+           :onSort #(rf/dispatch [:series-exprs-sort %])}]])
+      [:p (t ["Pour supprimer une expression de votre série, double-cliquez à nouveau sur celle-ci, mais dans la liste de droite. Il est possible de réordonner vos expression en les glissant chacune au bon endroit."])]
     ]))
 
 (defn page-series

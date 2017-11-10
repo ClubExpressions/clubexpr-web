@@ -1017,10 +1017,12 @@
                 (+ 1 current-expr-idx) "/" (count exprs)]
               [:p (t ["À reconstituer  :   "])
                 (infix-rendition current-expr true)]
-              [:p (t ["Votre tentative :   "])
-                (if interactive
-                  (infix-rendition attempt true)
-                  [:span (t ["Mode non interactif"])])]
+              (if interactive
+                [:div
+                  [:p (t ["Vous êtes en mode interactif."])]
+                  [:p (t ["Votre tentative :   "])
+                      (infix-rendition attempt true)]]
+                [:p (t ["Vous êtes en mode non interactif."])])
               (if (and (empty? error)
                        (not (= (natureFromLisp current-expr)
                                (natureFromLisp attempt))))

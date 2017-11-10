@@ -230,6 +230,7 @@
                                           :teachers-list []
                                           :lastname lastname
                                           :firstname firstname})
+  (rf/dispatch [:go-to-relevant-url true])
   ; TODO circular dep if require events:
   ;(check-and-throw :club.db/db @app-db))
   )

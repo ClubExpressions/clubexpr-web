@@ -75,12 +75,23 @@
   :logout
   (fn [{:keys [db]} _]
     {:db (merge db logout-db-fragment)
-     :clean-url nil}))
+     :go-to-relevant-url false}))
+
+(rf/reg-event-fx
+  :go-to-relevant-url
+  (fn [{:keys [db]} [_ login]]
+    {:go-to-relevant-url login}))
 
 (rf/reg-fx
-  :clean-url
-  (fn []
-    (set! (-> js/window .-location .-hash) "")))
+  :go-to-relevant-url
+  (fn [login]
+    (let [lastname (-> @app-db :profile-page :lastname)
+          page (if login
+                 (if (empty? lastname)
+                   "/help"
+                   "/work")
+                 "")]
+      (set! (-> js/window .-location .-hash) page))))
 
 (rf/reg-event-fx
   :profile-cancel
@@ -203,7 +214,7 @@
           new-db (if (empty? db) db (assoc db :current-page page))
           cofx (if (empty? query-params)
                  {:db new-db}
-                 {:db new-db :auth query-params :clean-url nil})]
+                 {:db new-db :auth query-params})]
        cofx)))
 
 (defn process-user-check!

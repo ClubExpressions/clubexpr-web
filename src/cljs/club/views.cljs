@@ -306,7 +306,7 @@
           [:p (t ["Dans la partie « Groupes », vous définirez des listes d’élèves. Ces listes peuvent correspondre :"])]
           [:ul
             [:li (t ["à des classes entières ;"])]
-            [:li (t ["à des demis-groupes d’une classe ;"])]
+            [:li (t ["à des demi-groupes d’une classe ;"])]
             [:li (t ["à des élèves ayant des besoins spécifiques (remédiation ou approfondissement) au sein de l’Accompagnement Personnalisé ou non ;"])]
             [:li (t ["…"])]]
         ]
@@ -490,7 +490,7 @@
             [:h2 (t ["Aucun élève ne vous a encore déclaré comme professeur."])]
             [:p (t ["En attendant que ce soit le cas, vous pouvez tester cette fonctionnalité en vous connectant avec un autre compte et en vous faisant passer pour un élève vous ayant comme professeur."])]]
           [:div
-            [:p (t ["Un groupe peut correspondre : à des classes entières, à des demis-groupes d’une classe, à des élèves ayant des besoins spécifiques (remédiation ou approfondissement) au sein de l’Accompagnement Personnalisé ou non…"])]
+            [:p (t ["Un groupe peut correspondre : à des classes entières, à des demi-groupes d’une classe, à des élèves ayant des besoins spécifiques (remédiation ou approfondissement) au sein de l’Accompagnement Personnalisé ou non…"])]
             (if (= "Z." (-> groups-data :ghost-id-1 :lastname))
               [:p (t ["En attendant que de vrais élèves vous déclarent comme étant leur professeur, deux élèves fantômes vont vous permettre d’essayer cette interface. Je vous présente Casper et Érika Z. !"])])
             [:> (bs 'Row)

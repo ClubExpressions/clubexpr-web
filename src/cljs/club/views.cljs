@@ -1057,7 +1057,7 @@
       [:div.jumbotron
         [:h2 (t ["Travail à faire"])]
         [:p (t ["Séries d’expressions données par votre professeur"])]]
-      [:h2 (t ["À faire"])]
+      [:h2 (t ["Travaux à faire"])]
       (if (empty? future-works)
         [:p (t ["Pas de travail à faire pour le moment."])]
         [:ul (doall (map work-todo future-works))])
@@ -1065,7 +1065,7 @@
           [:a {:on-click #(rf/dispatch [:scholar-work {:id "training"}])}
               (t ["ce travail"])
           "."]]
-      [:h2 (t ["Passés"])]
+      [:h2 (t ["Travaux passés"])]
       (if (empty? past-works)
         [:p (t ["Pas de travaux dans le passé."])]
         [:ul (doall (map work-past past-works))])

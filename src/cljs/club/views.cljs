@@ -690,14 +690,14 @@
         [:p
           [:strong (t ["La série est vide."])]
           " "
-          (t ["En double-cliquant sur une expression sur la gauche, vous pouvez l’ajouter à votre série. Pour la supprimer de la série (liste de droite), double-cliquer à nouveau mais dans la liste de droite."])]
+          (t ["En double-cliquant sur une expression sur la gauche, vous pouvez l’ajouter à votre série. Pour la supprimer de la série (liste de droite), double-cliquez à nouveau mais dans la liste de droite."])]
         [:> Sortable
           {:items exprs
            :moveTransitionDuration 0.3
            :dropBackTransitionDuration 0.3
            :placeholder "< ici >"
            :onSort #(rf/dispatch [:series-exprs-sort %])}])
-     ]))
+    ]))
 
 (defn page-series
   []

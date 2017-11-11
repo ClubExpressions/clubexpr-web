@@ -288,10 +288,15 @@
 
 (defn ghost-scholars
   [scholars]
-  (if (empty? scholars)
-    [{:id "ghost-id-1" :lastname "Z." :firstname "Casper"}
-     {:id "ghost-id-2" :lastname "Z." :firstname "Érika"}]
-    scholars))
+  (let [teacher-id (-> @app-db :auth-data :kinto-id)]
+    (if (empty? scholars)
+      [{:id (str "ghost-1-" teacher-id)
+        :lastname "(fantôme)"
+        :firstname "Casper"}
+       {:id (str "ghost-2-" teacher-id)
+        :lastname "(fantôme)"
+        :firstname "Érika"}]
+      scholars)))
 
 (defn init-groups-data!
   []

@@ -161,51 +161,73 @@
 
 (defn page-landing
   []
-  [:div
-    [:div.jumbotron
-      [:h2 (t ["Première visite ?"])]
-      (let [label (t ["Tapez du Code Club ci-dessous pour former une expression mathématique."])
-            game-src "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"
-            attempt @(rf/subscribe [:attempt-code])
-            help available-ops]
-        [:div
-          [src-input {:label label
-                      :default-value "(Somme 1 (Produit 2 x))"
-                      :evt-handler :user-code-club-src-change
-                      :help help}]
-          [:br]
-          [:> (bs 'Grid)
-            [:> (bs 'Row)
-              [:> (bs 'Col) {:xs 4 :md 4}
-                [:p {:style {:font-size "100%"}}
-                    (t ["Essayez par exemple de reconstituer :"])]
-                [infix-rendition game-src]]
-              [:> (bs 'Col) {:xs 4 :md 4 :style {:border "solid 1px #999"
-                                                 :background-color "white"}}
-                [infix-rendition attempt]
-                (try (if (= (renderLispAsLaTeX game-src)
-                            (renderLispAsLaTeX attempt))
-                       [:div {:style {:color "#0f0"
-                                      :font-size "200%"
-                                      :text-align "center"}}  ; TODO CSS
-                         (t ["Bravo !"])])
-                     (catch js/Object e))]
-              [:> (bs 'Col) {:xs 4 :md 4}
-                [tree-rendition attempt]]]]])]
-    [:> (bs 'Grid)
-      [:> (bs 'Row)
-        [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]
-        [:> (bs 'Col) {:xs 6 :md 6}
-          [:h2 (t ["Pour les enseignants"])]
-          [:p (t ["Le Club des Expressions permet de faire travailler vos élèves sur le sens et la structure des expressions mathématiques."])]
-          [:p (t ["Cliquez sur « Connexion » en haut à droite pour créer votre compte, faites créer un compte à vos élèves, et vous pourrez leur attribuer des séries d’expressions à reconstituer."])]
-          [:p (t ["Si vous êtes parent d’élève, vous pourrez aussi faire travailler votre enfant. Pour cela, créez votre compte en cliquant sur « Connexion » en haut à droite, puis déclarez-vous comme professeur sans établissement."])]]
-        [:> (bs 'Col) {:xs 6 :md 6}
-          [:h2 (t ["Pour les élèves"])]
-          [:p (t ["Le Club des Expressions vous permet de travailler sur le sens et la structure des expressions mathématiques."])]
-          [:p (t ["Si votre professeur n’utilise pas le Club, vous pourrez quand même obtenir des séries d’expressions à reconstituer. Pour cela, créez votre compte en cliquant sur « Connexion » en haut à droite. Vos parents pourront se créer un compte professeur, sans établissement, pour vous donner du travail."])]
-          [:p (t ["Il est préférable bien sûr que votre professeur vous guide, mettez cette personne au courant !"])]]]]
-  ])
+  (let [label (t ["Tapez du Code Club ci-dessous pour reconstituer l’expression proposée :"])
+        game-src @(rf/subscribe [:landing-game-code])
+        attempt @(rf/subscribe [:attempt-code])
+        help available-ops
+        task-style {:style {:font-size "120%"}}  ; TODO CSS
+        expr-style {:style {:font-size "120%"}}]  ; TODO CSS
+    [:div
+      [:div.jumbotron
+        [:h2 (t ["Première visite ?"])]
+        [:> (bs 'Grid)
+          ; the only row in the jumbotron, see below the nested grid
+          [:> (bs 'Row)
+            [:> (bs 'Col) {:xs 7 :md 7}
+              ; left part, with everything but the tree:
+              [:> (bs 'Grid)
+                ; target expr:
+                [:> (bs 'Row)
+                  [:> (bs 'Col) {:xs 5 :md 5}
+                    [:p task-style (t ["Essayez de reconstituer :"])]]
+                  [:> (bs 'Col) {:xs 6 :md 6}
+                    [:div expr-style [infix-rendition game-src]]]]
+                ; attempted expr:
+                [:> (bs 'Row)
+                  [:> (bs 'Col) {:xs 5 :md 5}
+                    [:p task-style (t ["Votre tentative :"])]]
+                  [:> (bs 'Col) {:xs 6 :md 6}
+                    [:div expr-style [infix-rendition attempt]]
+                    (let [target-nature (natureFromLisp game-src)
+                          attempt-nature (natureFromLisp attempt)]
+                      (if (and (not (empty? attempt-nature))
+                               (not= target-nature attempt-nature))
+                        [:div {:style {:color "#f00"
+                                       :font-size "120%"
+                                       :text-align "center"}}  ; TODO CSS
+                          (t ["La nature ne correspond pas."])]))
+                    (try (if (= (renderLispAsLaTeX game-src)
+                                (renderLispAsLaTeX attempt))
+                           [:div {:style {:color "#0f0"
+                                          :font-size "200%"
+                                          :text-align "center"}}  ; TODO CSS
+                             (t ["Bravo !"])])
+                         (catch js/Object e))]]
+                ; Code Club input
+                [:> (bs 'Row)
+                  [:> (bs 'Col) {:xs 11 :md 11}
+                    [src-input {:label label
+                                :default-value "(Somme 1 (Produit 2 x))"
+                                :evt-handler :user-code-club-src-change
+                                :help help}]]]]]
+            [:> (bs 'Col) {:xs 5 :md 5}
+              [:p task-style
+                (t ["Pour information, l’arbre de calcul de votre tentative :"])]
+              [tree-rendition attempt]]
+          ]]]
+      [:> (bs 'Grid)
+        [:> (bs 'Row)
+          [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]
+          [:> (bs 'Col) {:xs 6 :md 6}
+            [:h2 (t ["Pour les enseignants"])]
+            [:p (t ["Le Club des Expressions permet de faire travailler vos élèves sur le sens et la structure des expressions mathématiques."])]
+            [:p (t ["Cliquez sur « Connexion » en haut à droite pour créer votre compte, faites créer un compte à vos élèves, et vous pourrez leur attribuer des séries d’expressions à reconstituer."])]
+            [:p (t ["Si vous êtes parent d’élève, vous pourrez aussi faire travailler votre enfant. Pour cela, créez votre compte en cliquant sur « Connexion » en haut à droite, puis déclarez-vous comme professeur sans établissement."])]]
+          [:> (bs 'Col) {:xs 6 :md 6}
+            [:h2 (t ["Pour les élèves"])]
+            [:p (t ["Le Club des Expressions vous permet de travailler sur le sens et la structure des expressions mathématiques."])]
+            [:p (t ["Si votre professeur n’utilise pas le Club, vous pourrez quand même obtenir des séries d’expressions à reconstituer. Pour cela, créez votre compte en cliquant sur « Connexion » en haut à droite. Vos parents pourront se créer un compte professeur, sans établissement, pour vous donner du travail."])]
+            [:p (t ["Il est préférable bien sûr que votre professeur vous guide, mettez cette personne au courant !"])]]]]]))
 
 (defn page-help-guest
   []

@@ -40,6 +40,12 @@
    (:attempt-code db)))
 
 (rf/reg-sub
+ :landing-game-code
+ (fn [db]
+   "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"
+   ))
+
+(rf/reg-sub
  :profile-quality
  (fn [db]
    (-> db :profile-page :quality)))

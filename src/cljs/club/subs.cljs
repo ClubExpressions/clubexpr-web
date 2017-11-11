@@ -42,7 +42,9 @@
 (rf/reg-sub
  :landing-game-code
  (fn [db]
-   "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"
+   "(Somme 2 2)"
+   ; "(Somme 1 (Produit 2 x))"
+   ; "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"
    ))
 
 (rf/reg-sub

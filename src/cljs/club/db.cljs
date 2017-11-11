@@ -164,7 +164,7 @@
                   :firstname ""}})
 
 (def default-db
-   (merge logout-db-fragment {:attempt-code "(Somme 1 (Produit 2 x))"}))
+   (merge logout-db-fragment {:attempt-code "(Somme 1 2)"}))
 
 (def k-client
   (let [b64 (js/window.btoa "user:pass")

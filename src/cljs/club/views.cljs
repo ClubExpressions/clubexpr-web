@@ -300,6 +300,7 @@
           [:h2 (t ["Définir son profil"])]
           [:p (t ["Dans la partie « Profil », déclarez votre établissement puis votre professeur."])]
           [:p (t ["Grâce à votre nom, vos élèves pourront vous choisir comme « professeur référent » et apparaîtront dans votre partie « Groupes »."])]
+          [:p (t ["En attendant que de vrais élèves vous déclarent comme étant leur professeur, deux élèves fantômes vont vous permettre d’essayer cette interface. Ces élèves n’ont pas de vrai compte et il n’est pas possible de se connecter au site sous leur identité. Vous pouvez cependant vous connecter au site avec un autre compte afin de créer un élève factice qui vous aurait comme professeur."])]
         ]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Regrouper ses élèves"])]
@@ -318,8 +319,8 @@
       [:> (bs 'Row)
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Ce que voit un élève"])]
-          [:p (t ["Il est possible de se connecter au Club avec plusieurs comptes. Un de ces comptes sera votre compte principal, avec un profil de professeur. Les autres comptes pourront avoir un profil d’élève."])]
-          [:p (t ["Attention, vous ne pouvez pas gérer vos vrais élèves depuis différents comptes, même s’ils ont un profil de professeur."])]
+          [:p (t ["Il est possible de se connecter au Club avec plusieurs comptes. Un de ces comptes sera votre compte principal, avec un profil de professeur. Les autres comptes pourront avoir un profil d’élève et vous déclarer comme professeur."])]
+          [:p (t ["Attention, vous ne pouvez pas gérer vos vrais élèves depuis différents comptes, même si ces comptes ont un profil de professeur."])]
         ]
       ]
     ]

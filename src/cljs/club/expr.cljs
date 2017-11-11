@@ -10,6 +10,7 @@
                                 FormControlFixed]]))
 
 (def clubexpr (getValueByKeys js/window "deps" "clubexpr"))
+(def natureFromLisp (.-natureFromLisp clubexpr))
 (def renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr))
 (def parseLisp (.-parse clubexpr))
 
@@ -30,11 +31,6 @@
 
 (def reified-expressions
   (map populate-properties (.-expressions clubexpr)))
-
-(defn natureFromLisp
-  [src]
-  (try (-> src parseLisp first)
-       (catch js/Object e "error")))
 
 (def available-ops
   [:span (t ["Commandes disponibles :"])

@@ -161,7 +161,7 @@
 
 (defn page-landing
   []
-  (let [label (t ["Tapez du Code Club ci-dessous pour reconstituer l’expression proposée :"])
+  (let [label (t ["Modifiez le Code Club ci-dessous pour reconstituer l’expression proposée :"])
         game-src @(rf/subscribe [:landing-game-code])
         attempt @(rf/subscribe [:attempt-code])
         help available-ops

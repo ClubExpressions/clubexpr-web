@@ -798,11 +798,16 @@
               (let [total (count scholars)
                     finished (count (filter #(= -666 (second %)) progress))
                     wip (- (count progress) finished)
-                    nothing (- total (count progress))]
+                    nothing (- total (count progress))
+                    f-text (t ["travail terminé"])
+                    w-text (t ["en cours de travail"])
+                    n-text (t ["pas encore vu la série"])]
                 [:div labels-common
                   [:a {:on-click #(swap! old-state assoc :show-progress true)
-                       :title (t ["rien / en cours / terminé"])}
-                    nothing  "/" wip "/" finished]])])
+                       :title (str nothing " " n-text "\n"
+                                   wip " " w-text "\n"
+                                   finished " " f-text)}
+                    nothing  "→" wip "→" finished]])])
           ; TO date selection
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)

@@ -47,7 +47,7 @@
 (def DateTime (getValueByKeys js/window "deps" "react-datetime"))
 (def CodeMirror (getValueByKeys js/window "deps"
                                           "react-codemirror2"
-                                          "UnControlled"))
+                                          "Controlled"))
 
 (defn text-input [{:keys [component-class label placeholder help
                           value-id event-id]
@@ -65,14 +65,14 @@
     [:> (bs 'HelpBlock) help]])
 
 (defn src-input
-  [{:keys [label default-value evt-handler help]}]
+  [{:keys [label subs-path evt-handler help]}]
   [:form {:role "form"}
     [:> (bs 'FormGroup) {:controlId "formBasicText"
                          :validationState nil}
       [:> (bs 'ControlLabel) label]
-      [:> CodeMirror {:value default-value
+      [:> CodeMirror {:value @(rf/subscribe [subs-path])
                       :options {:mode "clubexpr"}
-                      :onChange #(rf/dispatch [evt-handler (.. % getValue)])}]
+                      :onBeforeChange #(rf/dispatch [evt-handler %3])}]
       [:> (bs 'FormControl 'Feedback)]
       [:> (bs 'HelpBlock) help]]])
 
@@ -207,7 +207,7 @@
                 [:> (bs 'Row)
                   [:> (bs 'Col) {:xs 11 :md 11}
                     [src-input {:label label
-                                :default-value "(Somme 1 (Produit 2 x))"
+                                :subs-path :attempt-code
                                 :evt-handler :user-code-club-src-change
                                 :help help}]]]]]
             [:> (bs 'Col) {:xs 5 :md 5}
@@ -1060,7 +1060,7 @@
                  (t ["La nature ne correspond pas !"])])
               [src-input {
                 :label ""
-                :default-value ""
+                :subs-path :scholar-work-user-attempt
                 :evt-handler :scholar-work-attempt-change
                 :help available-ops}]
               (if (not interactive)

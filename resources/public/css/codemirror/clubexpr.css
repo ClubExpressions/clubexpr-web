@@ -11,3 +11,9 @@
 .cm-bracket-5 {background: #cef;}
 .cm-bracket-6 {background: #dcf;}
 .cm-bracket-0 {background: #bbe;}
+
+.CodeMirror-cursor {
+  width: 0.6em;
+  background-color: #ffff0070;
+  border: 0px;
+}

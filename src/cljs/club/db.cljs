@@ -450,7 +450,9 @@
                         (rf/dispatch [:write-works-teacher works]))))
                   (catch (error "db/fetch-works-teacher! works step")))))
             (catch (error "db/fetch-works-teacher! series step")))))
-      (catch (error "db/fetch-works-teacher! groups step")))))
+      (catch #(if (= error-404 (str %))  ; no such id in the groups coll?
+                  (rf/dispatch [:write-works-teacher []])
+                  (error "db/fetch-works-teacher! groups step"))))))
 
 (defn fetch-progress!
   [work]

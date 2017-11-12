@@ -437,15 +437,15 @@
   (fn [db [_ new-value]]
     (assoc-in db [:current-series :desc] new-value)))
 
-(defn sorted-expr->lisp
+(defn sorted-expr->obj
   [expr-data]
-  (-> expr-data (getValueByKeys "content" "props" "src")))
+  {:content (getValueByKeys expr-data "content" "props" "src")})
 
 (rf/reg-event-db
   :series-exprs-sort
   [check-spec-interceptor]
   (fn [db [_ new-value]]
-    (let [exprs (vec (map sorted-expr->lisp new-value))]
+    (let [exprs (fix-ranks (map sorted-expr->obj new-value))]
       (assoc-in db [:current-series :exprs] exprs))))
 
 (rf/reg-event-db

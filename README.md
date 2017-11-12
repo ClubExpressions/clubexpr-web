@@ -252,6 +252,8 @@ cohérence nettoyages data-from-js-obj: dans db, sub ou events
 
 * `:current-page` keyword identifying the current page
 * `:attempt-code` the Club Code for the landing page, as a string
+* `:game-idx` the index (number) of the game expression to display in the
+  landing page
 * `:authenticated` boolean, is the visitor authenticated?
 * [`:auth-data`](#auth-data) map related to authentication
 * [`:profile-page`](#profile-page) map containing user data

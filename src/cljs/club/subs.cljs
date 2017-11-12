@@ -40,12 +40,9 @@
    (:attempt-code db)))
 
 (rf/reg-sub
- :landing-game-code
+ :game-idx
  (fn [db]
-   "(Somme 2 2)"
-   ; "(Somme 1 (Produit 2 x))"
-   ; "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"
-   ))
+   (:game-idx db)))
 
 (rf/reg-sub
  :profile-quality
@@ -300,3 +297,15 @@
       (make-reaction
         (fn [] (:scholar-work @app-db))
         :on-dispose #(do)))))
+
+(rf/reg-sub
+  :game-src
+  (fn [query-v _]
+    (rf/subscribe [:game-idx]))
+  (fn [game-idx query-v _]
+    (let [exprs ["(Somme 2 2)"
+                 "(Somme 1 (Produit 2 x))"
+                 "(Opposé (Quotient (Diff (Produit a (Racine b))
+                                          (Puissance (Inverse c) d))
+                                    (Carré (Somme x y z))))"]]
+      (get exprs game-idx))))

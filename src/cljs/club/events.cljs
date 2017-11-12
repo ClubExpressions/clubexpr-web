@@ -163,6 +163,12 @@
     (assoc db :attempt-code new-value)))
 
 (rf/reg-event-db
+  :game-idx
+  [check-spec-interceptor]
+  (fn [db [_ new-value]]
+    (assoc db :game-idx new-value)))
+
+(rf/reg-event-db
   :profile-quality
   [check-spec-interceptor]
   (fn [db [_ new-value]]

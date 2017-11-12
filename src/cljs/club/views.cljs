@@ -159,11 +159,20 @@
                  "(épaules de géants)"]]]
        ]]])
 
+(defn landing-game-link
+  [idx current]
+  [:a {:style {:padding "3px"  ; TODO CSS
+               :border-radius "4px"
+               :background-color (if (= idx current) "#beb" "#ddd")}
+       :on-click #(rf/dispatch [:game-idx idx])}
+      (str (t ["n°"]) (+ idx 1))])
+
 (defn page-landing
   []
   (let [label (t ["Modifiez le Code Club ci-dessous pour reconstituer l’expression proposée :"])
-        game-src @(rf/subscribe [:landing-game-code])
-        attempt @(rf/subscribe [:attempt-code])
+        game-idx @(rf/subscribe [:game-idx])
+        game-src @(rf/subscribe [:game-src])
+        attempt  @(rf/subscribe [:attempt-code])
         help available-ops
         task-style {:style {:font-size "120%"}}  ; TODO CSS
         expr-style {:style {:font-size "120%"}}]  ; TODO CSS
@@ -209,7 +218,14 @@
                     [src-input {:label label
                                 :subs-path :attempt-code
                                 :evt-handler :user-code-club-src-change
-                                :help help}]]]]]
+                                :help help}]
+                    [:p task-style (t ["Expression à reconstituer"]) " : "
+                      (landing-game-link 0 game-idx)
+                      " "
+                      (landing-game-link 1 game-idx)
+                      " "
+                      (landing-game-link 2 game-idx)]
+                   ]]]]
             [:> (bs 'Col) {:xs 5 :md 5}
               [:p task-style
                 (t ["Pour information, l’arbre de calcul de votre tentative :"])]

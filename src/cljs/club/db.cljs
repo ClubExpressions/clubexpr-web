@@ -11,6 +11,7 @@
 
 (s/def ::current-page keyword?)
 (s/def ::attempt-code string?)
+(s/def ::game-idx number?)
 
 (s/def ::profile-page
   (s/and map?
@@ -106,6 +107,7 @@
                               ::authenticated
                               ::auth-data
                               ::attempt-code
+                              ::game-idx
                               ::profile-page
                               ::groups-page
                               ::series-page
@@ -164,7 +166,8 @@
                   :firstname ""}})
 
 (def default-db
-   (merge logout-db-fragment {:attempt-code "(Somme 1 2)"}))
+   (merge logout-db-fragment {:attempt-code "(Somme 1 2)"
+                              :game-idx 0}))
 
 (def k-client
   (let [b64 (js/window.btoa "user:pass")

@@ -25,8 +25,7 @@
                                available-ops
                                renderLispAsLaTeX
                                infix-rendition
-                               tree-rendition
-                               reified-expressions]]
+                               tree-rendition]]
             [club.version]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.pprint :refer [pprint]]))

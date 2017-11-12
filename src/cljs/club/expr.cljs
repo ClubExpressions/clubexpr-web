@@ -41,7 +41,7 @@
     [:code "Opposé"] ", "
     [:code "Inverse"] ", "
     [:code "Carré"] ", "
-    [:code "Puissance"] " et "
+    [:code "Puissance"] "  " (t ["et"]) " "
     [:code "Racine"] "."])
 
 (def all-exprs

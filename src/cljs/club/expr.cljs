@@ -31,7 +31,20 @@
     (assoc expr-obj-clj :properties expr-properties)))
 
 (def reified-expressions
-  (map populate-properties (.-expressions clubexpr)))
+  (let [seconde-serie-1 ["(Produit 3 x)"
+                         "(Quotient R 4)"
+                         "(Produit 10 (Diff x 2))"
+                         "(Somme (Produit 10 a) b)"
+                         "(Diff 1 (Opposé x))"
+                         "(Quotient (Produit a b) c)"
+                         "(Produit a (Quotient b c))"
+                         "(Diff (Somme (Produit 10 a) b) a)"
+                         "(Diff (Diff (Somme (Produit 10 a) b) a) b)"]
+        seconde-serie-1-obj (map #(clj->js {"expr" (parseLisp %)})
+                                 seconde-serie-1)]
+  (map populate-properties (concat
+                             seconde-serie-1-obj
+                             (.-expressions clubexpr)))))
 
 
 (def all-exprs

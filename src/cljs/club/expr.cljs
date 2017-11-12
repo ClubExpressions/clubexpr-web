@@ -32,7 +32,7 @@
 (def reified-expressions
   (map populate-properties (.-expressions clubexpr)))
 
-(def available-ops
+(def available-ops-pretty
   [:span (t ["Commandes disponibles :"])
     [:code "Somme"] ", "
     [:code "Diff"] ", "

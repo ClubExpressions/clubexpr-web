@@ -22,7 +22,7 @@
             [club.db]
             [club.expr :refer [clubexpr
                                natureFromLisp
-                               available-ops
+                               available-ops-pretty
                                renderLispAsLaTeX
                                infix-rendition
                                tree-rendition
@@ -173,7 +173,7 @@
         game-idx @(rf/subscribe [:game-idx])
         game-src @(rf/subscribe [:game-src])
         attempt  @(rf/subscribe [:attempt-code])
-        help available-ops
+        help available-ops-pretty
         task-style {:style {:font-size "120%"}}  ; TODO CSS
         expr-style {:style {:font-size "120%"}}]  ; TODO CSS
     [:div
@@ -1078,7 +1078,7 @@
                 :label ""
                 :subs-path :scholar-work-user-attempt
                 :evt-handler :scholar-work-attempt-change
-                :help available-ops}]
+                :help available-ops-pretty}]
               (if (not interactive)
                 [:p.pull-left
                  (t ["Trop difficile !"])

@@ -10,6 +10,7 @@
                                 FormControlFixed]]))
 
 (def clubexpr (getValueByKeys js/window "deps" "clubexpr"))
+(def available-ops (js->clj (.-operations clubexpr)))
 (def natureFromLisp (.-natureFromLisp clubexpr))
 (def renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr))
 (def parseLisp (.-parse clubexpr))
@@ -32,17 +33,6 @@
 (def reified-expressions
   (map populate-properties (.-expressions clubexpr)))
 
-(def available-ops-pretty
-  [:span (t ["Commandes disponibles :"])
-    [:code "Somme"] ", "
-    [:code "Diff"] ", "
-    [:code "Produit"] ", "
-    [:code "Quotient"] ", "
-    [:code "Opposé"] ", "
-    [:code "Inverse"] ", "
-    [:code "Carré"] ", "
-    [:code "Puissance"] "  " (t ["et"]) " "
-    [:code "Racine"] "."])
 
 (def all-exprs
   ["(Somme 1 2)"

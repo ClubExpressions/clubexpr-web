@@ -22,7 +22,7 @@
             [club.db]
             [club.expr :refer [clubexpr
                                natureFromLisp
-                               available-ops-pretty
+                               available-ops
                                renderLispAsLaTeX
                                infix-rendition
                                tree-rendition
@@ -63,6 +63,15 @@
                                                  (-> % .-target .-value)])}]
     [:> (bs 'FormControl 'Feedback)]
     [:> (bs 'HelpBlock) help]])
+
+(defn ops-pretty
+  [ops]
+  [:span (t ["Commandes disponibles :"])
+    (-> (map #(identity [:span [:code %1] %2]) (butlast ops) (repeat ", "))
+        (concat (t ["et"]))
+        (concat " ")
+        (concat (list [:code (last ops)]))
+        (concat "."))])
 
 (defn src-input
   [{:keys [label subs-path evt-handler help]}]
@@ -173,7 +182,7 @@
         game-idx @(rf/subscribe [:game-idx])
         game-src @(rf/subscribe [:game-src])
         attempt  @(rf/subscribe [:attempt-code])
-        help available-ops-pretty
+        help (ops-pretty available-ops)
         task-style {:style {:font-size "120%"}}  ; TODO CSS
         expr-style {:style {:font-size "120%"}}]  ; TODO CSS
     [:div
@@ -1078,7 +1087,7 @@
                 :label ""
                 :subs-path :scholar-work-user-attempt
                 :evt-handler :scholar-work-attempt-change
-                :help available-ops-pretty}]
+                :help (ops-pretty available-ops)}]
               (if (not interactive)
                 [:p.pull-left
                  (t ["Trop difficile !"])

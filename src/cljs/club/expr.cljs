@@ -31,19 +31,28 @@
     (assoc expr-obj-clj :properties expr-properties)))
 
 (def reified-expressions
-  (let [seconde-serie-1 ["(Produit 3 x)"
-                         "(Quotient R 4)"
-                         "(Produit 10 (Diff x 2))"
-                         "(Somme (Produit 10 a) b)"
-                         "(Diff 1 (Opposé x))"
-                         "(Quotient (Produit a b) c)"
-                         "(Produit a (Quotient b c))"
-                         "(Diff (Somme (Produit 10 a) b) a)"
-                         "(Diff (Diff (Somme (Produit 10 a) b) a) b)"]
-        seconde-serie-1-obj (map #(clj->js {"expr" (parseLisp %)})
-                                 seconde-serie-1)]
+  (let [expr-wrapper #(clj->js {"expr" (parseLisp %)})
+        series-wrapper #(map expr-wrapper %)
+        demo
+          ["(Produit 5 (Somme x 2))"
+           "(Somme 1 (Produit 2 x))"
+           "(Diff x (Somme y 1))"
+           "(Produit 2 (Somme (Produit 3 a) 4))"
+           "(Produit pi (Quotient R 2))"]
+        seconde-serie-1
+          ["(Produit 3 x)"
+           "(Quotient R 4)"
+           "(Produit 10 (Diff x 2))"
+           "(Somme (Produit 10 a) b)"
+           "(Diff 1 (Opposé x))"
+           "(Quotient (Produit a b) c)"
+           "(Produit a (Quotient b c))"
+           "(Diff (Somme (Produit 10 a) b) a)"
+           "(Diff (Diff (Somme (Produit 10 a) b) a) b)"]
+        ]
   (map populate-properties (concat
-                             seconde-serie-1-obj
+                             (series-wrapper demo)
+                             (series-wrapper seconde-serie-1)
                              (.-expressions clubexpr)))))
 
 

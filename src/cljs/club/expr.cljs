@@ -58,6 +58,13 @@
 
 (def all-exprs
   ["(Somme 1 2)"
+
+   "(Produit 5 (Somme x 2))"
+   "(Somme 1 (Produit 2 x))"
+   "(Diff x (Somme y 1))"
+   "(Produit 2 (Somme (Produit 3 a) 4))"
+   "(Produit pi (Quotient R 2))"
+
    "(Somme a 1)"
    "(Somme 1 a)"
    "(Somme a b)"

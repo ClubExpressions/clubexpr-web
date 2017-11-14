@@ -253,7 +253,7 @@
           json-payload (id_token->json-payload id_token)
           js-payload (try (.parse js/JSON json-payload)
                           (catch js/Object e
-                            (error "Problème d’authentification, veuillez essayer avec une adresse email et un mot de passe.")
+                            (error (t ["Problème d’authentification, veuillez réessayer. Si le problème persiste, essayer avec une adresse email et un mot de passe."]))
                             ; (log! {:e e
                             ;        :id_token id_token
                             ;        :json-payload json-payload}

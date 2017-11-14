@@ -199,6 +199,13 @@
                     [:p task-style (t ["Essayez de reconstituer :"])]]
                   [:> (bs 'Col) {:xs 6 :md 6}
                     [:div expr-style [infix-rendition game-src]]]]
+                ; Code Club input
+                [:> (bs 'Row)
+                  [:> (bs 'Col) {:xs 11 :md 11}
+                    [src-input {:label label
+                                :subs-path :attempt-code
+                                :evt-handler :user-code-club-src-change
+                                :help help}]]]
                 ; attempted expr:
                 [:> (bs 'Row)
                   [:> (bs 'Col) {:xs 5 :md 5}
@@ -220,20 +227,16 @@
                                           :text-align "center"}}  ; TODO CSS
                              (t ["Bravo !"])])
                          (catch js/Object e))]]
-                ; Code Club input
                 [:> (bs 'Row)
-                  [:> (bs 'Col) {:xs 11 :md 11}
-                    [src-input {:label label
-                                :subs-path :attempt-code
-                                :evt-handler :user-code-club-src-change
-                                :help help}]
+                  [:> (bs 'Col) {:xs 12 :md 12
+                                 :style {:padding-top "2em"}}
                     [:p task-style (t ["Expression à reconstituer"]) " : "
                       (landing-game-link 0 game-idx)
                       " "
                       (landing-game-link 1 game-idx)
                       " "
-                      (landing-game-link 2 game-idx)]
-                   ]]]]
+                      (landing-game-link 2 game-idx)]]]
+              ]]
             [:> (bs 'Col) {:xs 5 :md 5}
               [:p task-style
                 (t ["Pour information, l’arbre de calcul de votre tentative :"])]

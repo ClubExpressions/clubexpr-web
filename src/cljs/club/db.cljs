@@ -389,7 +389,7 @@
         record (if (empty? current-series-id)
                  record-fragment
                  (merge record-fragment {:id current-series-id}))]
-    (.. club.db/k-series
+    (.. k-series
         (createRecord (clj->js record))
         (then #(rf/dispatch [:series-save-ok %]))
         (catch (error "db/save-series-data!")))))

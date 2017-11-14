@@ -52,6 +52,7 @@ See the running app here:
   * Modules that are planned to be used:
     * [react-table](https://www.npmjs.com/package/react-table) (tabular presentation)
     * [Tempura](https://github.com/ptaoussanis/tempura) (i18n)
+    * [Timbre](https://github.com/ptaoussanis/timbre) (logging)
     * [re-learn](https://github.com/oliyh/re-learn) (quick interactive tuto for
       users)
 

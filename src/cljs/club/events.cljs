@@ -238,21 +238,27 @@
           (catch (error "events/process-user-check!")))
       (set-auth-data! (merge new-user-data user-with-same-auth0-id)))))
 
+(defn id_token->json-payload
+  [id_token]
+  (-> id_token
+      (str/split ".")
+      second
+      decodeString))
+
 (rf/reg-fx
   :auth
   (fn [{:keys [access_token expires_in id_token]}]  ; we left: token_type state
     (let [expires-in-num (js/parseInt expires_in)
           expires-at (str (+ (* expires-in-num 1000) (.getTime (new js/Date))))
-          decoded-json (-> id_token
-                          (str/split ".")
-                          second
-                          decodeString)
-          decoded-js (try (.parse js/JSON decoded-json)
-                          (catch js/Object e (println e)
-                                             (println id_token)
-                                             (println decoded-json)
-                                             js/Object)) ; default: empty obj
-          auth0-id (getValueByKeys decoded-js "sub")
+          json-payload (id_token->json-payload id_token)
+          js-payload (try (.parse js/JSON json-payload)
+                          (catch js/Object e
+                            (error "Problème d’authentification, veuillez essayer avec une adresse email et un mot de passe.")
+                            ; (log! {:e e
+                            ;        :id_token id_token
+                            ;        :json-payload json-payload}
+                            js/Object)) ; default: empty obj
+          auth0-id (getValueByKeys js-payload "sub")
           new-user-data {:auth0-id auth0-id
                          :access-token access_token
                          :expires-at expires-at}]

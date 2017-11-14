@@ -161,7 +161,7 @@
             [:li "Damien Lecan (aide technique)"]
             [:li "tous les collègues et élèves sympathisants"
                  [:br]
-                 "(aide moral et premiers tests)"]
+                 "(aide morale et premiers tests)"]
             [:li "tous les logiciels sur lesquels est bâti le Club"
                  [:br]
                  "(épaules de géants)"]]]

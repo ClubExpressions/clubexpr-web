@@ -182,6 +182,14 @@
 
 (def error-404 "Error: HTTP 404; Error: HTTP 404 Not Found: Invalid Token / id")
 
+;(def k-log (.. k-client
+;               (bucket "default")
+;               (collection "log")))
+;
+;(defn log!
+;  [data]
+;  (.. k-log (createRecord data)))
+
 (def k-users (.. k-client
                  (bucket "default")
                  (collection "users")))

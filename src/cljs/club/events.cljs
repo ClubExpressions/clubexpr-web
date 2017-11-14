@@ -7,7 +7,8 @@
     [re-frame.db :refer [app-db]]
     [goog.object :refer [getValueByKeys]]
     [club.db]
-    [club.db :refer [base-user-record
+    [club.db :refer [;log!
+                     base-user-record
                      new-series
                      logout-db-fragment
                      set-auth-data!

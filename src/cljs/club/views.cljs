@@ -1072,30 +1072,35 @@
             [:div
               [:p.pull-right
                 (+ 1 current-expr-idx) "/" (count exprs)]
-              [:p (t ["À reconstituer  :   "])
+              ; target expr
+              [:p (t ["Essayez de reconstituer  :  "])
                 (infix-rendition current-expr true)]
+              ; Code Club
+              [src-input {
+                :label (t ["Pour cela tapez du Code Club ci-dessous :"])
+                :subs-path :scholar-work-user-attempt
+                :evt-handler :scholar-work-attempt-change
+                :help (ops-pretty available-ops)}]
+              ; current mode
               (if interactive
                 [:div
-                  [:p (t ["Vous êtes en mode interactif."])]
-                  [:p (t ["Votre tentative :   "])
+                  [:p (t ["Vous êtes en mode interactif. Votre tentative : "])
                       (infix-rendition attempt true)]]
                 [:p (t ["Vous êtes en mode non interactif."])])
+              ; nature msg
               (if (and (empty? error)
                        (not (= (natureFromLisp current-expr)
                                (natureFromLisp attempt))))
                 [:p.text-center {:style {:color "#f00"}}  ; TODO CSS
                  (t ["La nature ne correspond pas !"])])
-              [src-input {
-                :label ""
-                :subs-path :scholar-work-user-attempt
-                :evt-handler :scholar-work-attempt-change
-                :help (ops-pretty available-ops)}]
+              ; «back to interactive» link
               (if (not interactive)
                 [:p.pull-left
                  (t ["Trop difficile !"])
                  " "
                  [:a {:on-click #(rf/dispatch [:back-to-interactive])}
                      (t ["Je repasse en mode interactif."])]])
+              ; Check button
               [:div.text-right
                 [:> (bs 'Button)
                   {:on-click #(rf/dispatch [:scholar-work-attempt])

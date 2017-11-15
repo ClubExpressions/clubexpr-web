@@ -1056,7 +1056,8 @@
         current-expr (:current-expr work)
         interactive (:interactive work)
         attempt (:attempt work)
-        error (:error work)]
+        error (:error work)
+        error-style {:style {:color "#f00"}}]  ; TODO CSS
     [:> (bs 'Modal) {:show working
                      :onHide #(rf/dispatch [:close-scholar-work])}
       [:> (bs 'Modal 'Header) {:closeButton true}
@@ -1091,7 +1092,7 @@
               (if (and (empty? error)
                        (not (= (natureFromLisp current-expr)
                                (natureFromLisp attempt))))
-                [:p.text-center {:style {:color "#f00"}}  ; TODO CSS
+                [:p.text-center error-style
                  (t ["La nature ne correspond pas !"])])
               ; «back to interactive» link
               (if (not interactive)

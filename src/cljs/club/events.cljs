@@ -248,12 +248,13 @@
 (rf/reg-fx
   :auth
   (fn [{:keys [access_token expires_in id_token]}]  ; we left: token_type state
-    (let [expires-in-num (js/parseInt expires_in)
+    (let [error-msg (t ["Problème d’authentification, veuillez réessayer. Si le problème persiste, essayer avec une adresse email et un mot de passe."])
+          expires-in-num (js/parseInt expires_in)
           expires-at (str (+ (* expires-in-num 1000) (.getTime (new js/Date))))
           json-payload (id_token->json-payload id_token)
           js-payload (try (.parse js/JSON json-payload)
                           (catch js/Object e
-                            (error (t ["Problème d’authentification, veuillez réessayer. Si le problème persiste, essayer avec une adresse email et un mot de passe."]))
+                            (error error-msg)
                             ; (log! {:e e
                             ;        :id_token id_token
                             ;        :json-payload json-payload}

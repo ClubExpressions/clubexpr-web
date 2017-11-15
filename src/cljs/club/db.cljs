@@ -599,9 +599,11 @@
   (.. club.db/k-progress
       (updateRecord (clj->js progress)       ; data
                     (clj->js {:patch true})) ; options in a map
-      (catch (.. club.db/k-progress          ; errors if id not found
-                 (createRecord (clj->js progress))  ; so we create it
-                 (catch (error "db/save-progress! create"))))))
+      (catch #(if (= error-404 (str %))  ; no such id in the progress coll?
+                  (.. club.db/k-progress          ; errors if id not found
+                      (createRecord (clj->js progress))  ; so we create it
+                      (catch (error "db/save-progress! create"))
+                  (error "db/save-progress! update no 404"))))))
 
 (defn get-schools!
   []

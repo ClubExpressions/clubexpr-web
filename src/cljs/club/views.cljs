@@ -1087,7 +1087,10 @@
                 [:div
                   [:p (t ["Vous êtes en mode interactif. Votre tentative : "])
                       (infix-rendition attempt true)]]
-                [:p (t ["Vous êtes en mode non interactif."])])
+                [:div
+                  [:p (t ["Vous êtes en mode non interactif."])]
+                  (if (not (empty? error))
+                    [:p.text-center error-style error])])
               ; nature msg
               (if (and (empty? error)
                        (not (= (natureFromLisp current-expr)

@@ -251,7 +251,9 @@
     (let [error-msg (t ["Problème d’authentification, veuillez réessayer. Si le problème persiste, essayer avec une adresse email et un mot de passe."])
           expires-in-num (js/parseInt expires_in)
           expires-at (str (+ (* expires-in-num 1000) (.getTime (new js/Date))))
-          json-payload (id_token->json-payload id_token)
+          json-payload (try (id_token->json-payload id_token)
+                          (catch js/Object e
+                            (error error-msg)))
           js-payload (try (.parse js/JSON json-payload)
                           (catch js/Object e
                             (error error-msg)

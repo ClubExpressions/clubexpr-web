@@ -465,16 +465,39 @@
                   (rf/dispatch [:write-works-teacher []])
                   (error "db/fetch-works-teacher! groups step"))))))
 
+(defn prepare-attempt-to-reduce-in
+  [attempt acc]
+  (let [{:keys [scholar-id status expr-idx]} attempt
+        val-in-acc (get acc scholar-id)
+        scholar-id-kw (keyword scholar-id)]
+    (if val-in-acc
+      ; entry already exists
+      (if (and (= "ok" status)
+               (> expr-idx val-in-acc))
+        {scholar-id-kw expr-idx})
+      ; no entry in the accumulator
+      (if (= "ok" status)
+        {scholar-id-kw expr-idx}
+        {scholar-id-kw -1})
+    )))
+
+(defn attempts->progress
+  [work-id]
+  (fn [attempts]
+    (let [work-attempts (filter #(= work-id (:work-id %)) attempts)
+          reducer #(into %1 (prepare-attempt-to-reduce-in %2 %1))
+          result (reduce reducer {} work-attempts)]
+      result)))
+
 (defn fetch-progress!
   [work]
   (let [work-id (:id work)]
-    (.. club.db/k-progress
-        (getRecord work-id)
+    (.. club.db/k-attempts
+        (listRecords)
         (then
-          (fn [progress-record]
-            (let [progress-clj (-> progress-record
-                                   data-from-js-obj
-                                   (dissoc :id :last_modified))]
+          (fn [attempts-list]
+            (let [attempts-clj (data-from-js-obj attempts-list)
+                  progress-clj ((attempts->progress work-id) attempts-clj)]
               (rf/dispatch [:progress-write work-id progress-clj]))))
         (catch #(if (= error-404 (str %))  ; no such id in the works coll?
                     (rf/dispatch [:progress-write work-id {}])

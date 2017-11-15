@@ -1012,7 +1012,11 @@
             [:div subtitles-common (t ["(date de publication)"])]]
           [:> (bs 'Col) {:xs 3 :md 3}
             [:div subtitles-common (t [" "])]]]
-        [work-input]  ; to allow creation of works
+        [:div {:style {:padding "4px"  ; TODO CSS
+                       :border-radius "4px"
+                       :background-color "#eee"}}
+          ; this first `work-input` to allow the creation of works:
+          [work-input]]
         [:hr]
         (if (empty? future-works)
           [:div (t ["Pas de travaux dans le futur"])]

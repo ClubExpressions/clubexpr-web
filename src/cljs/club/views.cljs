@@ -510,10 +510,14 @@
 
 (defn format-group
   [[group scholars]]
-  ^{:key group} [:div
-                  [:h3 group]
-                  [:ul.nav
-                    (map scholar-li (sort scholar-comparator scholars))]])
+  (let [card (count scholars)]
+    ^{:key group}
+    [:div
+      [:h3
+        group
+        [:span.small " (" (count scholars) " "
+          (if (> card 1) (t ["élèves"]) (t ["élève"]))")"]]
+      [:ul.nav (map scholar-li (sort scholar-comparator scholars))]]))
 
 (defn groups-list-of-lists
   [groups-map groups]

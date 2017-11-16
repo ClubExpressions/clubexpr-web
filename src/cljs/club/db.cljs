@@ -468,12 +468,14 @@
 (defn prepare-attempt-to-reduce-in
   [attempt acc]
   (let [{:keys [scholar-id status expr-idx]} attempt
-        val-in-acc (get acc scholar-id)
-        scholar-id-kw (keyword scholar-id)]
+        scholar-id-kw (keyword scholar-id)
+        val-in-acc (scholar-id-kw acc)  ; TODO (scholar-id acc) failed silently
+        ]
     (if val-in-acc
       ; entry already exists
       (if (and (= "ok" status)
-               (> expr-idx val-in-acc))
+               (or (= -666 expr-idx)
+                   (> expr-idx val-in-acc)))
         {scholar-id-kw expr-idx})
       ; no entry in the accumulator
       (if (= "ok" status)

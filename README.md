@@ -412,13 +412,14 @@ The `id` of a record is the `id` of the owning teacher.
             :id2 expr-code2                  |
             ...                              |
           }                                  |
+        :show-progress bool                  |
       }                                      |
       ...                                    |
     ]                                        |
 
-In the `:progress` map each `scholar-id` is associated to the index of the
-last expression passed in non interactive mode. `-666` means « the scholar
-finished the series successfuly ».
+In the `:progress` map each `scholar-id` is associated with the index of the
+last expression passed in non interactive mode, or maybe a specific code.
+See the documentation of the [progress](#progress) collection.
 
 ## Scholar works
 

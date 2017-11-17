@@ -512,7 +512,8 @@
                            :series-id (:series-id work-state)})
                    (dissoc (if (empty? (:id work-state)) :id)
                            :editing
-                           :series-title))]
+                           :series-title
+                           :progress))]
     (.. club.db/k-works
         (createRecord (clj->js record))
         (then #(rf/dispatch [:work-save-ok (data-from-js-obj %)]))

@@ -505,6 +505,19 @@
                     (rf/dispatch [:progress-write work-id {}])
                     (error "db/fetch-progress!"))))))
 
+(defn save-work!
+  [{:keys [teacher-id work-state]}]
+  (let [record (-> work-state
+                   (merge {:teacher-id teacher-id
+                           :series-id (:series-id work-state)})
+                   (dissoc (if (empty? (:id work-state)) :id)
+                           :editing
+                           :series-title))]
+    (.. club.db/k-works
+        (createRecord (clj->js record))
+        (then #(rf/dispatch [:work-save-ok (data-from-js-obj %)]))
+        (catch (error "event :work-save")))))
+
 (defn delete-work!
   [work-id]
   (.. club.db/k-works

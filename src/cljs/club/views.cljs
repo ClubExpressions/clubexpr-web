@@ -78,9 +78,16 @@
     [:> (bs 'FormGroup) {:controlId "formBasicText"
                          :validationState nil}
       [:> (bs 'ControlLabel) label]
-      [:> CodeMirror {:value @(rf/subscribe [subs-path])
-                      :options {:mode "clubexpr"}
-                      :onBeforeChange #(rf/dispatch [evt-handler %3])}]
+      (let [extraKeys {"'+'" #(.replaceSelection % "(Somme ")
+                       "'-'" #(.replaceSelection % "(Diff ")
+                       "'*'" #(.replaceSelection % "(Produit ")
+                       "'/'" #(.replaceSelection % "(Quotient ")
+                       "'²'" #(.replaceSelection % "(Carré ")
+                       "'^'" #(.replaceSelection % "(Puissance ")}]
+        [:> CodeMirror {:value @(rf/subscribe [subs-path])
+                        :options {:mode "clubexpr"
+                                  :extraKeys extraKeys}
+                        :onBeforeChange #(rf/dispatch [evt-handler %3])}])
       [:> (bs 'FormControl 'Feedback)]
       [:> (bs 'HelpBlock) help]]])
 

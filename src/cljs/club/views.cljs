@@ -454,8 +454,8 @@
 
 (defn teacher->menu-item
   [{:keys [id lastname]}]
-  ^{:key id} [:> (bs 'MenuItem) {:eventKey id} lastname]
-  )
+  ^{:key id}
+  [:> (bs 'MenuItem) {:eventKey id} [:span.text-capitalize lastname]])
 
 (defn teachers-dropdown
   []
@@ -555,8 +555,12 @@
 
 (defn scholar-li-group-input
   [scholar]
-  ^{:key (:id scholar)} [:li (:lastname scholar) " " (:firstname scholar)
-                         (groups-select (:id scholar))])
+  ^{:key (:id scholar)}
+  [:li
+    [:span.text-capitalize (:lastname scholar)]
+    " "
+    [:span.text-capitalize (:firstname scholar)]
+    (groups-select (:id scholar))])
 
 (defn group-link
   [group]
@@ -568,7 +572,10 @@
 (defn scholar-li
   [scholar]
   ^{:key (str (:lastname scholar) (:firstname scholar))}
-  [:li (:lastname scholar) " " (:firstname scholar)])
+  [:li
+    [:span.text-capitalize (:lastname scholar)]
+    " "
+    [:span.text-capitalize (:firstname scholar)]])
 
 (defn format-group
   [[group scholars]]
@@ -849,9 +856,9 @@
   [scholar-data]
   (let [{:keys [lastname firstname progress]} scholar-data]
     [:span
-      lastname
+      [:span.text-capitalize lastname]
       " "
-      firstname
+      [:span.text-capitalize firstname]
       " : "
       (cond
         (nil? progress)

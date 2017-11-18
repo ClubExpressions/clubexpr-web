@@ -68,17 +68,19 @@
   (-> (map #(identity [:span [:code %1] %2]) (butlast l) (repeat ", "))
       (concat (t ["et"]))
       (concat " ")
-      (concat (list [:code (last l)]))
-      (concat ".")))
+      (concat (list [:code (last l)]))))
 
 (defn ops-pretty
   [ops]
   [:span
     (t ["Commandes disponibles : "])
     (list-pretty ops)
+    "."
     [:br]
     (t ["Touches disponibles : "])
-    (list-pretty ["+" "-" "*" "/" "²" "^"])])
+    (list-pretty ["+" "-" "*" "/" "²" "^"])
+    ", "
+    (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) "."])
 
 (defn src-input
   [{:keys [label subs-path evt-handler help]}]

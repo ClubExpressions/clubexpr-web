@@ -91,7 +91,16 @@
                        "'*'" #(.replaceSelection % "(Produit ")
                        "'/'" #(.replaceSelection % "(Quotient ")
                        "'²'" #(.replaceSelection % "(Carré ")
-                       "'^'" #(.replaceSelection % "(Puissance ")}]
+                       "'^'" #(.replaceSelection % "(Puissance ")
+                       "Ctrl-S" #(.replaceSelection % "(Somme ")
+                       "Ctrl-D" #(.replaceSelection % "(Diff ")
+                       "Ctrl-P" #(.replaceSelection % "(Produit ")
+                       "Ctrl-Q" #(.replaceSelection % "(Quotient ")
+                       "Ctrl-O" #(.replaceSelection % "(Opposé ")
+                       "Ctrl-I" #(.replaceSelection % "(Inverse ")
+                       "Ctrl-C" #(.replaceSelection % "(Carré ")
+                       "Ctrl-U" #(.replaceSelection % "(Puissance ")
+                       "Ctrl-R" #(.replaceSelection % "(Racine ")}]
         [:> CodeMirror {:value @(rf/subscribe [subs-path])
                         :options {:mode "clubexpr"
                                   :extraKeys extraKeys}

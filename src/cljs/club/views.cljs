@@ -141,12 +141,14 @@
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Statut"])]
           [:p "Le Club des Expressions est en constante évolution. N’hésitez pas à signaler des bugs ou nous faire part de suggestions."]
-          [:p "Version : " club.version/gitref]]
+          (let [base "https://github.com/ClubExpressions/clubexpr-web/commit/"
+                commit club.version/gitref]
+            [:p "Version : " [:a {:href (str base commit)} commit]])]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Contact"])]
           [:ul
             [:li "Twitter : "
-              [:a {:href "https://twitter"} "@ClubExpr"]
+              [:a {:href "http://twitter.com/clubexpr"} "@ClubExpr"]
               " (" (t ["Publication d’une expression intéressante par semaine !"]) ")"]
             [:li "Email : "
               [:a {:href "mailto:profgraorg.org@gmail.com"} "profgra.org@gmail.com"]]
@@ -162,7 +164,7 @@
             [:li "tous les collègues et élèves sympathisants"
                  [:br]
                  "(aide morale et premiers tests)"]
-            [:li "tous les logiciels sur lesquels est bâti le Club"
+            [:li [:a {:href "https://github.com/ClubExpressions/clubexpr-web#technical-stack"} "tous les logiciels sur lesquels est bâti le Club"]
                  [:br]
                  "(épaules de géants)"]]]
        ]]])

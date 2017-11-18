@@ -152,9 +152,10 @@
                 [:> (bs 'NavItem)
                     {:on-click #(rf/dispatch [:logout])}
                      (t ["Déconnexion"])]
-                [:> (bs 'NavItem)
-                    (merge {:on-click #(rf/dispatch [:login])} highlight-style)
-                    (t ["Connexion"])])])]]]
+                (if (not= :login-signup page)
+                  [:> (bs 'NavItem)
+                    (merge {:href "#/login-signup"} highlight-style)
+                    (t ["Connexion"])]))])]]]
      ))
 
 (defn footer
@@ -296,6 +297,26 @@
             [:p (t ["Le Club des Expressions vous permet de travailler sur le sens et la structure des expressions mathématiques."])]
             [:p (t ["Si votre professeur n’utilise pas le Club, vous pourrez quand même obtenir des séries d’expressions à reconstituer. Pour cela, créez votre compte en cliquant sur « Connexion » en haut à droite. Vos parents pourront se créer un compte professeur, sans établissement, pour vous donner du travail."])]
             [:p (t ["Il est préférable bien sûr que votre professeur vous guide, mettez cette personne au courant !"])]]]]]))
+
+(defn page-login-signup
+  []
+  [:div
+    [:div.jumbotron
+      [:h2 (t ["Explications concernant la connexion"])]]
+    [:p {:style {:text-align "right" :font-size "150%"}}  ; TODO CSS
+      [:a {:on-click #(rf/dispatch [:login])}
+          (t ["Merci, je connais déjà, je veux juste me connecter."])]]
+    [:h1 (t ["Log In ou Sign Up ?"])]
+    [:p (t ["Lors de votre toute première connexion, cliquer sur l’onglet Sign Up (plutôt à droite). Pour toutes les autres connexions, rester sur l’onglet Log In."])]
+    [:p (t ["Vous trouverez d’autres informations importantes plus bas dans cette page. Lisez-les attentivement."])]
+    [:a {:on-click #(rf/dispatch [:login])} (t ["Je veux passer à l’écran de connexion."])]
+    [:div {:style {:text-align "center" :margin "2em"}}  ; TODO CSS
+      [:img {:src "img/login-signup.png" :alt "screenshots"}]]
+    [:h1 (t ["Précautions"])]
+    [:p (t ["Si vous n’utilisez pas la méthode email/mot de passe, pensez à vous déconnecter après votre travail si vous n’utilisez pas votre ordinateur."])]
+    [:h1 (t ["Connexion"])]
+    [:a {:on-click #(rf/dispatch [:login])} (t ["J’ai tout compris, je veux passer à l’écran de connexion."])]
+  ])
 
 (defn page-help-guest
   []
@@ -1209,10 +1230,11 @@
         [:div.container
           [nav-bar]
           (if (or authenticated
-                  (some #{current-page} [:landing :help]))
+                  (some #{current-page} [:landing :login-signup :help]))
             (if (= "teacher" quality)
               (case current-page
                 :landing [page-landing]
+                :login-signup [page-login-signup]
                 :help [page-help]
                 :profile [page-profile]
                 :groups [page-groups]
@@ -1220,6 +1242,7 @@
                 :work [page-work-teacher])
               (case current-page
                 :landing [page-landing]
+                :login-signup [page-login-signup]
                 :help [page-help]
                 :profile [page-profile]
                 :work [page-work-scholar]

@@ -652,16 +652,16 @@
        :value @(rf/subscribe [:series-filtering-nature])
        :onChange #(rf/dispatch [:series-filtering-nature %])
        }]
-    [:div filtering-title-style "Profondeur"]
-    [:> Slider
-      (merge slider-defaults
-             {:value @(rf/subscribe [:series-filtering-depth])
-              :onChange #(rf/dispatch [:series-filtering-depth %])})]
     [:div filtering-title-style "Nb d’opérations"]
     [:> Slider
       (merge slider-defaults
              {:value @(rf/subscribe [:series-filtering-nb-ops])
               :onChange #(rf/dispatch [:series-filtering-nb-ops %])})]
+    [:div filtering-title-style "Profondeur de l’arbre de calcul"]
+    [:> Slider
+      (merge slider-defaults
+             {:value @(rf/subscribe [:series-filtering-depth])
+              :onChange #(rf/dispatch [:series-filtering-depth %])})]
     [:div filtering-title-style "Opérations à ne pas faire apparaître"]
     [:> CheckboxGroup
       {:value @(rf/subscribe [:series-filtering-prevented-ops])

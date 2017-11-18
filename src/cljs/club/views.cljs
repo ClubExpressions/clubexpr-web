@@ -273,7 +273,7 @@
         [:a {:href "https://github.com/ClubExpressions/clubexpr-web/"}
             "ClubExpressions/clubexpr"]]
       [:li "via Twitter : "
-        [:a {:href "https://twitter"} "@ClubExpr"]]]
+        [:a {:href "https://twitter.com/clubexpr"} "@ClubExpr"]]]
    ])
 
 (defn empty-profile

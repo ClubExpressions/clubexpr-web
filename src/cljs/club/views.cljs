@@ -139,20 +139,22 @@
             (if (and authenticated (= quality "scholar"))
               [:> (bs 'NavItem) {:href "#/work"
                                  :class (active page :work)} (t ["Travail"])])]
-          [:> (bs 'Nav) {:pullRight true}
-            (if authenticated
-              [:> (bs 'NavItem) {:href "#/profile"
-                                 :class (active page :profile)} (t ["Profil"])])
-            (if authenticated
-              [:> (bs 'NavItem)
-                  {:on-click #(rf/dispatch [:logout])}
-                   (t ["Déconnexion"])]
-              [:> (bs 'NavItem)
-                  {:on-click #(rf/dispatch [:login])
-                   :style {:background-color "#0e3"
-                           :border-radius "6px"}}
-                  (t ["Connexion"])])
-          ]]]]
+          (let [highlight-style {:style {:background-color "#0e3"
+                                         :border-radius "6px"}}]
+            [:> (bs 'Nav) {:pullRight true}
+              (if authenticated
+                [:> (bs 'NavItem)
+                  (merge {:href "#/profile" :class (active page :profile)}
+                         (if (empty? @(rf/subscribe [:profile-lastname]))
+                              highlight-style))
+                  (t ["Profil"])])
+              (if authenticated
+                [:> (bs 'NavItem)
+                    {:on-click #(rf/dispatch [:logout])}
+                     (t ["Déconnexion"])]
+                [:> (bs 'NavItem)
+                    (merge {:on-click #(rf/dispatch [:login])} highlight-style)
+                    (t ["Connexion"])])])]]]
      ))
 
 (defn footer

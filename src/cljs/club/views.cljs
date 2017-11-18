@@ -168,7 +168,18 @@
       [:> (bs 'Row)
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Statut"])]
-          [:p "Le Club des Expressions est en constante évolution. N’hésitez pas à signaler des bugs ou nous faire part de suggestions."]
+          [:p
+            (t ["Le Club des Expressions est en constante évolution."])
+            " "
+            (t ["N’hésitez pas à signaler des bugs ou nous faire part de suggestions"])
+            " "
+            [:a {:href "https://github.com/ClubExpressions/clubexpr-web/issues/new"}
+              (t ["sur Github"])]
+            " "
+            (t ["ou"])
+            " "
+            [:a {:href "mailto:profgraorg.org@gmail.com"} "par email"]
+            "."]
           (let [base "https://github.com/ClubExpressions/clubexpr-web/commit/"
                 commit club.version/gitref]
             [:p "Version : " [:a {:href (str base commit)} commit]])]

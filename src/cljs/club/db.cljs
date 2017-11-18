@@ -451,8 +451,8 @@
                             series-clj (data-from-js-obj series-list)
                             works (->> works-list
                                        data-from-js-obj
-                                       (filter #(= teacher-id
-                                                   (:teacher-id %)))
+                                       ;(filter #(= teacher-id
+                                       ;            (:teacher-id %)))
                                        (map #(dissoc % :last_modified
                                                        :teacher-id))
                                        (map (label-feeder series-clj))

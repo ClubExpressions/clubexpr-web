@@ -847,10 +847,8 @@
 
 (defn swp-prettifier
   [scholar-data]
-  (let [{:keys [id lastname firstname progress]} scholar-data]
+  (let [{:keys [lastname firstname progress]} scholar-data]
     [:span
-     id
-      " "
       lastname
       " "
       firstname
@@ -874,7 +872,7 @@
   [scholars progress]
   ; swp for "scholars with progress"
   (let [
-        swp (map #(merge (second %) {:id (first %) :progress ((first %) progress)}) scholars)
+        swp (map #(merge (second %) {:progress ((first %) progress)}) scholars)
         swp-sorted (sort scholar-progress-comparator swp)
         swp-pretty (map swp-prettifier swp-sorted)]
     [:ul (doall (map #(identity [:li %]) swp-pretty))]))

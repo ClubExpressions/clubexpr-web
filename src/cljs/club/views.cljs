@@ -63,14 +63,22 @@
     [:> (bs 'FormControl 'Feedback)]
     [:> (bs 'HelpBlock) help]])
 
+(defn list-pretty
+  [l]
+  (-> (map #(identity [:span [:code %1] %2]) (butlast l) (repeat ", "))
+      (concat (t ["et"]))
+      (concat " ")
+      (concat (list [:code (last l)]))
+      (concat ".")))
+
 (defn ops-pretty
   [ops]
-  [:span (t ["Commandes disponibles :"])
-    (-> (map #(identity [:span [:code %1] %2]) (butlast ops) (repeat ", "))
-        (concat (t ["et"]))
-        (concat " ")
-        (concat (list [:code (last ops)]))
-        (concat "."))])
+  [:span
+    (t ["Commandes disponibles : "])
+    (list-pretty ops)
+    [:br]
+    (t ["Touches disponibles : "])
+    (list-pretty ["+" "-" "*" "/" "²" "^"])])
 
 (defn src-input
   [{:keys [label subs-path evt-handler help]}]

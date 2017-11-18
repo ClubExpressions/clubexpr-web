@@ -11,7 +11,7 @@
             [goog.history EventType]))
 
 (defn dev-setup []
-  (when (or true config/debug?)
+  (when config/debug?
     (enable-console-print!)
     (println "dev mode")))
 

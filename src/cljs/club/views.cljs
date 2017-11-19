@@ -1214,7 +1214,13 @@
         [:p (t ["Séries d’expressions données par votre professeur"])]]
       [:h2 (t ["Travaux à faire"])]
       (if (empty? future-works)
-        [:p (t ["Pas de travail à faire pour le moment."])]
+        [:div
+          [:p (t ["Pas de travail à faire pour le moment."])]
+          [:p (t ["Si vous venez de vous inscrire, c’est normal. Il faut"])]
+          [:ol
+            [:li (t ["que votre profil soit correctement rempli (nom et professeur référent) ;"])]
+            [:li (t ["attendre que votre professeur vous donne du travail."])]
+          ]]
         [:ul (doall (map work-todo future-works))])
       [:p (t ["Vous pouvez vous entraîner avec "])
           [:a {:on-click #(rf/dispatch [:scholar-work {:id "training"}])}

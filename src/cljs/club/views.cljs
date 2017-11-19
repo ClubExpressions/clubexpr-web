@@ -83,7 +83,7 @@
     (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) "."])
 
 (defn src-input
-  [{:keys [label subs-path evt-handler help]}]
+  [{:keys [label subs-path evt-handler]}]
   [:form {:role "form"}
     [:> (bs 'FormGroup) {:controlId "formBasicText"
                          :validationState nil}
@@ -108,7 +108,16 @@
                                   :extraKeys extraKeys}
                         :onBeforeChange #(rf/dispatch [evt-handler %3])}])
       [:> (bs 'FormControl 'Feedback)]
-      [:> (bs 'HelpBlock) help]]])
+      (let [showing @(rf/subscribe [:show-help])]
+        [:div
+          [:> (bs 'Collapse) {:in showing}
+            [:div [:> (bs 'Well) (ops-pretty available-ops)]]]
+          [:p.text-right {:style {:font-size "80%"}}
+            [:a {:on-click #(rf/dispatch [:show-help])}
+              (if showing
+                (t ["Cacher l’aide"])
+                (t ["Afficher de l’aide"]))]]])
+    ]])
 
 (defn nav-bar
   []
@@ -223,7 +232,6 @@
         game-idx @(rf/subscribe [:game-idx])
         game-src @(rf/subscribe [:game-src])
         attempt  @(rf/subscribe [:attempt-code])
-        help (ops-pretty available-ops)
         task-style {:style {:font-size "120%"}}  ; TODO CSS
         expr-style {:style {:font-size "120%"}}]  ; TODO CSS
     [:div
@@ -246,8 +254,7 @@
                   [:> (bs 'Col) {:xs 11 :md 11}
                     [src-input {:label label
                                 :subs-path :attempt-code
-                                :evt-handler :user-code-club-src-change
-                                :help help}]]]
+                                :evt-handler :user-code-club-src-change}]]]
                 ; attempted expr:
                 [:> (bs 'Row)
                   [:> (bs 'Col) {:xs 5 :md 5}
@@ -1167,8 +1174,7 @@
               [src-input {
                 :label (t ["Pour cela tapez du Code Club ci-dessous :"])
                 :subs-path :scholar-work-user-attempt
-                :evt-handler :scholar-work-attempt-change
-                :help (ops-pretty available-ops)}]
+                :evt-handler :scholar-work-attempt-change}]
               ; current mode
               (if interactive
                 [:div

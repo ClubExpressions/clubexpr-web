@@ -11,6 +11,7 @@
 
 (s/def ::current-page keyword?)
 (s/def ::attempt-code string?)
+(s/def ::show-help boolean?)
 (s/def ::game-idx number?)
 
 (s/def ::profile-page
@@ -107,6 +108,7 @@
                               ::authenticated
                               ::auth-data
                               ::attempt-code
+                              ::show-help
                               ::game-idx
                               ::profile-page
                               ::groups-page
@@ -167,6 +169,7 @@
 
 (def default-db
    (merge logout-db-fragment {:attempt-code "(Somme 1 2)"
+                              :show-help false
                               :game-idx 0}))
 
 (def k-client

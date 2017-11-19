@@ -40,6 +40,11 @@
    (:attempt-code db)))
 
 (rf/reg-sub
+ :show-help
+ (fn [db]
+   (:show-help db)))
+
+(rf/reg-sub
  :game-idx
  (fn [db]
    (:game-idx db)))

@@ -594,11 +594,17 @@
 (defn groups-list-of-lists
   [groups-map groups]
   (let [; {"id1" {:k v} "id2" {:k v}} -> ({:k v} {:k v})
-        lifted-groups-map (map second groups-map)
-        scholars-in-groups
-         (map (fn [group]
-                [group (filter #(some #{group} (:groups %))
-                                         lifted-groups-map)]) groups)]
+        lifted-groups-map
+          (map second groups-map)
+        mapper-group
+          (fn [group]
+            [group (filter #(some #{group} (:groups %)) lifted-groups-map)])
+        scholars-w-groups
+          (map mapper-group groups)
+        scholars-w-no-groups
+          [(t ["pas de groupe"])
+           (filter #(= 0 (count (:groups %))) lifted-groups-map)]
+        scholars-in-groups (concat [scholars-w-no-groups] scholars-w-groups)]
     (map format-group scholars-in-groups)))
 
 (defn page-groups

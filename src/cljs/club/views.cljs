@@ -1224,7 +1224,7 @@
         [:ul (doall (map work-todo future-works))])
       [:p (t ["Vous pouvez vous entraîner avec "])
           [:a {:on-click #(rf/dispatch [:scholar-work {:id "training"}])}
-              (t ["ce travail"])
+              (t ["cette série d’entraînement"])
           "."]]
       [:h2 (t ["Travaux passés"])]
       (if (empty? past-works)

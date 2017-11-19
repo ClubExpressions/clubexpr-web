@@ -232,6 +232,10 @@
         game-idx @(rf/subscribe [:game-idx])
         game-src @(rf/subscribe [:game-src])
         attempt  @(rf/subscribe [:attempt-code])
+        user-zone-style  {:style {:background-color "#fff"
+                                  :padding "1em 0 0 1em"
+                                  :border "solid 1px #bbb"
+                                  :border-radius "10px"}}  ; TODO CSS
         task-style {:style {:font-size "120%"}}  ; TODO CSS
         expr-style {:style {:font-size "120%"}}]  ; TODO CSS
     [:div
@@ -249,33 +253,34 @@
                     [:p task-style (t ["Essayez de reconstituer :"])]]
                   [:> (bs 'Col) {:xs 6 :md 6}
                     [:div expr-style [infix-rendition game-src]]]]
-                ; Code Club input
-                [:> (bs 'Row)
-                  [:> (bs 'Col) {:xs 11 :md 11}
-                    [src-input {:label label
-                                :subs-path :attempt-code
-                                :evt-handler :user-code-club-src-change}]]]
-                ; attempted expr:
-                [:> (bs 'Row)
-                  [:> (bs 'Col) {:xs 5 :md 5}
-                    [:p task-style (t ["Votre tentative :"])]]
-                  [:> (bs 'Col) {:xs 6 :md 6}
-                    [:div expr-style [infix-rendition attempt]]
-                    (let [target-nature (natureFromLisp game-src)
-                          attempt-nature (natureFromLisp attempt)]
-                      (if (and (not (empty? attempt-nature))
-                               (not= target-nature attempt-nature))
-                        [:div {:style {:color "#f00"
-                                       :font-size "120%"
-                                       :text-align "center"}}  ; TODO CSS
-                          (t ["La nature ne correspond pas."])]))
-                    (try (if (= (renderLispAsLaTeX game-src)
-                                (renderLispAsLaTeX attempt))
-                           [:div {:style {:color "#0f0"
-                                          :font-size "200%"
-                                          :text-align "center"}}  ; TODO CSS
-                             (t ["Bravo !"])])
-                         (catch js/Object e))]]
+                [:div user-zone-style
+                  ; Code Club input
+                  [:> (bs 'Row)
+                    [:> (bs 'Col) {:xs 11 :md 11}
+                      [src-input {:label label
+                                  :subs-path :attempt-code
+                                  :evt-handler :user-code-club-src-change}]]]
+                  ; attempted expr:
+                  [:> (bs 'Row)
+                    [:> (bs 'Col) {:xs 5 :md 5}
+                      [:p task-style (t ["Votre tentative :"])]]
+                    [:> (bs 'Col) {:xs 6 :md 6}
+                      [:div expr-style [infix-rendition attempt]]
+                      (let [target-nature (natureFromLisp game-src)
+                            attempt-nature (natureFromLisp attempt)]
+                        (if (and (not (empty? attempt-nature))
+                                 (not= target-nature attempt-nature))
+                          [:div {:style {:color "#f00"
+                                         :font-size "120%"
+                                         :text-align "center"}}  ; TODO CSS
+                            (t ["La nature ne correspond pas."])]))
+                      (try (if (= (renderLispAsLaTeX game-src)
+                                  (renderLispAsLaTeX attempt))
+                             [:div {:style {:color "#0f0"
+                                            :font-size "200%"
+                                            :text-align "center"}}  ; TODO CSS
+                               (t ["Bravo !"])])
+                           (catch js/Object e))]]]
                 [:> (bs 'Row)
                   [:> (bs 'Col) {:xs 12 :md 12
                                  :style {:padding-top "2em"}}

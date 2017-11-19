@@ -551,6 +551,9 @@
           :noResultsText "Un nom pour votre 1er groupe (ex: 2nde1)"
           :promptTextCreator #(str (t ["Créer le groupe"]) " « " % " »")
           :placeholder (t ["Assigner à un groupe existant ou taper un nouveau nom de groupe…"])
+          :style (if (= 0 (count value))
+                   {:background-color "#fee"}  ; TODO CSS
+                   {})
           :value value}]]))
 
 (defn scholar-li-group-input

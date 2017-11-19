@@ -569,11 +569,10 @@
 
 (defn fetch-scholar-work!
   [work-id]
-  (.. club.db/k-attempts
-      (listRecords)
+  (.. club.db/k-progress
+      (getRecord work-id)
       (then #(-> %
                  data-from-js-obj
-                 ((attempts->progress work-id))
                  (with-progress-and-work-id work-id)))
       (catch #(if (= error-404 (str %))  ; no such id in the progress coll?
                   (with-progress-and-work-id {} work-id)

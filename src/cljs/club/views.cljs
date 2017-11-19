@@ -1058,6 +1058,7 @@
       [:div.jumbotron
         [:h2 (t ["Travaux"])]
         [:p (t ["Attribuez vos séries d’expressions à des groupes d’élèves"])]]
+      [:p "Il y a encore quelques bugs d’affichage dans cette page, par exemple après la suppression ou la modification d’un travail. Si un travail perd sa série, se retrouve « en double » ou a une date qui ne s’est pas modifiée, essayez de retourner à l’accueil puis de revenir, peut-être plusieurs fois."]
       [:> (bs 'Grid)
         [:> (bs 'Row)
           [:> (bs 'Col) {:xs 1 :md 1}

@@ -15,6 +15,10 @@
   [where]
   #(js/alert (str where ": " %)))
 
+(defn data-save-ok
+  []
+  (js/alert (t ["Données enregistrées"])))
+
 (defn data-from-js-obj
   [obj]
   (-> obj js->clj

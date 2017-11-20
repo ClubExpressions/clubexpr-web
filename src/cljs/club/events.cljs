@@ -24,6 +24,7 @@
     [club.expr :refer [expr-error correct natureFromLisp]]
     [club.utils :refer [t
                         error
+                        data-save-ok
                         get-prop
                         data-from-js-obj
                         epoch
@@ -127,6 +128,7 @@
   [check-spec-interceptor]
   (fn [db [_ _]]
     ; TODO: set a flag in the state to display «new profile saved»
+    (data-save-ok)
     db
     ))
 
@@ -155,6 +157,7 @@
   [check-spec-interceptor]
   (fn [db [_ _]]
     ; TODO: set a flag in the state to display «new groups saved»
+    (data-save-ok)
     db
     ))
 

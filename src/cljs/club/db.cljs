@@ -5,7 +5,7 @@
             [goog.object :refer [getValueByKeys]]
             [re-frame.core :as rf]
             [re-frame.db :refer [app-db]]
-            [club.utils :refer [error data-from-js-obj]]
+            [club.utils :refer [error error-fn data-from-js-obj]]
             [club.expr :refer [all-exprs]]
             [club.config :as config]))
 
@@ -257,7 +257,7 @@
                (merge {:access-token (-> @app-db :auth-data :access-token)
                        :expires-at (-> @app-db :auth-data :expires-at)}
                       (data-from-js-obj %))))
-      (catch (error "db/fetch-profile-data!"))))
+      (catch (error-fn "db/fetch-profile-data!"))))
 
 (defn save-profile-data!
   []
@@ -271,14 +271,14 @@
                        :lastname  (-> @app-db :profile-page :lastname)
                        :firstname (-> @app-db :profile-page :firstname)}))
       (then #(rf/dispatch [:profile-save-ok]))
-      (catch (error "db/save-profile-data!"))))
+      (catch (error-fn "db/save-profile-data!"))))
 
 (defn get-users!
   [{:keys [on-success] :or {on-success identity}}]
   (.. club.db/k-users
       (listRecords)
       (then on-success)
-      (catch (error "db/get-users!"))))
+      (catch (error-fn "db/get-users!"))))
 
 (defn groups-page-data-enhancer
   [scholar]
@@ -334,7 +334,7 @@
                   groups-data->groups-page-data)]))
       (catch #(if (= error-404 (str %))  ; no such id in the groups coll?
                 nil  ; could be that the teacher has no groups data yet.
-                (error "db/fetch-groups-data!")))))
+                (error "db/fetch-groups-data!" %)))))
 
 (defn groups-page-data-trimmer
   [scholar]
@@ -355,7 +355,7 @@
     (.. club.db/k-groups
         (updateRecord (clj->js record))
         (then #(rf/dispatch [:groups-save-ok]))
-        (catch (error "db/save-groups-data!")))))
+        (catch (error-fn "db/save-groups-data!")))))
 
 (defn fix-ranks
   [exprs]
@@ -385,7 +385,7 @@
                      vec)]))
         (catch #(if (= error-404 (str %))  ; no such id in the series coll?
                   (swap! app-db assoc-in [:series-page] {})
-                  (error "db/fetch-series-data!"))))))
+                  (error "db/fetch-series-data!" %))))))
 
 (defn series-trimmer
   [series]
@@ -403,7 +403,7 @@
     (.. k-series
         (createRecord (clj->js record))
         (then #(rf/dispatch [:series-save-ok %]))
-        (catch (error "db/save-series-data!")))))
+        (catch (error-fn "db/save-series-data!")))))
 
 (defn delete-series!
   []
@@ -411,7 +411,7 @@
     (.. club.db/k-series
         (deleteRecord current-series-id)
         (then #(rf/dispatch [:series-delete-ok %]))
-        (catch (error "db/delete-series!")))))
+        (catch (error-fn "db/delete-series!")))))
 
 (defn label-feeder
   [series-clj]
@@ -462,11 +462,11 @@
                                        (map (scholars-feeder groups-record))
                                        vec)]
                         (rf/dispatch [:write-works-teacher works]))))
-                  (catch (error "db/fetch-works-teacher! works step")))))
-            (catch (error "db/fetch-works-teacher! series step")))))
+                  (catch (error-fn "db/fetch-works-teacher! works step")))))
+            (catch (error-fn "db/fetch-works-teacher! series step")))))
       (catch #(if (= error-404 (str %))  ; no such id in the groups coll?
                   (rf/dispatch [:write-works-teacher []])
-                  (error "db/fetch-works-teacher! groups step"))))))
+                  (error "db/fetch-works-teacher! groups step" %))))))
 
 (defn fetch-progress!
   [work]
@@ -481,7 +481,7 @@
               (rf/dispatch [:progress-write work-id progress-clj]))))
         (catch #(if (= error-404 (str %))  ; no such id in the works coll?
                     (rf/dispatch [:progress-write work-id {}])
-                    (error "db/fetch-progress!"))))))
+                    (error "db/fetch-progress!" %))))))
 
 (defn save-work!
   [{:keys [teacher-id work-state]}]
@@ -497,14 +497,14 @@
     (.. club.db/k-works
         (createRecord (clj->js record))
         (then #(rf/dispatch [:work-save-ok (data-from-js-obj %)]))
-        (catch (error "event :work-save")))))
+        (catch (error-fn "event :work-save")))))
 
 (defn delete-work!
   [work-id]
   (.. club.db/k-works
       (deleteRecord work-id)
       (then #(rf/dispatch [:work-delete-ok %]))
-      (catch (error "db/delete-work!"))))
+      (catch (error-fn "db/delete-work!"))))
 
 (defn for-the-groups
   [groups]
@@ -540,11 +540,11 @@
                                                (map #(dissoc % :last_modified :teacher-id))
                                                vec)]
                                 (rf/dispatch [:write-works-scholar works]))))
-                          (catch (error "db/fetch-works-scholar! works step")))))
-                  (catch (error "db/fetch-works-scholar! series step"))))))
+                          (catch (error-fn "db/fetch-works-scholar! works step")))))
+                  (catch (error-fn "db/fetch-works-scholar! series step"))))))
         (catch #(if (= error-404 (str %))  ; no such id in the groups coll?
                     (rf/dispatch [:write-works-scholar []])
-                    (error "db/fetch-works-scholar! groups step"))))))
+                    (error "db/fetch-works-scholar! groups step" %))))))
 
 (defn with-progress-and-work-id
   [progress work-id]
@@ -567,8 +567,8 @@
                                      data-from-js-obj
                                      :series)]
                       (rf/dispatch [:write-scholar-work series progress]))))
-                (catch (error "db/fetch-scholar-works! works step")))))
-        (catch (error "db/fetch-scholar-works! series step")))))
+                (catch (error-fn "db/fetch-scholar-works! works step")))))
+        (catch (error-fn "db/fetch-scholar-works! series step")))))
 
 (defn fetch-scholar-work!
   [work-id]
@@ -579,13 +579,13 @@
                  (with-progress-and-work-id work-id)))
       (catch #(if (= error-404 (str %))  ; no such id in the progress coll?
                   (with-progress-and-work-id {} work-id)
-                  (error "db/fetch-scholar-works! progress step")))))
+                  (error "db/fetch-scholar-works! progress step" %)))))
 
 (defn save-attempt!
   [attempt]
   (.. club.db/k-attempts
       (createRecord (clj->js attempt))
-      (catch (error "db/save-attempt!"))))
+      (catch (error-fn "db/save-attempt!"))))
 
 (defn save-progress!
   [progress]
@@ -597,8 +597,8 @@
       (catch #(if (= error-404 (str %))  ; no such id in the progress coll?
                   (.. club.db/k-progress          ; errors if id not found
                       (createRecord (clj->js progress))  ; so we create it
-                      (catch (error "db/save-progress! create"))
-                  (error "db/save-progress! update no 404"))))))
+                      (catch (error-fn "db/save-progress! create"))
+                  (error "db/save-progress! update no 404" %))))))
 
 (defn get-schools!
   []

@@ -24,6 +24,7 @@
     [club.expr :refer [expr-error correct natureFromLisp]]
     [club.utils :refer [t
                         error
+                        error-fn
                         data-save-ok
                         get-prop
                         data-from-js-obj
@@ -245,7 +246,7 @@
       (.. club.db/k-users
           (createRecord (clj->js (base-user-record new-auth0-id)))
           (then #(set-auth-data! (merge new-user-data (data-from-js-obj %))))
-          (catch (error "events/process-user-check!")))
+          (catch (error-fn "events/process-user-check!")))
       (set-auth-data! (merge new-user-data user-with-same-auth0-id)))))
 
 (defn id_token->json-payload
@@ -263,10 +264,10 @@
           expires-at (str (+ (* expires-in-num 1000) (.getTime (new js/Date))))
           json-payload (try (id_token->json-payload id_token)
                           (catch js/Object e
-                            (error error-msg)))
+                            (error ":auth json-payload" error-msg)))
           js-payload (try (.parse js/JSON json-payload)
                           (catch js/Object e
-                            (error error-msg)
+                            (error ":auth js-payload" error-msg)
                             ; (log! {:e e
                             ;        :id_token id_token
                             ;        :json-payload json-payload}
@@ -279,7 +280,7 @@
         (.. club.db/k-users
             (listRecords)
             (then #(process-user-check! % new-user-data))
-            (catch (error "events/:auth"))))
+            (catch (error-fn "events/:auth"))))
     )))
 
 (rf/reg-event-db

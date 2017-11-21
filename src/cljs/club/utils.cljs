@@ -12,8 +12,12 @@
 (defn t [[txt]] txt)
 
 (defn error
+  [where msg]
+  (js/alert (str where ": " msg)))
+
+(defn error-fn
   [where]
-  (js/alert (str where ": " %)))
+  #(js/alert (str where ": " %)))
 
 (defn data-save-ok
   []

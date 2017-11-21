@@ -13,7 +13,7 @@
 
 (defn error
   [where]
-  #(js/alert (str where ": " %)))
+  (js/alert (str where ": " %)))
 
 (defn data-save-ok
   []

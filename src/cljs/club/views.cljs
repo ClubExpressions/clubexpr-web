@@ -614,7 +614,7 @@
         scholars-w-groups
           (map mapper-group groups)
         scholars-w-no-groups
-          [(t ["pas de groupe"])
+          [(t ["Sans groupe"])
            (filter #(= 0 (count (:groups %))) lifted-groups-map)]
         scholars-in-groups (concat [scholars-w-no-groups] scholars-w-groups)]
     (map format-group scholars-in-groups)))

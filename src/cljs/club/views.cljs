@@ -1171,11 +1171,7 @@
   (let [working @(rf/subscribe [:scholar-working])
         work @(rf/subscribe [:scholar-work work-id])
         exprs (-> work :series :exprs)
-        current-expr-idx (:current-expr-idx work)
-        current-expr (:current-expr work)
-        interactive (:interactive work)
-        attempt (:attempt work)
-        error (:error work)
+        {:keys [current-expr-idx current-expr interactive attempt error]} work
         error-style {:style {:color "#f00"}}]  ; TODO CSS
     [:> (bs 'Modal) {:show working
                      :onHide #(rf/dispatch [:close-scholar-work])}

@@ -153,7 +153,7 @@
    :teacher-testing false
    :teacher-testing-idx 0
    :teacher-attempt ""
-   :teacher-attempt-error ""
+   :teacher-attempt-error "Expression vide"
    :editing-series false
    :series-filtering
      {:expressions []

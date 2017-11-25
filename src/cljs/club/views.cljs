@@ -564,7 +564,7 @@
 
 (defn id-shower
   [id]
-  [:span {:on-click #(js/alert id) :title (name id)} "Θ"])
+  [:span {:on-click #(js/alert id) :title (name id)} "☺"])
 
 (defn groups-select
   [scholar-id]

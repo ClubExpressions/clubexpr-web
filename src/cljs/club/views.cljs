@@ -188,7 +188,7 @@
             " "
             (t ["ou"])
             " "
-            [:a {:href "mailto:profgraorg.org@gmail.com"} "par email"]
+            [:a {:href "mailto:profgraorg.org@gmail.com"} (t ["par email"])]
             "."]
           (let [base "https://github.com/ClubExpressions/clubexpr-web/commit/"
                 commit club.version/gitref]

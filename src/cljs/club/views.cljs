@@ -562,6 +562,10 @@
       ]
     ]))
 
+(defn id-shower
+  [id]
+  [:span {:on-click #(js/alert id) :title (name id)} "Θ"])
+
 (defn groups-select
   [scholar-id]
   (let [value @(rf/subscribe [:groups-value scholar-id])]
@@ -583,6 +587,8 @@
   [{:keys [id lastname firstname]} scholar]
   ^{:key id}
   [:li
+    (id-shower (name id))
+    " "
     [:span.text-capitalize lastname]
     " "
     [:span.text-capitalize firstname]
@@ -888,6 +894,8 @@
   [scholar-data]
   (let [{:keys [id lastname firstname progress]} scholar-data]
     [:span
+      (id-shower (name id))
+      " "
       [:span.text-capitalize lastname]
       " "
       [:span.text-capitalize firstname]

@@ -548,6 +548,17 @@
            :on-click #(rf/dispatch [:profile-save])
            :bsStyle "success"}
           (t ["Enregistrer les modifications"])]
+        [:div
+          [:h3 (t ["Mentions légales"])]
+          [:p
+            (t ["Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par « Le Club des Expressions ». Leur but est l’organisation du travail avec les élèves et le suivi de l’avancement de ce travail."])
+            " "
+            (t ["Elles sont conservées pendant 7 ans, ou jusqu’à l’obtention du baccalauréat par l’élève et sont destinées aux professeurs référents (le traitement des statistiques générales étant anonymisé)."])
+            " "
+            (t ["Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en nous contactant "])
+            [:a {:href "mailto:profgraorg.org@gmail.com"} (t ["par email"])]
+            "."]
+        ]
       ]
     ]))
 

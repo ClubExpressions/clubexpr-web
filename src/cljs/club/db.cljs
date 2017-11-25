@@ -59,6 +59,10 @@
   (s/and map?
          (s/or :empty empty?
                :series ::series)))
+(s/def ::teacher-testing boolean?)
+(s/def ::teacher-testing-idx number?)
+(s/def ::teacher-attempt string?)
+(s/def ::teacher-attempt-error string?)
 (s/def ::editing-series boolean?)
 (s/def ::series-page
   (s/and #(instance? PersistentVector %)
@@ -117,6 +121,10 @@
                               ::works-scholar-page
                               ::current-series-id
                               ::current-series
+                              ::teacher-testing
+                              ::teacher-testing-idx
+                              ::teacher-attempt
+                              ::teacher-attempt-error
                               ::editing-series
                               ::series-filtering
                               ::scholar-working
@@ -142,6 +150,10 @@
    :works-scholar-page []
    :current-series-id ""
    :current-series new-series
+   :teacher-testing false
+   :teacher-testing-idx 0
+   :teacher-attempt ""
+   :teacher-attempt-error ""
    :editing-series false
    :series-filtering
      {:expressions []

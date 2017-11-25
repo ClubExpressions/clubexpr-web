@@ -504,6 +504,48 @@
           (assoc-in [:current-series-id] "")
           (assoc-in [:current-series] new-series)))))
 
+(rf/reg-event-db
+  :series-test
+  [check-spec-interceptor]
+  (fn [db _]
+    (-> db
+        (assoc-in [:teacher-testing] true)
+        (assoc-in [:teacher-testing-idx] 0)
+        (assoc-in [:teacher-attempt] ""))))
+
+(rf/reg-event-db
+  :teacher-test-nav
+  [check-spec-interceptor]
+  (fn [db [_ increment]]
+    (let [series-length (count (-> db :current-series :exprs))
+          new-idx (+ increment (:teacher-testing-idx db))
+          new-idx-secure (-> new-idx
+                             (max 0)
+                             (min (- series-length 1)))]
+      (-> db (assoc-in [:teacher-testing-idx] new-idx-secure)))))
+
+(rf/reg-event-db
+  :teacher-attempt-change
+  [check-spec-interceptor]
+  (fn [db [_ new-value]]
+    (-> db
+        (assoc-in [:teacher-attempt] new-value)
+        (assoc-in [:teacher-attempt-error] (expr-error new-value)))))
+
+(rf/reg-event-fx
+  :teacher-test-attempt
+  [check-spec-interceptor]
+  (fn [{:keys [db]} _]
+    {:msg (t ["Bravo !"])}))
+
+(rf/reg-event-db
+  :close-teacher-test
+  [check-spec-interceptor]
+  (fn [db _]
+    (-> db
+        (assoc-in [:teacher-testing] false)
+        (assoc-in [:teacher-attempt] ""))))
+
 (rf/reg-event-fx
   :work-save
   [check-spec-interceptor]

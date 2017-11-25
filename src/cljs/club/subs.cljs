@@ -135,6 +135,26 @@
    (-> db :series-filtering :prevented-ops)))
 
 (rf/reg-sub
+ :teacher-testing
+ (fn [db]
+   (-> db :teacher-testing)))
+
+(rf/reg-sub
+ :teacher-testing-idx
+ (fn [db]
+   (-> db :teacher-testing-idx)))
+
+(rf/reg-sub
+ :teacher-attempt
+ (fn [db]
+   (-> db :teacher-attempt)))
+
+(rf/reg-sub
+ :teacher-attempt-error
+ (fn [db]
+   (-> db :teacher-attempt-error)))
+
+(rf/reg-sub
  :scholar-working
  (fn [db]
    (-> db :scholar-working)))
@@ -222,6 +242,16 @@
       (make-reaction
         (fn [] (:series-page @app-db))
         :on-dispose #(do)))))
+(rf/reg-sub
+  :teacher-testing-expr
+  (fn [query-v _]
+    [(rf/subscribe [:teacher-testing-idx])
+     (rf/subscribe [:current-series])])
+  (fn [[teacher-testing-idx current-series] query-v _]
+    (-> current-series
+        :exprs
+        (get teacher-testing-idx)
+        :content)))
 
 (rf/reg-sub
   :series-for-select

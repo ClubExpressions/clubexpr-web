@@ -792,6 +792,13 @@
   []
   (let [series-data @(rf/subscribe [:series-page])
         series-id  @(rf/subscribe [:current-series-id])
+        teacher-testing  @(rf/subscribe [:teacher-testing])
+        current-expr-idx  @(rf/subscribe [:teacher-testing-idx])
+        current-expr @(rf/subscribe [:teacher-testing-expr])
+        attempt  @(rf/subscribe [:teacher-attempt])
+        error  @(rf/subscribe [:teacher-attempt-error])
+        nav-style {:style {:margin-right "1em"}}  ; TODO CSS
+        error-style {:style {:color "#f00"}}  ; TODO CSS
         title @(rf/subscribe [:series-title])
         desc  @(rf/subscribe [:series-desc])
         exprs @(rf/subscribe [:series-exprs])]
@@ -802,6 +809,10 @@
           [:p (t ["Veuillez sélectionner une série sur la gauche."])]])
       [:div
         [:div.pull-right
+          [:> (bs 'Button)
+            {:style {:margin-right "1em"}  ; TODO CSS
+             :on-click #(rf/dispatch [:series-test])
+             :bsStyle "success"} (t ["Tester"])]
           [:> (bs 'Button)
             {:style {:margin-right "1em"}  ; TODO CSS
              :on-click #(rf/dispatch [:series-edit])
@@ -815,7 +826,56 @@
           [:p (t ["Description : "]) desc])
         (if (empty? exprs)
           [:p (t ["Pas d’expression dans cette série. Pour en ajouter, cliquer sur « Modifier cette série »."])]
-          [:ul.nav (map show-expr-as-li exprs)])])
+          [:ul.nav (map show-expr-as-li exprs)])
+        [:> (bs 'Modal) {:show teacher-testing
+                         :onHide #(rf/dispatch [:close-teacher-test])}
+          [:> (bs 'Modal 'Header) {:closeButton true}
+            [:> (bs 'Modal 'Title) (t ["Série"]) " " title]]
+          [:> (bs 'Modal 'Body)
+            (cond
+              (empty? exprs)
+                [:p (t ["La série est vide !"])]
+              :else
+                [:div
+                  [:p.pull-right
+                    [:a
+                      (merge nav-style
+                             {:on-click #(rf/dispatch [:teacher-test-nav -1])})
+                      "<"]
+                    [:span nav-style
+                      (+ 1 current-expr-idx) "/" (count exprs)]
+                    [:a
+                      {:on-click #(rf/dispatch [:teacher-test-nav 1])}
+                      ">"]]
+                  ; target expr
+                  [:p (t ["Essayez de reconstituer  :  "])
+                    (infix-rendition current-expr true)]
+                  ; Code Club
+                  [src-input {
+                    :label (t ["Pour cela tapez du Code Club ci-dessous :"])
+                    :subs-path :teacher-attempt
+                    :evt-handler :teacher-attempt-change}]
+                  ; current mode
+                  [:div
+                    [:p (t ["Vous êtes en mode interactif. Votre tentative : "])
+                        (infix-rendition attempt true)]]
+                  ; nature msg
+                  (if (and (empty? error)
+                           (not (= (natureFromLisp current-expr)
+                                   (natureFromLisp attempt))))
+                    [:p.text-center error-style
+                     (t ["La nature ne correspond pas !"])])
+                  ; Check button
+                  [:div.text-right
+                    [:> (bs 'Button)
+                      {:on-click #(rf/dispatch [:teacher-test-attempt])
+                       :disabled (not (empty? error))
+                       :bsStyle "primary"}
+                      (t ["Vérifier"])]]])]
+          [:> (bs 'Modal 'Footer)
+            (t ["Les élèves n’ont pas de flèches pour naviguer, ils doivent réussir une expression en mode non interactif pour passer à la suivante."])]]
+       ]
+      )
      ))
 
 (defn edit-series

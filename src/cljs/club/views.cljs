@@ -805,10 +805,10 @@
           [:> (bs 'Button)
             {:style {:margin-right "1em"}  ; TODO CSS
              :on-click #(rf/dispatch [:series-edit])
-             :bsStyle "warning"} (t ["Modifier cette série"])]
+             :bsStyle "warning"} (t ["Modifier"])]
           [:> (bs 'Button)
             {:on-click #(rf/dispatch [:series-delete])
-             :bsStyle "danger"} (t ["Supprimer cette série"])]]
+             :bsStyle "danger"} (t ["Supprimer"])]]
         [:h3 (if (empty? title) (t ["Sans titre"]) title)]
         (if (empty? desc)
           [:p (t ["Pas de description"])]

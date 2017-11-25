@@ -580,13 +580,13 @@
           :value value}]]))
 
 (defn scholar-li-group-input
-  [scholar]
-  ^{:key (:id scholar)}
+  [{:keys [id lastname firstname]} scholar]
+  ^{:key id}
   [:li
-    [:span.text-capitalize (:lastname scholar)]
+    [:span.text-capitalize lastname]
     " "
-    [:span.text-capitalize (:firstname scholar)]
-    (groups-select (:id scholar))])
+    [:span.text-capitalize firstname]
+    (groups-select id)])
 
 (defn group-link
   [group]

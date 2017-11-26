@@ -237,7 +237,7 @@
                                   :border "solid 1px #bbb"
                                   :border-radius "10px"}}  ; TODO CSS
         task-style {:style {:font-size "120%"}}  ; TODO CSS
-        expr-style {:style {:font-size "120%"}}]  ; TODO CSS
+        expr-style {:style {:font-size "170%"}}]  ; TODO CSS
     [:div
       [:div.jumbotron
         [:h2 (t ["Première visite ?"])]
@@ -848,7 +848,9 @@
                       {:on-click #(rf/dispatch [:teacher-test-nav 1])}
                       ">"]]
                   ; target expr
-                  [:p (t ["Essayez de reconstituer  :  "])
+                  [:p
+                    {:style {:font-size "2em"}}  ; TODO CSS
+                    (t ["Essayez de reconstituer  :  "])
                     (infix-rendition current-expr true)]
                   ; Code Club
                   [src-input {
@@ -1256,7 +1258,9 @@
               [:p.pull-right
                 (+ 1 current-expr-idx) "/" (count exprs)]
               ; target expr
-              [:p (t ["Essayez de reconstituer  :  "])
+              [:p
+                {:style {:font-size "2em"}}  ; TODO CSS
+                (t ["Essayez de reconstituer  :  "])
                 (infix-rendition current-expr true)]
               ; Code Club
               [src-input {

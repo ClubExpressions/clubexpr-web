@@ -1011,7 +1011,6 @@
           labels-common {:style {:text-align "center"  ; TODO CSS
                                  :margin "0.5em"}}]
       (fn [{:keys [editing id to from series-id series-title group scholars progress]}]
-        ^{:key (if (empty? id) "empty-id" id)}
         [:> (bs 'Row)
           (if (:editing @new-state)
             [:> (bs 'Col) {:xs 1 :md 1}
@@ -1145,6 +1144,14 @@
             [:> (bs 'Modal 'Footer)
               (t ["Si vous voulez voir d’autres informations sur ce travail, prenez contact."])]]]))))
 
+(defn keyed-work-input
+  ([]
+    ^{:key "empty-id"}
+    [work-input])
+  ([{:keys [id] :as work}]
+    ^{:key (if (empty? id) "empty-id-again" id)}
+    [work-input work]))
+
 (defn page-work-teacher
   []
   (let [titles-common    {:style {:font-size "170%"
@@ -1191,16 +1198,16 @@
                        :border-radius "4px"
                        :background-color "#eee"}}
           ; this first `work-input` to allow the creation of works:
-          [work-input]]
+          (keyed-work-input)]
         [:hr]
         (if (empty? future-works)
           [:div (t ["Pas de travaux dans le futur"])]
-          (doall (map #(identity [work-input %]) future-works))
+          (doall (map #(keyed-work-input %) future-works))
         )
         [:hr]
         (if (empty? past-works)
           [:div (t ["Pas de travaux dans le passé"])]
-          (doall (map #(identity [work-input %]) past-works))
+          (doall (map #(keyed-work-input %) past-works))
         )
       ]
     ]))

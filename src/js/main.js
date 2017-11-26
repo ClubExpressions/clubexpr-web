@@ -13,6 +13,7 @@ window.deps = {
     'react-datetime' : require('react-datetime'),
     'react-codemirror2' : require('react-codemirror2'),
     'cm-mode' : require('./codemirror/clubexpr.js'),
+    'cm-matchbrackets' : require('./codemirror/matchbrackets.js'),
     'clubexpr' : require('clubexpr')
 };
 

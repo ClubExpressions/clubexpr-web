@@ -239,7 +239,8 @@
    :firstname ""})
 
 (defn set-auth-data!
-  [{:keys [; from new-user-data
+  [reason
+   {:keys [; from new-user-data
            auth0-id access-token expires-at
            ; from the new record
            id quality school teacher lastname firstname]}]
@@ -256,16 +257,17 @@
                                           :teachers-list []
                                           :lastname lastname
                                           :firstname firstname})
-  (rf/dispatch [:go-to-relevant-url true])
+  (rf/dispatch [:go-to-relevant-url reason])
   ; TODO circular dep if require events:
   ;(check-and-throw :club.db/db @app-db))
   )
 
 (defn fetch-profile-data!
-  []
+  [reason]
   (.. club.db/k-users
       (getRecord (clj->js (-> @app-db :auth-data :kinto-id)))
       (then #(set-auth-data!
+               reason
                (merge {:access-token (-> @app-db :auth-data :access-token)
                        :expires-at (-> @app-db :auth-data :expires-at)}
                       (data-from-js-obj %))))

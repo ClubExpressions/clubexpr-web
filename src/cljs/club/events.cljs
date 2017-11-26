@@ -88,12 +88,11 @@
 
 (rf/reg-fx
   :go-to-relevant-url
-  (fn [login]
+  (fn [reason]
     (let [lastname (-> @app-db :profile-page :lastname)
-          page (if login
-                 (if (empty? lastname)
-                   "/help"
-                   "/work")
+          page (case reason
+                 :login (if (empty? lastname) "/help" "/work")
+                 :profile-cancel "/profile"
                  "")]
       (set! (-> js/window .-location .-hash) page))))
 
@@ -105,7 +104,7 @@
 (rf/reg-fx
   :profile-cancel
   (fn [_]
-    (club.db/fetch-profile-data!)
+    (club.db/fetch-profile-data! :profile-cancel)
     ; TODO useless use of set-auth-data! : these 4 already set
     ;(swap! app-db assoc-in [:authenticated] true)
     ;; from new-user-data
@@ -245,9 +244,10 @@
     (if (nil? user-with-same-auth0-id)
       (.. club.db/k-users
           (createRecord (clj->js (base-user-record new-auth0-id)))
-          (then #(set-auth-data! (merge new-user-data (data-from-js-obj %))))
+          (then #(set-auth-data! :login
+                                 (merge new-user-data (data-from-js-obj %))))
           (catch (error-fn "events/process-user-check!")))
-      (set-auth-data! (merge new-user-data user-with-same-auth0-id)))))
+      (set-auth-data! :login (merge new-user-data user-with-same-auth0-id)))))
 
 (defn id_token->json-payload
   [id_token]

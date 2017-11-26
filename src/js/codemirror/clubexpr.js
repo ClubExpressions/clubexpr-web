@@ -9,8 +9,7 @@
 "use strict";
 
 CodeMirror.defineMode("clubexpr", function (config) {
-  var specialForm = /^$/;
-  var assumeBody = /^Somme$|^Diff$|^Produit$|^Quotient$|^Opposé$|^Inverse$|^Carré$|^Puissance$|^Racine$/;
+  var command = /^Somme$|^Diff$|^Produit$|^Quotient$|^Opposé$|^Inverse$|^Carré$|^Puissance$|^Racine$/;
   var numLiteral = /^(?:[+\-]?(?:\d+|\d*\.\d+)(?:[efd][+\-]?\d+)?|[+\-]?\d+(?:\/[+\-]?\d+)?|#b[+\-]?[01]+|#o[+\-]?[0-7]+|#x[+\-]?[\da-f]+)/;
   var symbol = /[^\s'`,@()\[\]";]/;
   var type;
@@ -30,40 +29,17 @@ CodeMirror.defineMode("clubexpr", function (config) {
     var ch = stream.next();
     if (ch == "\\") ch = stream.next();
 
-    if (ch == '"') return (state.tokenize = inString)(stream, state);
-    else if (ch == "(") { type = "open"; return "bracket-" + state.parenDepth; }
+    if (ch == "(") { type = "open"; return "bracket-" + state.parenDepth; }
     else if (ch == ")" || ch == "]") { type = "close"; return "bracket-" + (state.parenDepth + 6)%7; }
-    else if (ch == ";") { stream.skipToEnd(); type = "ws"; return "comment"; }
-    else if (/['`,@]/.test(ch)) return null;
-    else if (ch == "|") {
-      if (stream.skipTo("|")) { stream.next(); return "symbol"; }
-      else { stream.skipToEnd(); return "error"; }
-    } else if (ch == "#") {
-      var ch = stream.next();
-      if (ch == "(") { type = "open"; return "bracket-" + state.parenDepth; }
-      else if (/[+\-=\.']/.test(ch)) return null;
-      else if (/\d/.test(ch) && stream.match(/^\d*#/)) return null;
-      else if (ch == ":") { readSym(stream); return "meta"; }
-      else if (ch == "\\") { stream.next(); readSym(stream); return "string-2" }
-      else return "error";
-    } else {
+    else {
       var name = readSym(stream);
-      if (name == ".") return null;
       type = "symbol";
-      if (name == "nil" || name == "t" || name.charAt(0) == ":") return "atom";
-      if (state.lastType == "open" && (specialForm.test(name) || assumeBody.test(name))) return "keyword";
-      if (name.charAt(0) == "&") return "variable-2";
+      if (state.lastType == "open") {
+        if (command.test(name)) return "keyword";
+        else return "error";
+      }
       return "variable";
     }
-  }
-
-  function inString(stream, state) {
-    var escaped = false, next;
-    while (next = stream.next()) {
-      if (next == '"' && !escaped) { state.tokenize = base; break; }
-      escaped = !escaped && next == "\\";
-    }
-    return "string";
   }
 
   return {
@@ -79,7 +55,7 @@ CodeMirror.defineMode("clubexpr", function (config) {
       var style = state.tokenize(stream, state);
       if (type != "ws") {
         if (state.ctx.indentTo == null) {
-          if (type == "symbol" && assumeBody.test(stream.current()))
+          if (type == "symbol" && command.test(stream.current()))
             state.ctx.indentTo = state.ctx.start + config.indentUnit;
           else
             state.ctx.indentTo = "next";
@@ -104,10 +80,7 @@ CodeMirror.defineMode("clubexpr", function (config) {
       return typeof i == "number" ? i : state.ctx.start + 1;
     },
 
-    closeBrackets: {pairs: "()[]{}\"\""},
-    lineComment: ";;",
-    blockCommentStart: "#|",
-    blockCommentEnd: "|#"
+    closeBrackets: {pairs: "()[]{}\"\""}
   };
 });
 

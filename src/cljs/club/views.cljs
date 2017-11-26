@@ -105,6 +105,7 @@
                        "Ctrl-R" #(.replaceSelection % "(Racine ")}]
         [:> CodeMirror {:value @(rf/subscribe [subs-path])
                         :options {:mode "clubexpr"
+                                  :matchBrackets true
                                   :extraKeys extraKeys}
                         :onBeforeChange #(rf/dispatch [evt-handler %3])}])
       [:> (bs 'FormControl 'Feedback)]

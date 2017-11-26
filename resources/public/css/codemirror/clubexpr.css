@@ -17,3 +17,8 @@
   background-color: #ffff0070;
   border: 0px;
 }
+
+.CodeMirror-matchingbracket {
+  background-color: #00ffff;
+  color: black !important;
+}

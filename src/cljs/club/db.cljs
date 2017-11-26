@@ -1,5 +1,5 @@
 (ns club.db
-  (:require [cljs.spec :as s]
+  (:require [cljs.spec.alpha :as s]
             [clojure.walk :refer [keywordize-keys]]
             [webpack.bundle]
             [goog.object :refer [getValueByKeys]]

@@ -32,7 +32,7 @@
                         parse-url
                         get-url-all!
                         get-url-root!]]
-    [cljs.spec :as s]
+    [cljs.spec.alpha :as s]
     [goog.crypt.base64 :refer [decodeString]]))
 
 

@@ -1,6 +1,6 @@
 (defproject club "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.229"]
+                 [org.clojure/clojurescript "1.9.946"]
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [reagent  "0.6.0" :exclusions [cljsjs/react
                                                 cljsjs/react-dom]]
@@ -25,7 +25,7 @@
   {:dev
    {:dependencies [[binaryage/devtools "0.8.2"]]
 
-    :plugins      [[lein-figwheel "0.5.12"]]
+    :plugins      [[lein-figwheel "0.5.14"]]
     }}
 
   :cljsbuild

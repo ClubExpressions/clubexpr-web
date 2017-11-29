@@ -10,6 +10,8 @@
 
 CodeMirror.defineMode("clubexpr", function (config) {
   var command = /^Somme$|^Diff$|^Produit$|^Quotient$|^Opposé$|^Inverse$|^Carré$|^Puissance$|^Racine$/;
+  var letter = /^[a-zA-Z]$/;
+  var greek = /^alpha$|^beta$|^gamma$|^delta$|^epsilon$|^zeta$|^eta$|^theta$|^iota$|^kappa$|^lambda$|^mu$|^nu$|^xi$|^omicron$|^pi$|^rho$|^sigmaf$|^sigma$|^tau$|^upsilon$|^phi$|^chi$|^psi$|^omega$/;
   var numLiteral = /^(?:[+\-]?(?:\d+|\d*\.\d+)(?:[efd][+\-]?\d+)?|[+\-]?\d+(?:\/[+\-]?\d+)?|#b[+\-]?[01]+|#o[+\-]?[0-7]+|#x[+\-]?[\da-f]+)/;
   var symbol = /[^\s'`,@()\[\]";]/;
   var type;
@@ -24,27 +26,40 @@ CodeMirror.defineMode("clubexpr", function (config) {
   }
 
   function base(stream, state) {
-    if (stream.eatSpace()) {type = "ws"; return null;}
-    if (stream.match(numLiteral)) return "number";
+    if (stream.eatSpace()) {
+      type = "ws";
+      return null;
+    }
+    if (stream.match(numLiteral)) {
+      return "number";
+    }
     var ch = stream.next();
-    if (ch == "\\") ch = stream.next();
-
-    if (ch == "(") { type = "open"; return "bracket-" + state.parenDepth; }
-    else if (ch == ")" || ch == "]") { type = "close"; return "bracket-" + (state.parenDepth + 6)%7; }
-    else {
+    if (ch == "\\") {
+      ch = stream.next();
+    }
+    if (ch == "(") {
+      type = "open";
+      return "bracket-" + state.parenDepth;
+    } else if (ch == ")") {
+      type = "close";
+      return "bracket-" + (state.parenDepth + 6)%7;
+    } else {
       var name = readSym(stream);
-      type = "symbol";
       if (state.lastType == "open") {
         if (command.test(name)) return "keyword";
-        else return "error";
+      } else if (letter.test(name)) {
+        return "variable";
+      } else if (greek.test(name)) {
+        return "variable-2";
       }
-      return "variable";
+      return "error";
     }
   }
 
   return {
     startState: function () {
-      return {ctx: {prev: null, start: 0, indentTo: 0}, lastType: null, tokenize: base, parenDepth: 1};
+      return {ctx: {prev: null, start: 0, indentTo: 0},
+              lastType: null, tokenize: base, parenDepth: 1};
     },
 
     token: function (stream, state) {
@@ -80,7 +95,7 @@ CodeMirror.defineMode("clubexpr", function (config) {
       return typeof i == "number" ? i : state.ctx.start + 1;
     },
 
-    closeBrackets: {pairs: "()[]{}\"\""}
+    closeBrackets: {pairs: "()"}
   };
 });
 

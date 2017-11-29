@@ -12,6 +12,11 @@
 .cm-bracket-6 {background: #dcf;}
 .cm-bracket-0 {background: #bbe;}
 
+.cm-error {
+  color: black !important;
+  border-bottom: solid 3px red;
+}
+
 .CodeMirror-cursor {
   width: 0.6em;
   background-color: #ffff0070;

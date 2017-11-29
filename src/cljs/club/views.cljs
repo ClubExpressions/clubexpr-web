@@ -72,15 +72,30 @@
 
 (defn ops-pretty
   [ops]
-  [:span
-    (t ["Commandes disponibles : "])
-    (list-pretty ops)
-    "."
-    [:br]
-    (t ["Touches disponibles : "])
-    (list-pretty ["+" "-" "*" "/" "²" "^"])
-    ", "
-    (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) "."])
+  [:ul {:style {:padding-left "1em"}}
+    [:li
+      (t ["Commandes disponibles"])
+      " : "
+      (list-pretty ops)
+      " ("
+      (t ["pensez à la majuscule"])
+      ")."]
+    [:li
+      (t ["Touches disponibles"])
+      " : "
+      (list-pretty ["+" "-" "*" "/" "²" "^"])
+      ", "
+      (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) "."]
+    [:li
+      (t ["Lettres grecques"])
+      " : "
+      (list-pretty ["alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta"
+                    "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron"
+                    "pi" "rho" "sigmaf" "sigma" "tau" "upsilon" "phi" "chi"
+                    "psi" "omega" ])
+      " ("
+      (t ["existent aussi avec une majuscule"])
+      ")."]])
 
 (defn src-input
   [{:keys [label subs-path evt-handler]}]

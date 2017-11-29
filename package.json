@@ -13,6 +13,7 @@
     "react-bootstrap": "0.31.2",
     "auth0-js": "8.8.0",
     "kinto": "9.0.2",
+    "react-markdown": "3.0.2",
     "react-katex": "1.2.0",
     "react-select": "1.0.0-rc.5",
     "rc-slider": "8.3.1",

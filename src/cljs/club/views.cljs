@@ -26,6 +26,7 @@
                                renderLispAsLaTeX
                                infix-rendition
                                tree-rendition]]
+            [club.text]
             [club.version]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.pprint :refer [pprint]]))
@@ -36,6 +37,7 @@
   ([c subc]
    (getValueByKeys js/window "deps" "react-bootstrap" (str c) (str subc))))
 
+(def MD (getValueByKeys js/window "deps" "react-markdown"))
 (def Select (getValueByKeys js/window "deps" "react-select"))
 (def Creatable (getValueByKeys Select "Creatable"))
 (def Slider (getValueByKeys js/window "deps" "rc-slider" "Range"))
@@ -314,6 +316,7 @@
           ]]]
       [:> (bs 'Grid)
         [:> (bs 'Row)
+          [:> MD {:source club.text/how-to-match}]
           [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]
           [:> (bs 'Col) {:xs 6 :md 6}
             [:h2 (t ["Pour les enseignants"])]

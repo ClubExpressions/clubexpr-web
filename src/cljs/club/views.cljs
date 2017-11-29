@@ -132,7 +132,7 @@
             [:a {:on-click #(rf/dispatch [:show-help])}
               (if showing
                 (t ["Cacher l’aide"])
-                (t ["Afficher de l’aide"]))]]])
+                (t ["Afficher de l’aide sur le Code Club"]))]]])
     ]])
 
 (defn nav-bar

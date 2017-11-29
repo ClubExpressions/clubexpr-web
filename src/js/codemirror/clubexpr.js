@@ -12,7 +12,7 @@ CodeMirror.defineMode("clubexpr", function (config) {
   var command = /^Somme$|^Diff$|^Produit$|^Quotient$|^Opposé$|^Inverse$|^Carré$|^Puissance$|^Racine$/;
   var letter = /^[a-zA-Z]$/;
   var greek = /^alpha$|^beta$|^gamma$|^delta$|^epsilon$|^zeta$|^eta$|^theta$|^iota$|^kappa$|^lambda$|^mu$|^nu$|^xi$|^omicron$|^pi$|^rho$|^sigmaf$|^sigma$|^tau$|^upsilon$|^phi$|^chi$|^psi$|^omega$/;
-  var numLiteral = /^[-]?[0-9]+[^a-zA-Z]|^[+-]?[0-9]+[.,]?[0-9]+[^a-zA-Z]/;
+  var numLiteral = /^([-]?[0-9])|^[+-]?[0-9]+[.,]?[0-9]+/;
   var symbol = /[^\s'`,@()\[\]";]/;
   var type;
 

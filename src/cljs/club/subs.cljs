@@ -35,6 +35,11 @@
    (:authenticated db)))
 
 (rf/reg-sub
+ :auth-kinto-id
+ (fn [db]
+   (-> db :auth-data :kinto-id)))
+
+(rf/reg-sub
  :attempt-code
  (fn [db]
    (:attempt-code db)))

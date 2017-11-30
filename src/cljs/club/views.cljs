@@ -503,7 +503,8 @@
 
 (defn page-profile
   []
-  (let [profile-quality @(rf/subscribe [:profile-quality])
+  (let [kinto-id @(rf/subscribe [:auth-kinto-id])
+        profile-quality @(rf/subscribe [:profile-quality])
         profile-school-pretty @(rf/subscribe [:profile-school-pretty])
         profile-school (rf/subscribe [:profile-school])
         help-text-find-you
@@ -579,6 +580,8 @@
             (t ["Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en nous contactant "])
             [:a {:href "mailto:profgraorg.org@gmail.com"} (t ["par email"])]
             "."]
+          [:h3 (t ["Identifiant technique"])]
+          [:p (t ["En cas de souci, les administrateurs du site peuvent vous demander votre identifiant"]) " : " [:code kinto-id] "."]
         ]
       ]
     ]))

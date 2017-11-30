@@ -504,6 +504,8 @@
 (defn page-profile
   []
   (let [profile-quality @(rf/subscribe [:profile-quality])
+        profile-school-pretty @(rf/subscribe [:profile-school-pretty])
+        profile-school (rf/subscribe [:profile-school])
         help-text-find-you
           (case profile-quality
             "scholar" (t ["pour que votre professeur puisse vous retrouver"])
@@ -524,7 +526,7 @@
                                :value-id :profile-firstname
                                :event-id :profile-firstname}]
         school [:> (bs 'DropdownButton)  ; TODO use a Select (react-select)
-                   {:title @(rf/subscribe [:profile-school-pretty])
+                   {:title profile-school-pretty
                     :on-select #(rf/dispatch [:profile-school %])}
                   [:> (bs 'MenuItem) {:eventKey "fake-id-no-school"}
                                      (t ["Aucun établissement"])]
@@ -541,20 +543,20 @@
             [:> (bs 'ToggleButtonGroup)
                 {:type "radio"
                  :name "quality"
-                 :value @(rf/subscribe [:profile-quality])
+                 :value profile-quality
                  :defaultValue "scholar"
                  :on-change #(rf/dispatch [:profile-quality %])}
               [:> (bs 'ToggleButton) {:value "scholar"} (t ["Élève"])]
               [:> (bs 'ToggleButton) {:value "teacher"} (t ["Professeur"])]]]]
         [:div {:style {:margin-bottom "1em"}}  ; TODO CSS
           school]
-        (if (= "scholar" @(rf/subscribe [:profile-quality]))
+        (if (= "scholar" profile-quality)
           [:div {:style {:margin-bottom "1em"}}  ; TODO CSS
             [:> (bs 'ControlLabel) (t ["Professeur : "])]
-            [teachers-dropdown @(rf/subscribe [:profile-school])]]
+            [teachers-dropdown profile-school]]
           "")
         lastname
-        (if (= "scholar" @(rf/subscribe [:profile-quality]))
+        (if (= "scholar" profile-quality)
           firstname
           "")
         [:> (bs 'Button)

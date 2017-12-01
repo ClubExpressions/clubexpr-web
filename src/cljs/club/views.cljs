@@ -195,45 +195,14 @@
     [:> (bs 'Grid)
       [:> (bs 'Row)
         [:> (bs 'Col) {:xs 4 :md 4}
-          [:h2 (t ["Statut"])]
-          [:p
-            (t ["Le Club des Expressions est en constante évolution."])
-            " "
-            (t ["N’hésitez pas à signaler des bugs ou nous faire part de suggestions"])
-            " "
-            [:a {:href "https://github.com/ClubExpressions/clubexpr-web/issues/new"}
-              (t ["sur Github"])]
-            " "
-            (t ["ou"])
-            " "
-            [:a {:href "mailto:profgraorg.org@gmail.com"} (t ["par email"])]
-            "."]
+          [:> MD {:source club.text/status}]
           (let [base "https://github.com/ClubExpressions/clubexpr-web/commit/"
                 commit club.version/gitref]
             [:p "Version : " [:a {:href (str base commit)} commit]])]
         [:> (bs 'Col) {:xs 4 :md 4}
-          [:h2 (t ["Contact"])]
-          [:ul
-            [:li "Twitter : "
-              [:a {:href "http://twitter.com/clubexpr"} "@ClubExpr"]
-              " (" (t ["Publication d’une expression intéressante par semaine !"]) ")"]
-            [:li "Email : "
-              [:a {:href "mailto:profgraorg.org@gmail.com"} "profgra.org@gmail.com"]]
-            [:li "Github : "
-              [:a {:href "https://github.com/ClubExpressions/clubexpr-web/"}
-                  "ClubExpressions/clubexpr"]]]]
+          [:> MD {:source club.text/contact}]]
         [:> (bs 'Col) {:xs 4 :md 4}
-          [:h2 (t ["Remerciements"])]
-          [:p (t ["Réalisé avec l’aide, aimable autant que redoutable, de :"])]
-          [:ul
-            [:li "Jean-Philippe Rouquès (aide pédagogique)"]
-            [:li "Damien Lecan (aide technique)"]
-            [:li "tous les collègues et élèves sympathisants"
-                 [:br]
-                 "(aide morale et premiers tests)"]
-            [:li [:a {:href "https://github.com/ClubExpressions/clubexpr-web#technical-stack"} "tous les logiciels sur lesquels est bâti le Club"]
-                 [:br]
-                 "(épaules de géants)"]]]
+          [:> MD {:source club.text/thanks}]]
        ]]])
 
 (defn landing-game-link

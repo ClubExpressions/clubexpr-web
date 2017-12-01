@@ -1,5 +1,34 @@
 (ns club.text)
 
+(def status
+"# Statut
+
+Le Club des Expressions est en constante évolution.  N’hésitez pas à signaler
+des bugs ou nous faire part de suggestions
+[sur Github](https://github.com/ClubExpressions/clubexpr-web/issues/new)
+ou [par email](mailto:profgraorg.org@gmail.com).")
+
+
+(def contact
+"# Contact
+
+* Twitter : [@ClubExpr](http://twitter.com/clubexpr)
+  (Publication d’une expression intéressante par semaine !)
+* Email : [profgra.org@gmail.com](mailto:profgraorg.org@gmail.com)
+* Github : [ClubExpressions/clubexpr](https://github.com/ClubExpressions/clubexpr-web/)")
+
+(def thanks
+"# Remerciements
+
+Réalisé avec l’aide, aimable autant que redoutable, de :
+
+* Jean-Philippe Rouquès (aide pédagogique)
+* Damien Lecan (aide technique)
+* tous les collègues et élèves sympathisants  
+  (aide morale et premiers tests)
+* [tous les logiciels sur lesquels est bâti le Club](https://github.com/ClubExpressions/clubexpr-web#technical-stack)  
+  (épaules de géants)")
+
 (def how-to-match
 "# Qu’est-ce qu’une bonne reconstitution ?
 

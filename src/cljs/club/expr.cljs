@@ -12,8 +12,11 @@
 (def clubexpr (getValueByKeys js/window "deps" "clubexpr"))
 (def available-ops (js->clj (.-operations clubexpr)))
 (def natureFromLisp (.-natureFromLisp clubexpr))
+(def renderExprAsLisp (.-renderExprAsLisp clubexpr))
 (def renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr))
 (def parseLisp (.-parse clubexpr))
+(def replaceValuesWith (.-replaceValuesWith clubexpr))
+(def replaceValues #(replaceValuesWith %1 (clj->js %2)))
 
 (def tex-inline (getValueByKeys js/window "deps" "react-katex" "InlineMath"))
 (def tex-block (getValueByKeys js/window "deps" "react-katex" "BlockMath"))

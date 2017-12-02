@@ -59,6 +59,9 @@
   (s/and map?
          (s/or :empty empty?
                :series ::series)))
+(s/def ::expr-mod-showing boolean?)
+(s/def ::expr-mod-template string?)
+(s/def ::expr-mod-map map?)
 (s/def ::teacher-testing boolean?)
 (s/def ::teacher-testing-idx number?)
 (s/def ::teacher-attempt string?)
@@ -121,6 +124,9 @@
                               ::works-scholar-page
                               ::current-series-id
                               ::current-series
+                              ::expr-mod-showing
+                              ::expr-mod-template
+                              ::expr-mod-map
                               ::teacher-testing
                               ::teacher-testing-idx
                               ::teacher-attempt
@@ -150,6 +156,9 @@
    :works-scholar-page []
    :current-series-id ""
    :current-series new-series
+   :expr-mod-showing false
+   :expr-mod-template ""
+   :expr-mod-map {}
    :teacher-testing false
    :teacher-testing-idx 0
    :teacher-attempt ""

@@ -462,6 +462,20 @@
       (assoc-in db [:current-series :exprs] exprs))))
 
 (rf/reg-event-db
+  :expr-mod-open
+  [check-spec-interceptor]
+  (fn [db [_ new-value]]
+    (-> db
+        (assoc :expr-mod-showing true)
+        (assoc :expr-mod-template new-value))))
+
+(rf/reg-event-db
+  :expr-mod-close
+  [check-spec-interceptor]
+  (fn [db [_ new-value]]
+      (assoc db :expr-mod-showing false)))
+
+(rf/reg-event-db
   :series-exprs-add
   [check-spec-interceptor]
   (fn [db [_ new-value]]

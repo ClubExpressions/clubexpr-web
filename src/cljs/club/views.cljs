@@ -679,6 +679,7 @@
     ^{:key nom}
     [:li
       {:style {:margin "0.5em" :cursor "pointer"}  ; TODO CSS
+       :on-click #(rf/dispatch [:expr-mod-open lisp])
        :on-double-click #(rf/dispatch [:series-exprs-add lisp])}
       (infix-rendition lisp true)]))
 
@@ -743,6 +744,22 @@
       (if (empty? exprs-as-li)
         [:p (t ["Aucune expression ne correspond à ce filtrage"])]
         [:ul.nav exprs-as-li]))
+    (let [showing @(rf/subscribe [:expr-mod-showing])
+          tpl @(rf/subscribe [:expr-mod-template])
+          result @(rf/subscribe [:expr-mod-result])]
+      [:> (bs 'Modal) {:show showing
+                       :onHide #(rf/dispatch [:expr-mod-close])}
+        [:> (bs 'Modal 'Header) {:closeButton true}
+          [:> (bs 'Modal 'Title) (t ["Modifications des valeurs et ajout à la série"])]]
+        [:> (bs 'Modal 'Body)
+          result
+          [:div.text-right
+            [:> (bs 'Button)
+              {:on-click #(rf/dispatch [:series-exprs-add result])
+               :bsStyle "success"}
+              (t ["Ajouter à la série"])]]]
+        [:> (bs 'Modal 'Footer)
+          (t ["Le hasard fait parfois bien les choses."])]])
   ])
 
 (defn no-series

@@ -9,7 +9,11 @@
                                 past-work?
                                 future-work?
                                 works-comparator-rev]]
-            [club.expr :refer [infix-rendition reified-expressions]]
+            [club.expr :refer [infix-rendition
+                               reified-expressions
+                               parseLisp
+                               renderExprAsLisp
+                               replaceValues]]
             [club.db :refer [get-users!
                              fetch-teachers-list!
                              init-groups-data!
@@ -93,6 +97,21 @@
  :current-series
  (fn [db]
    (-> db :current-series)))
+
+(rf/reg-sub
+ :expr-mod-showing
+ (fn [db]
+   (-> db :expr-mod-showing)))
+
+(rf/reg-sub
+ :expr-mod-template
+ (fn [db]
+   (-> db :expr-mod-template)))
+
+(rf/reg-sub
+ :expr-mod-map
+ (fn [db]
+   (-> db :expr-mod-map)))
 
 (rf/reg-sub
  :editing-series
@@ -291,6 +310,19 @@
   (fn [filters query-v _]
     (let [f (apply every-pred (vals filters))]
       (filter f reified-expressions))))
+
+(rf/reg-sub
+  :expr-mod-result
+  (fn [query-v _]
+    [(rf/subscribe [:expr-mod-template])
+     (rf/subscribe [:expr-mod-map])])
+  (fn [[tpl replace-map] query-v _]
+    (if (empty? tpl)
+      []
+      (-> tpl
+          parseLisp
+          (replaceValues {"a" "z" 1 17})
+          renderExprAsLisp))))
 
 (rf/reg-sub-raw
   :works-data-teacher

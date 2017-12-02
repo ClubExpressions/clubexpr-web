@@ -260,6 +260,9 @@ cohérence nettoyages data-from-js-obj: dans db, sub ou events
 * [`:profile-page`](#profile-page) map containing user data
 * `:current-series-id` string identifying the current series
 * [`:current-series`](#current-series) map containing the data of the current-series
+* `:expr-mod-showing` boolean : is a teacher modifying an expr?
+* `:expr-mod-template` string : the expr being modified
+* `:expr-mod-map` : map that specifies the new values
 * `:teacher-testing` boolean : is a teacher testing a series?
 * `:teacher-testing-idx` number : index of the expression currently tested
 * `:teacher-attempt` : the Club Code for the teacher's test, as a string

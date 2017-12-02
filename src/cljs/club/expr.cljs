@@ -210,18 +210,18 @@
                         (if _val (str ": " (translate-val (str/trim _val)))))]
            msg))))
 
-(defn vec->hiccup
+(defn vec->list-as-hiccup
   [expr]
   (if (instance? PersistentVector expr)
     [:li [:span (first expr)]
-         [:ul (map vec->hiccup (rest expr))]]
+         [:ul (map vec->list-as-hiccup (rest expr))]]
     [:li expr]))
 
 (defn tree-rendition
   [src]
   (let [expr (try (js->clj (parseLisp src))
                   (catch js/Object e (t ["Erreur"])))]
-    [:ul.tree (vec->hiccup expr)]))
+    [:ul.tree (vec->list-as-hiccup expr)]))
 
 (defn correct
   [src1 src2]

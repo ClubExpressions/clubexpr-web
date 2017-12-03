@@ -678,7 +678,7 @@
         lisp (renderExprAsLisp (-> expr :expr clj->js))]
     ^{:key nom}
     [:li
-      {:style {:margin "0.5em"}  ; TODO CSS
+      {:style {:margin "0.5em" :cursor "pointer"}  ; TODO CSS
        :on-double-click #(rf/dispatch [:series-exprs-add lisp])}
       (infix-rendition lisp true)]))
 
@@ -778,7 +778,7 @@
   [expr]
   (let [lisp (:content expr)]
     ^{:key lisp}
-    [:li {:style {:margin "0.3em"}}  ; TODO CSS
+    [:li {:style {:margin "0.3em" :cursor "default"}}  ; TODO CSS
          (infix-rendition lisp true)]))
 
 (defn show-series

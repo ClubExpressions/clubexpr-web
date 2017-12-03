@@ -6,3 +6,7 @@ code {
     color: purple;
     white-space: nowrap;
 }
+
+.draggable {
+    cursor: move;
+}

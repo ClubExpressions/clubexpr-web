@@ -474,7 +474,9 @@
   :expr-mod-close
   [check-spec-interceptor]
   (fn [db [_ new-value]]
-      (assoc db :expr-mod-showing false)))
+    (-> db
+      (assoc :expr-mod-showing false)
+      (assoc :expr-mod-map {}))))
 
 (rf/reg-event-db
   :expr-mod-choose

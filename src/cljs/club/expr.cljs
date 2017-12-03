@@ -29,6 +29,13 @@
                  []
                  (throw e)))))
 
+(defn get-val-in-lisp
+  [src path]
+  (let [expr (parseLispNoErrorWhenEmpty src)]
+    (if (= 1 (count expr))
+      (get expr (first path)))
+      (get-val-in-lisp (get expr (first path)) (rest path))))
+
 (defn populate-properties
   [expr-obj]
   (let [properties (.-properties clubexpr)

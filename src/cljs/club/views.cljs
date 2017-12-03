@@ -26,6 +26,7 @@
                                parseLispNoErrorWhenEmpty
                                natureFromLisp
                                correct-nature
+                               get-val-in-lisp
                                available-ops
                                renderLispAsLaTeX
                                infix-rendition
@@ -715,20 +716,25 @@
    {:value "x" :label "x"}])
 
 (defn vec->val-chooser
-  [expr]
-  (let [replace-map @(rf/subscribe [:series-filtering-nature])]
+  [expr path]
+  (let [tpl @(rf/subscribe [:expr-mod-template])
+        replace-map @(rf/subscribe [:expr-mod-map])]
     (if (instance? PersistentVector expr)
       [:div
-        {:style {:padding-left "2em"}}  ; TODO CSS
-         "(" (first expr) " " (map vec->val-chooser (rest expr)) ")"]
+        {:style {:padding-left "1em"}}  ; TODO CSS
+         "(" (first expr) " " (map-indexed #(vec->val-chooser (cons path %2) %1)
+                                           (rest expr)) ")"]
       [:> Select
         {:style {:width "100%"
-                 :padding-left "2em"}  ; TODO CSS
-         :options (if (int? (js/parseInt expr)) numbers-options letters-options)
+                 :margin-left "1em"}  ; TODO CSS should work with padding!
+         :options (if (int? (js/parseInt expr))
+                    numbers-options
+                    letters-options)
          :clearable false
          :noResultsText "Pas de valeur correspondant à cette recherche"
          :value (get replace-map expr expr)
-         :onChange #(rf/dispatch [:expr-mod-choose expr %])}])))
+         :onChange #(rf/dispatch [:expr-mod-choose
+                                  (get-val-in-lisp tpl path) %])}])))
 
 (defn series-filter
   []
@@ -772,17 +778,19 @@
         [:p (t ["Aucune expression ne correspond à ce filtrage"])]
         [:ul.nav exprs-as-li]))
     (let [showing @(rf/subscribe [:expr-mod-showing])
+          tpl @(rf/subscribe [:expr-mod-template])
           result @(rf/subscribe [:expr-mod-result])]
       [:> (bs 'Modal) {:show showing
                        :onHide #(rf/dispatch [:expr-mod-close])}
         [:> (bs 'Modal 'Header) {:closeButton true}
-          [:> (bs 'Modal 'Title) (t ["Modifications des valeurs et ajout à la série"])]]
+          [:> (bs 'Modal 'Title)
+              (t ["Modifications des valeurs et ajout à la série"])]]
         [:> (bs 'Modal 'Body)
           (infix-rendition result false)
-          (-> result
+          #_(-> result
               parseLispNoErrorWhenEmpty
               js->clj
-              vec->val-chooser)
+              (vec->val-chooser []))
           [:div.text-right
             [:> (bs 'Button)
               {:on-click #(rf/dispatch [:series-exprs-add result])

@@ -11,7 +11,7 @@
                                 works-comparator-rev]]
             [club.expr :refer [infix-rendition
                                reified-expressions
-                               parseLisp
+                               parseLispNoErrorWhenEmpty
                                renderExprAsLisp
                                replaceValues]]
             [club.db :refer [get-users!
@@ -318,10 +318,10 @@
      (rf/subscribe [:expr-mod-map])])
   (fn [[tpl replace-map] query-v _]
     (if (empty? tpl)
-      []
+      ""
       (-> tpl
-          parseLisp
-          (replaceValues {"a" "z" 1 17})
+          parseLispNoErrorWhenEmpty
+          (replaceValues replace-map)
           renderExprAsLisp))))
 
 (rf/reg-sub-raw

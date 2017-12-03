@@ -467,7 +467,8 @@
   (fn [db [_ new-value]]
     (-> db
         (assoc :expr-mod-showing true)
-        (assoc :expr-mod-template new-value))))
+        (assoc :expr-mod-template new-value)
+        (assoc :expr-mod-map {}))))
 
 (rf/reg-event-db
   :expr-mod-close
@@ -476,11 +477,23 @@
       (assoc db :expr-mod-showing false)))
 
 (rf/reg-event-db
+  :expr-mod-choose
+  [check-spec-interceptor]
+  (fn [db [_ old-value new-value-raw]]
+    (let [new-value (-> new-value-raw
+                        js->clj
+                        (get "value"))]
+      (update db :expr-mod-map merge {old-value new-value}))))
+
+(rf/reg-event-db
   :series-exprs-add
   [check-spec-interceptor]
   (fn [db [_ new-value]]
     (let [rank (count (-> db :current-series :exprs))]
-      (update-in db [:current-series :exprs] conj {:content new-value :rank rank}))))
+      (-> db
+          (update-in [:current-series :exprs] conj {:content new-value
+                                                    :rank rank})
+          (assoc :expr-mod-showing false)))))
 
 (rf/reg-event-db
   :series-exprs-delete

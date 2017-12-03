@@ -23,6 +23,7 @@
             [club.config :as config]
             [club.db]
             [club.expr :refer [clubexpr
+                               parseLispNoErrorWhenEmpty
                                natureFromLisp
                                correct-nature
                                available-ops
@@ -678,8 +679,7 @@
     ^{:key nom}
     [:li
       {:style {:margin "0.5em" :cursor "pointer"}  ; TODO CSS
-       :on-click #(rf/dispatch [:expr-mod-open lisp])
-       :on-double-click #(rf/dispatch [:series-exprs-add lisp])}
+       :on-click #(rf/dispatch [:expr-mod-open lisp])}
       (infix-rendition lisp true)]))
 
 (defn ops-cb-label
@@ -701,6 +701,34 @@
   {:style {:font-weight "bold"
            :margin-top "1.2em"
            :margin-bottom "0.2em"}})  ; TODO CSS
+
+(def numbers-options
+  [{:value "1" :label "1"}
+   {:value "2" :label "2"}
+   {:value "3" :label "3"}
+   {:value "5" :label "5"}
+   {:value "10" :label "10"}])
+
+(def letters-options
+  [{:value "a" :label "a"}
+   {:value "b" :label "b"}
+   {:value "x" :label "x"}])
+
+(defn vec->val-chooser
+  [expr]
+  (let [replace-map @(rf/subscribe [:series-filtering-nature])]
+    (if (instance? PersistentVector expr)
+      [:div
+        {:style {:padding-left "2em"}}  ; TODO CSS
+         "(" (first expr) " " (map vec->val-chooser (rest expr)) ")"]
+      [:> Select
+        {:style {:width "100%"
+                 :padding-left "2em"}  ; TODO CSS
+         :options (if (int? (js/parseInt expr)) numbers-options letters-options)
+         :clearable false
+         :noResultsText "Pas de valeur correspondant à cette recherche"
+         :value (get replace-map expr expr)
+         :onChange #(rf/dispatch [:expr-mod-choose expr %])}])))
 
 (defn series-filter
   []
@@ -744,14 +772,17 @@
         [:p (t ["Aucune expression ne correspond à ce filtrage"])]
         [:ul.nav exprs-as-li]))
     (let [showing @(rf/subscribe [:expr-mod-showing])
-          tpl @(rf/subscribe [:expr-mod-template])
           result @(rf/subscribe [:expr-mod-result])]
       [:> (bs 'Modal) {:show showing
                        :onHide #(rf/dispatch [:expr-mod-close])}
         [:> (bs 'Modal 'Header) {:closeButton true}
           [:> (bs 'Modal 'Title) (t ["Modifications des valeurs et ajout à la série"])]]
         [:> (bs 'Modal 'Body)
-          result
+          (infix-rendition result false)
+          (-> result
+              parseLispNoErrorWhenEmpty
+              js->clj
+              vec->val-chooser)
           [:div.text-right
             [:> (bs 'Button)
               {:on-click #(rf/dispatch [:series-exprs-add result])
@@ -921,7 +952,7 @@
         [:p
           [:strong (t ["La série est vide."])]
           " "
-          (t ["En double-cliquant sur une expression sur la gauche, vous pouvez l’ajouter à votre série. "])]
+          (t ["En cliquant sur une expression sur la gauche, vous pouvez modifier ses valeurs puis l’ajouter à votre série. "])]
         [:div {:style {:padding-bottom "1em"}}
          [:> Sortable
           {:items exprs
@@ -929,7 +960,7 @@
            :dropBackTransitionDuration 0.3
            :placeholder "< ici >"  ; TODO: impossible use of (t ["ici"]) here
            :onSort #(rf/dispatch [:series-exprs-sort %])}]])
-      [:p (t ["Pour supprimer une expression de votre série, double-cliquez à nouveau sur celle-ci, mais dans la liste de droite. Il est possible de réordonner vos expression en les glissant chacune au bon endroit."])]
+      [:p (t ["Pour supprimer une expression de votre série, double-cliquez sur celle-ci, mais dans la liste de droite. Il est possible de réordonner vos expression en les glissant chacune au bon endroit."])]
     ]))
 
 (defn page-series

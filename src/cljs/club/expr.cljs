@@ -21,6 +21,14 @@
 (def tex-inline (getValueByKeys js/window "deps" "react-katex" "InlineMath"))
 (def tex-block (getValueByKeys js/window "deps" "react-katex" "BlockMath"))
 
+(defn parseLispNoErrorWhenEmpty
+  [src]
+  (try (parseLisp src)
+       (catch js/Object e
+         (if (= "Error: Empty expr" (str e))
+                 []
+                 (throw e)))))
+
 (defn populate-properties
   [expr-obj]
   (let [properties (.-properties clubexpr)

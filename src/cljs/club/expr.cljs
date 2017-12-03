@@ -49,8 +49,21 @@
            "(Produit a (Quotient b c))"
            "(Diff (Somme (Produit 10 a) b) a)"
            "(Diff (Diff (Somme (Produit 10 a) b) a) b)"]
+        seconde-second-degre
+          ["(Carré x)"
+           "(Carré (Somme a b))"
+           "(Somme (Carré a) (Carré b))"
+           "(Carré (Diff a b))"
+           "(Produit (Somme 5 m) (Somme 5 n))"
+           "(Produit 3 (Carré x))"
+           "(Carré (Produit 3 x))"
+           "(Produit (Diff x 2) (Somme x 3))"
+           "(Produit (Somme a b) (Diff a b))"
+           "(Somme (Produit 10 (Somme m n))
+                   (Produit (Diff 5 m) (Diff 5 n)))"]
         ]
   (map populate-properties (concat
+                             (series-wrapper seconde-second-degre)
                              (series-wrapper demo)
                              (series-wrapper seconde-serie-1)
                              (.-expressions clubexpr)))))

@@ -703,27 +703,40 @@
            :margin-top "1.2em"
            :margin-bottom "0.2em"}})  ; TODO CSS
 
+(defn value-label
+  [x]
+  (let [n (str x)]
+    {:value n :label n}))
+
+(def greek-options
+  (concat (map value-label greek-letters-min)
+          (map value-label greek-letters-maj)))
+
 (def numbers-options
-  [{:value "1" :label "1"}
-   {:value "2" :label "2"}
-   {:value "3" :label "3"}
-   {:value "5" :label "5"}
-   {:value "10" :label "10"}])
+  (concat (map value-label (range 667))
+          greek-options))
 
 (def letters-options
-  [{:value "a" :label "a"}
-   {:value "b" :label "b"}
-   {:value "x" :label "x"}])
+  (let [min-codes (range 97 123)
+        maj-codes (range 65 91)]
+  (concat (map (comp value-label char) (concat min-codes maj-codes))
+          greek-options)))
 
 (defn vec->val-chooser
   [expr path]
   (let [tpl @(rf/subscribe [:expr-mod-template])
         replace-map @(rf/subscribe [:expr-mod-map])]
     (if (instance? PersistentVector expr)
+      ^{:key (str path expr)}
       [:div
         {:style {:padding-left "1em"}}  ; TODO CSS
-         "(" (first expr) " " (map-indexed #(vec->val-chooser (cons path %2) %1)
-                                           (rest expr)) ")"]
+        "("
+        (first expr)
+        " "
+        (doall (map-indexed #(vec->val-chooser %2 (conj path (+ 1 %1)))
+                            (rest expr)))
+        ")"]
+      ^{:key (str path expr)}
       [:> Select
         {:style {:width "100%"
                  :margin-left "1em"}  ; TODO CSS should work with padding!
@@ -732,11 +745,9 @@
                     letters-options)
          :clearable false
          :noResultsText "Pas de valeur correspondant à cette recherche"
-         :value (get replace-map expr expr)
+         :value expr
          :onChange
-           #(rf/dispatch [:expr-mod-choose
-                          (get-in (parseLispNoErrorWhenEmpty tpl) path)
-                          %])}])))
+           #(rf/dispatch [:expr-mod-choose (get-val-in-lisp tpl path) %])}])))
 
 (defn series-filter
   []
@@ -789,7 +800,7 @@
               (t ["Modifications des valeurs et ajout à la série"])]]
         [:> (bs 'Modal 'Body)
           (infix-rendition result false)
-          #_(-> result
+          (-> result
               parseLispNoErrorWhenEmpty
               js->clj
               (vec->val-chooser []))

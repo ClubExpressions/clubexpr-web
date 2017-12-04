@@ -17,7 +17,9 @@
                                 str->cljs-time
                                 moment->cljs-time
                                 before?=
-                                after?=]]
+                                after?=
+                                greek-letters-min
+                                greek-letters-maj]]
             [club.config :as config]
             [club.db]
             [club.expr :refer [clubexpr
@@ -92,10 +94,7 @@
     [:li
       (t ["Lettres grecques"])
       " : "
-      (list-pretty ["alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta"
-                    "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron"
-                    "pi" "rho" "sigmaf" "sigma" "tau" "upsilon" "phi" "chi"
-                    "psi" "omega" ])
+      (list-pretty greek-letters-min)
       " ("
       (t ["existent aussi avec une majuscule"])
       ")."]])

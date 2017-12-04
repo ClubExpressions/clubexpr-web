@@ -219,3 +219,12 @@
         d (day cljs-time)
         the-moment (.. (moment) (locale "fr") (year y) (month m) (date d))]
     (. the-moment format "dddd Do MMM YYYY")))
+
+(def greek-letters-min
+  ["alpha" "beta" "gamma" "delta" "epsilon" "varepsilon" "zeta" "eta" "theta"
+   "vartheta" "iota" "kappa" "lambda" "mu" "nu" "xi" "pi" "rho" "varrho"
+   "sigma" "tau" "upsilon" "phi" "varphi" "chi" "psi" "omega"])
+
+(def greek-letters-maj
+  ["Gamma" "Delta" "Theta" "Lambda" "Xi" "Pi" "Sigma" "Upsilon" "Phi" "Psi"
+   "Omega"])

@@ -223,3 +223,22 @@
 (defn correct
   [src1 src2]
   (= (renderLispAsLaTeX src1) (renderLispAsLaTeX src2)))
+
+(defn correct-nature
+  [target-src attempt-src]
+  (let [target (natureFromLisp target-src)
+        attempt (natureFromLisp attempt-src)]
+    (or
+      (and (= "Inverse"  target)
+           (= "Quotient" attempt)
+           (= "1" (get-in (parseLisp attempt-src) [1])))
+      (and (= "Quotient" target)
+           (= "Inverse"  attempt)
+           (= "1" (get-in (parseLisp target-src) [1])))
+      (and (= "Carré"     target)
+           (= "Puissance" attempt)
+           (= "2" (get-in (parseLisp attempt-src) [2])))
+      (and (= "Puissance" target)
+           (= "Carré" attempt)
+           (= "2" (get-in (parseLisp target-src) [2])))
+      (= target attempt))))

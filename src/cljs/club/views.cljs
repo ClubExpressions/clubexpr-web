@@ -22,6 +22,7 @@
             [club.db]
             [club.expr :refer [clubexpr
                                natureFromLisp
+                               correct-nature
                                available-ops
                                renderLispAsLaTeX
                                infix-rendition
@@ -253,10 +254,9 @@
                       [:p task-style (t ["Votre tentative :"])]]
                     [:> (bs 'Col) {:xs 6 :md 6}
                       [:div expr-style [infix-rendition attempt]]
-                      (let [target-nature (natureFromLisp game-src)
-                            attempt-nature (natureFromLisp attempt)]
+                      (let [attempt-nature (natureFromLisp attempt)]
                         (if (and (not (empty? attempt-nature))
-                                 (not= target-nature attempt-nature))
+                                 (not (correct-nature game-src attempt)))
                           [:div {:style {:color "#f00"
                                          :font-size "120%"
                                          :text-align "center"}}  ; TODO CSS
@@ -856,8 +856,7 @@
                         (infix-rendition attempt true)]]
                   ; nature msg
                   (if (and (empty? error)
-                           (not (= (natureFromLisp current-expr)
-                                   (natureFromLisp attempt))))
+                           (not (correct-nature current-expr attempt)))
                     [:p.text-center error-style
                      (t ["La nature ne correspond pas !"])])
                   ; Check button
@@ -1271,8 +1270,7 @@
                     [:p.text-center error-style error])])
               ; nature msg
               (if (and (empty? error)
-                       (not (= (natureFromLisp current-expr)
-                               (natureFromLisp attempt))))
+                       (not (correct-nature current-expr attempt)))
                 [:p.text-center error-style
                  (t ["La nature ne correspond pas !"])])
               ; «back to interactive» link

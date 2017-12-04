@@ -733,8 +733,10 @@
          :clearable false
          :noResultsText "Pas de valeur correspondant à cette recherche"
          :value (get replace-map expr expr)
-         :onChange #(rf/dispatch [:expr-mod-choose
-                                  (get-val-in-lisp tpl path) %])}])))
+         :onChange
+           #(rf/dispatch [:expr-mod-choose
+                          (get-in (parseLispNoErrorWhenEmpty tpl) path)
+                          %])}])))
 
 (defn series-filter
   []

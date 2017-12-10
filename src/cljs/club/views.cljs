@@ -987,8 +987,7 @@
 (defn page-series
   []
   (let [series-data @(rf/subscribe [:series-page])
-        editing-series @(rf/subscribe [:editing-series])
-        current-series @(rf/subscribe [:current-series])]
+        editing-series @(rf/subscribe [:editing-series])]
     [:div
       [:div.jumbotron
         [:h2 (t ["Séries"])]

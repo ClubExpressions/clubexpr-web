@@ -940,35 +940,39 @@
       )
      ))
 
-(defn edit-series
+(defn series-info
+  []
+  [:div
+    [:h2 (t ["Série en cours de modification"])]
+    [:> (bs 'Button)
+      {:on-click #(rf/dispatch [:series-cancel])
+       :bsStyle "warning"} (t ["Annuler"])]
+    [:> (bs 'Button)
+      {:style {:margin "1em"}  ; TODO CSS
+       :on-click #(rf/dispatch [:series-save])
+       :bsStyle "success"} (t ["Enregistrer"])]
+    [:> (bs 'Button)
+      {:style {:margin "1em"}  ; TODO CSS
+       :class "pull-right"
+       :on-click #(rf/dispatch [:series-delete])
+       :bsStyle "danger"} (t ["Supprimer cette série"])]
+    [text-input {:label (t ["Titre"])
+                 :placeholder (t ["Découverte du Club"])
+                 :help (t ["Titre de la série, vu par les élèves"])
+                 :value-id :series-title
+                 :event-id :series-title}]
+    [text-input {:component-class "textarea"
+                 :label (t ["Description"])
+                 :placeholder (t ["Expressions triviales pour apprendre à utiliser le Club"])
+                 :help (t ["Description de la série, vue seulement par les autres enseignants, mais pas les élèves"])
+                 :value-id :series-desc
+                 :event-id :series-desc}]])
+
+(defn series-exprs
   []
   (let [exprs @(rf/subscribe [:series-exprs-with-content-key])]
     [:div
-      [:h2 (t ["Série en cours de modification"])]
-      [:> (bs 'Button)
-        {:on-click #(rf/dispatch [:series-cancel])
-         :bsStyle "warning"} (t ["Annuler"])]
-      [:> (bs 'Button)
-        {:style {:margin "1em"}  ; TODO CSS
-         :on-click #(rf/dispatch [:series-save])
-         :bsStyle "success"} (t ["Enregistrer"])]
-      [:> (bs 'Button)
-        {:style {:margin "1em"}  ; TODO CSS
-         :class "pull-right"
-         :on-click #(rf/dispatch [:series-delete])
-         :bsStyle "danger"} (t ["Supprimer cette série"])]
-      [text-input {:label (t ["Titre"])
-                   :placeholder (t ["Découverte du Club"])
-                   :help (t ["Titre de la série, vu par les élèves"])
-                   :value-id :series-title
-                   :event-id :series-title}]
-      [text-input {:component-class "textarea"
-                   :label (t ["Description"])
-                   :placeholder (t ["Expressions triviales pour apprendre à utiliser le Club"])
-                   :help (t ["Description de la série, vue seulement par les autres enseignants, mais pas les élèves"])
-                   :value-id :series-desc
-                   :event-id :series-desc}]
-      [:p [:strong (t ["Expressions"])]]
+      [:h2 (t ["Expressions de cette série"])]
       (if (empty? exprs)
         [:p
           [:strong (t ["La série est vide."])]
@@ -1006,8 +1010,11 @@
       (if editing-series
         [:> (bs 'Grid)
           [:> (bs 'Row)
+            [:> (bs 'Col) {:xs 12 :md 12} (series-info)]
+          ]
+          [:> (bs 'Row)
             [:> (bs 'Col) {:xs 6 :md 6} (series-filter)]
-            [:> (bs 'Col) {:xs 6 :md 6} (edit-series)]
+            [:> (bs 'Col) {:xs 6 :md 6} (series-exprs)]
           ]]
         [:> (bs 'Grid)
           [:> (bs 'Row)

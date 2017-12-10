@@ -984,32 +984,36 @@
       [:p (t ["Pour supprimer une expression de votre série, double-cliquez sur celle-ci, mais dans la liste de droite. Il est possible de réordonner vos expression en les glissant chacune au bon endroit."])]
     ]))
 
+(defn show-series-list
+  []
+  (let [series-data @(rf/subscribe [:series-page])]
+    [:div
+      (if (empty? series-data)
+        (no-series)
+        (series-list))
+      [:> (bs 'Button)
+        {:style {:margin "1em"}  ; TODO CSS
+         :on-click #(rf/dispatch [:new-series])
+         :bsStyle "success"} "Nouvelle série"]]))
+
 (defn page-series
   []
-  (let [series-data @(rf/subscribe [:series-page])
-        editing-series @(rf/subscribe [:editing-series])]
+  (let [editing-series @(rf/subscribe [:editing-series])]
     [:div
       [:div.jumbotron
         [:h2 (t ["Séries"])]
         [:p (t ["Construisez des séries d’expressions à faire reconstituer aux élèves"])]]
-      [:> (bs 'Grid)
-        [:> (bs 'Row)
-          [:> (bs 'Col) {:xs 6 :md 6}
-            (if editing-series
-              (series-filter)
-              [:div
-                (if (empty? series-data)
-                  (no-series)
-                  (series-list))
-                [:> (bs 'Button)
-                  {:style {:margin "1em"}  ; TODO CSS
-                   :on-click #(rf/dispatch [:new-series])
-                   :bsStyle "success"} "Nouvelle série"]])]
-          [:> (bs 'Col) {:xs 6 :md 6}
-            (if editing-series
-                (edit-series)
-                (show-series))]
-        ]]]))
+      (if editing-series
+        [:> (bs 'Grid)
+          [:> (bs 'Row)
+            [:> (bs 'Col) {:xs 6 :md 6} (series-filter)]
+            [:> (bs 'Col) {:xs 6 :md 6} (edit-series)]
+          ]]
+        [:> (bs 'Grid)
+          [:> (bs 'Row)
+            [:> (bs 'Col) {:xs 6 :md 6} (show-series-list)]
+            [:> (bs 'Col) {:xs 6 :md 6} (show-series)]
+          ]])]))
 
 (defn swp-prettifier
   [scholar-data]

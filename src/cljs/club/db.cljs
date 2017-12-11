@@ -367,15 +367,12 @@
                  :firstname (:firstname scholar-data)
                  :groups    (:groups    scholar-data)}]))
 
-(defn groups-page-data->groups-data
-  [data]
-  (into {} (map groups-page-data-trimmer data)))
-
 (defn save-groups-data!
   []
   (let [groups-data (->> @app-db
                          :groups-page
-                         groups-page-data->groups-data)
+                         (map groups-page-data-trimmer)
+                         (into {}))
         record (merge {:id (-> @app-db :auth-data :kinto-id)} groups-data)]
     (.. club.db/k-groups
         (updateRecord (clj->js record))

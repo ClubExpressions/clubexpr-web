@@ -657,8 +657,6 @@
               [:> (bs 'Col) {:xs 6 :md 6}
                 [:h2 (t ["Vos groupes"])]
                 [:div (map group-link groups)]
-                [:div {:max-height "30em" :overflow-y "scroll"}  ; TODO CSS
-                  (groups-list-of-lists groups-data groups)]
                 [:> (bs 'Button)
                   {:style {:margin "1em"}  ; TODO CSS
                    :on-click #(rf/dispatch [:groups-cancel])
@@ -668,7 +666,10 @@
                   {:style {:margin "1em"}  ; TODO CSS
                    :on-click #(rf/dispatch [:groups-save])
                    :bsStyle "success"}
-                  (t ["Enregistrer les modifications"])]]
+                  (t ["Enregistrer les modifications"])]
+                [:div {:max-height "30em" :overflow-y "scroll"}  ; TODO CSS
+                  (groups-list-of-lists groups-data groups)]
+              ]
             ]])]
     ]))
 

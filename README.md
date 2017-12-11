@@ -392,6 +392,11 @@ Direct mapping here between the state and a record in Kinto.
 
 The `id` of a record is the `id` of the owning teacher.
 
+Notes:
+
+* Scholars with no group are not stored.
+* Names are denormalized.
+
 ## Teacher works
 
     Under the `:works-teacher-page` key:     |  Records in the works collection:

@@ -372,6 +372,7 @@
   (let [groups-data (->> @app-db
                          :groups-page
                          (map groups-page-data-trimmer)
+                         (filter (comp not empty? :groups second))
                          (into {}))
         record (merge {:id (-> @app-db :auth-data :kinto-id)} groups-data)]
     (.. club.db/k-groups

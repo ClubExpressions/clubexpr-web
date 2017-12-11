@@ -373,7 +373,9 @@
 
 (defn save-groups-data!
   []
-  (let [groups-data (groups-page-data->groups-data (-> @app-db :groups-page))
+  (let [groups-data (->> @app-db
+                         :groups-page
+                         groups-page-data->groups-data)
         record (merge {:id (-> @app-db :auth-data :kinto-id)} groups-data)]
     (.. club.db/k-groups
         (updateRecord (clj->js record))

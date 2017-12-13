@@ -976,6 +976,9 @@
       [:h2 (t ["Expressions de cette série"])]
       (if (empty? exprs)
         [:p
+          {:style {:background-color "#fc6"  ; TODO CSS
+                   :border-radius "4px"
+                   :padding "1em"}}
           [:strong (t ["La série est vide."])]
           " "
           (t ["En cliquant sur une expression sur la gauche, vous pouvez modifier ses valeurs puis l’ajouter à votre série. "])]

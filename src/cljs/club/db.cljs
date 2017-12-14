@@ -661,7 +661,7 @@
     ;{:id "fake-id-0440066H" :code "0440066H" :name "Collège HELENE ET RENE GUY CADOU"}
     ;{:id "fake-id-0440069L" :code "0440069L" :name "Lycée ARISTIDE BRIAND"}
     ;{:id "fake-id-0440074S" :code "0440074S" :name "Lycée Pro BROSSAUD-BLANCHO"}
-    ;{:id "fake-id-0440077V" :code "0440077V" :name "Lycée JACQUES PREVERT"}
+    {:id "fake-id-0440077V" :code "0440077V" :name "Lycée JACQUES PREVERT"}
     ;{:id "fake-id-0440080Y" :code "0440080Y" :name "Collège JEAN MONNET"}
     ;{:id "fake-id-0440086E" :code "0440086E" :name "Lycée LA COLINIERE"}
     ;{:id "fake-id-0440107C" :code "0440107C" :name "Collège ND DU BON ACCUEIL"}

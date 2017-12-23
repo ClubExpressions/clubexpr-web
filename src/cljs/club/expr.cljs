@@ -193,10 +193,10 @@
 (defn translate-val
   [value]
   (case value
-    "nb args < 1"  (t ["nbre d’opérandes < 1"])
-    "nb args > 1"  (t ["nbre d’opérandes > 1"])
-    "nb args < 2"  (t ["nbre d’opérandes < 2"])
-    "nb args > 2"  (t ["nbre d’opérandes > 2"])
+    "nb args < 1"  (t ["besoin d’exactement une opérande, vous n’en avez pas fourni"])
+    "nb args > 1"  (t ["besoin d’exactement une opérande, vous en avez fourni trop"])
+    "nb args < 2"  (t ["besoin d’au moins deux opérandes, vous n’en avez pas fourni assez"])
+    "nb args > 2"  (t ["besoin d’au plus deux opérandes, vous en avez fourni trop"])
     (t [value])))
 
 (defn infix-rendition

@@ -230,11 +230,21 @@
          (apply vector (cons :ul (map vec->list-as-hiccup (rest expr))))]
     [:li expr]))
 
+(defn tree-size
+  [tree]
+  (if (string? (second tree))
+    1
+    (let [sub-trees (-> tree rest rest first rest)]
+    (+ 1 (reduce + (map tree-size sub-trees))))))
+
 (defn tree-rendition
   [src]
   (let [expr (try (js->clj (parseLisp src))
-                  (catch js/Object e (t ["Erreur"])))]
-    [:ul.tree (vec->list-as-hiccup expr)]))
+                  (catch js/Object e (t ["Erreur"])))
+        tree (vec->list-as-hiccup expr)
+        size (tree-size tree)
+        class-suffix (if (> size 15) "big" "small")]
+    [:ul.tree {:class (str "tree-" class-suffix)} tree]))
 
 (defn correct
   [src1 src2]

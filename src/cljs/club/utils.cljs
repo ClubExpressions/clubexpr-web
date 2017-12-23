@@ -6,6 +6,7 @@
             [cljs-time.core :refer [date-time today before? plus days
                                     year month day]]
             [cljs-time.format :refer [formatter parse unparse]]
+            [club.text :refer [error-translations]]
             [webpack.bundle]))
  
 ; Placeholder for future translation mechanism
@@ -17,7 +18,7 @@
 
 (defn error-fn
   [where]
-  #(js/alert (str where ": " %)))
+  #(js/alert (get error-translations % (str where ": " %))))
 
 (defn data-save-ok
   []

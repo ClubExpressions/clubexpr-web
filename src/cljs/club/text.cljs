@@ -1,5 +1,9 @@
 (ns club.text)
 
+(def error-translations
+  {"ReferenceError: 'fetch' is undefined"
+   (t ["'fetch' indisponible, mettez à jour votre navigateur ou essayez-en un autre !"])})
+
 (def status
 "# Statut
 

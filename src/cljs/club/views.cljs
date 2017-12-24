@@ -73,7 +73,7 @@
 (defn list-pretty
   [l]
   (-> (map #(identity [:span [:code %1] %2]) (butlast l) (repeat ", "))
-      (concat (t ["et"]))
+      (concat (list (t ["et"])))
       (concat " ")
       (concat (list [:code (last l)]))))
 

@@ -1029,7 +1029,7 @@
 (defn swp-prettifier
   [scholar-data]
   (let [{:keys [id lastname firstname progress]} scholar-data]
-    [:span
+    [:li
       (id-shower (name id))
       " "
       [:span.text-capitalize lastname]
@@ -1059,7 +1059,7 @@
                                      :progress ((first %) progress)}) scholars)
         swp-sorted (sort scholar-progress-comparator swp)
         swp-pretty (map swp-prettifier swp-sorted)]
-    [:ul (doall (map #(identity [:li %]) swp-pretty))]))
+    [:ul (doall swp-pretty)]))
 
 (defn work-input
   ([]

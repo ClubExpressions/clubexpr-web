@@ -128,6 +128,10 @@
                                   :extraKeys extraKeys}
                         :onBeforeChange #(rf/dispatch [evt-handler %3])}])
       [:> (bs 'FormControl 'Feedback)]
+      [:p.pull-left {:style {:font-size "80%"}}
+        [:a {:title @(rf/subscribe [subs-path])
+             :on-click #(rf/dispatch [evt-handler ""])}
+          "Réinitialiser le code"]]
       (let [showing @(rf/subscribe [:show-help])]
         [:div
           [:> (bs 'Collapse) {:in showing}

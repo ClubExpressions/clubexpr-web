@@ -265,8 +265,7 @@ cohérence nettoyages data-from-js-obj: dans db, sub ou events
 * `:expr-mod-map` : map that specifies the new values
 * `:teacher-testing` boolean : is a teacher testing a series?
 * `:teacher-testing-idx` number : index of the expression currently tested
-* `:teacher-attempt` : the Club Code for the teacher's test, as a string
-* `:teacher-attempt-error` : error of the attempt of the teacher, as a string
+* `:teacher-testing-attempt` : the Club Code for the teacher's test, as a string
 * [`:series-page`](#series-page) vector containing the series of the user
 * `:editing-series` boolean : are we editing the current series?
 * [`:series-filtering`](#series-filtering) map with `:filters`, data related to filters and
@@ -475,7 +474,6 @@ key. We leave it for now.
       :interactive true,
       :shown-at
       :attempt "()",
-      :error ""
     }
 
 We can loosely consider that it is stored in the `attempts` collection.

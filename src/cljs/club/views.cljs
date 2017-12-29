@@ -860,8 +860,9 @@
         teacher-testing  @(rf/subscribe [:teacher-testing])
         current-expr-idx  @(rf/subscribe [:teacher-testing-idx])
         current-expr @(rf/subscribe [:teacher-testing-expr])
-        attempt  @(rf/subscribe [:teacher-attempt])
-        error  @(rf/subscribe [:teacher-attempt-error])
+        attempt  @(rf/subscribe [:teacher-testing-attempt])
+        error  @(rf/subscribe [:teacher-testing-error])
+        warnings  @(rf/subscribe [:teacher-testing-warnings])
         nav-style {:style {:margin-right "1em"}}  ; TODO CSS
         error-style {:style {:color "#f00"}}  ; TODO CSS
         title @(rf/subscribe [:series-title])
@@ -920,7 +921,7 @@
                   ; Code Club
                   [src-input {
                     :label (t ["Pour cela tapez du Code Club ci-dessous :"])
-                    :subs-path :teacher-attempt
+                    :subs-path :teacher-testing-attempt
                     :evt-handler :teacher-attempt-change}]
                   ; current mode
                   [:div
@@ -934,7 +935,7 @@
                   [:div.text-right
                     [:> (bs 'Button)
                       {:on-click #(rf/dispatch [:teacher-test-attempt])
-                       :disabled (not (empty? error))
+                       :disabled (not (and (empty? error) (empty? warnings)))
                        :bsStyle "primary"}
                       (t ["Vérifier"])]]])]
           [:> (bs 'Modal 'Footer)
@@ -1316,7 +1317,8 @@
   (let [working @(rf/subscribe [:scholar-working])
         work @(rf/subscribe [:scholar-work work-id])
         exprs (-> work :series :exprs)
-        {:keys [current-expr-idx current-expr interactive attempt error]} work
+        {:keys [current-expr-idx current-expr interactive attempt]} work
+        {:keys [error warnings]} (renderLispAsLaTeX attempt)
         error-style {:style {:color "#f00"}}]  ; TODO CSS
     [:> (bs 'Modal) {:show working
                      :onHide #(rf/dispatch [:close-scholar-work])}
@@ -1367,7 +1369,7 @@
               [:div.text-right
                 [:> (bs 'Button)
                   {:on-click #(rf/dispatch [:scholar-work-attempt])
-                   :disabled (not (empty? error))
+                   :disabled (not (and (empty? error) (empty? warnings)))
                    :bsStyle "primary"}
                   (t ["Vérifier"])]]])]
       [:> (bs 'Modal 'Footer)

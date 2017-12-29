@@ -558,8 +558,7 @@
   [check-spec-interceptor]
   (fn [db [_ new-value]]
     (-> db
-        (assoc-in [:teacher-attempt] new-value)
-        (assoc-in [:teacher-attempt-error] (expr-error new-value)))))
+        (assoc-in [:teacher-testing-attempt] new-value))))
 
 (rf/reg-event-fx
   :teacher-test-attempt
@@ -573,7 +572,7 @@
   (fn [db _]
     (-> db
         (assoc-in [:teacher-testing] false)
-        (assoc-in [:teacher-attempt] ""))))
+        (assoc-in [:teacher-testing-attempt] ""))))
 
 (rf/reg-event-fx
   :work-save

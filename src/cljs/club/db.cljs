@@ -64,8 +64,7 @@
 (s/def ::expr-mod-map map?)
 (s/def ::teacher-testing boolean?)
 (s/def ::teacher-testing-idx number?)
-(s/def ::teacher-attempt string?)
-(s/def ::teacher-attempt-error string?)
+(s/def ::teacher-testing-attempt string?)
 (s/def ::editing-series boolean?)
 (s/def ::series-page
   (s/and #(instance? PersistentVector %)
@@ -104,8 +103,7 @@
                           ::current-expr
                           ::interactive
                           ::shown-at
-                          ::attempt
-                          ::error])))
+                          ::attempt])))
 
 (s/def ::db
   (s/and map?
@@ -129,8 +127,7 @@
                               ::expr-mod-map
                               ::teacher-testing
                               ::teacher-testing-idx
-                              ::teacher-attempt
-                              ::teacher-attempt-error
+                              ::teacher-testing-attempt
                               ::editing-series
                               ::series-filtering
                               ::scholar-working
@@ -161,8 +158,7 @@
    :expr-mod-map {}
    :teacher-testing false
    :teacher-testing-idx 0
-   :teacher-attempt ""
-   :teacher-attempt-error "Expression vide"
+   :teacher-testing-attempt ""
    :editing-series false
    :series-filtering
      {:expressions []
@@ -179,8 +175,7 @@
       :current-expr ""
       :interactive true
       :shown-at ""
-      :attempt ""
-      :error "Expression vide"}
+      :attempt ""}
    :profile-page {:quality "scholar"
                   :school "fake-id-no-school"
                   :teachers-list []

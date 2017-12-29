@@ -13,7 +13,11 @@
 (def available-ops (js->clj (.-operations clubexpr)))
 (def natureFromLisp (.-natureFromLisp clubexpr))
 (def renderExprAsLisp (.-renderExprAsLisp clubexpr))
-(def renderLispAsLaTeX (.-renderLispAsLaTeX clubexpr))
+(def renderLispAsLaTeX-js (.-renderLispAsLaTeX clubexpr))
+(defn renderLispAsLaTeX
+  [src]
+  (try (-> src renderLispAsLaTeX-js js->clj keywordize-keys)
+       (catch js/Object e {:error (.-message e)})))
 (def parseLisp (.-parse clubexpr))
 (def replaceValuesWith (.-replaceValuesWith clubexpr))
 (def replaceValues #(replaceValuesWith %1 (clj->js %2)))
@@ -47,7 +51,7 @@
     (assoc expr-obj-clj :properties expr-properties)))
 
 (def reified-expressions
-  (let [expr-wrapper #(clj->js {"expr" (parseLisp %)})
+  (let [expr-wrapper #(clj->js {"expr" (:tree (parseLisp %))})
         series-wrapper #(map expr-wrapper %)
         demo
           ["(Produit 5 (Somme x 2))"
@@ -176,7 +180,7 @@
    "(Somme 1 (Quotient 2 (Somme (Produit 3 a) 4)))"
    "(Opposé (Quotient (Diff (Produit a (Racine b)) (Puissance (Inverse c) d)) (Carré (Somme x y z))))"])
 
-(defn translate-error
+(defn translate-msg
   [err]
   (case err
     "Empty expr"         (t ["Expression vide"])
@@ -188,39 +192,55 @@
     "Unknown cmd"        (t ["Commande inconnue"])
     "Invalid char"       (t ["Caractère non autorisé"])
     "Bad leaf"           (t ["Opérande non autorisée"])
+    "nb args < 1"
+      (t ["besoin d’exactement une opérande, vous n’en avez pas fourni"])
+    "nb args > 1"
+      (t ["besoin d’exactement une opérande, vous en avez fourni trop"])
+    "nb args < 2"
+      (t ["besoin d’au moins deux opérandes, vous n’en avez pas fourni assez"])
+    "nb args > 2"
+      (t ["besoin d’au plus deux opérandes, vous en avez fourni trop"])
     (t [err])))  ; beware: some msg are like "Somme: nb args < 2"
 
-(defn translate-val
-  [value]
-  (case value
-    "nb args < 1"  (t ["besoin d’exactement une opérande, vous n’en avez pas fourni"])
-    "nb args > 1"  (t ["besoin d’exactement une opérande, vous en avez fourni trop"])
-    "nb args < 2"  (t ["besoin d’au moins deux opérandes, vous n’en avez pas fourni assez"])
-    "nb args > 2"  (t ["besoin d’au plus deux opérandes, vous en avez fourni trop"])
-    (t [value])))
+(defn split-and-translate
+  [msg]
+  (let [[_err _val] (str/split msg ":")]
+    (str (translate-msg _err)
+         (if _val (str " : " (translate-msg (str/trim _val)))))))
+
+(defn warning-li
+  [warning]
+  [:li (str "⚠️ " (split-and-translate warning))])
 
 (defn infix-rendition
   [src inline]
-  (try [:> (if inline tex-inline tex-block)
-           {:math (renderLispAsLaTeX src)}]
-       (catch js/Object e
-         (let [[_err _val] (str/split (.-message e) ":")
-               error-style {:style {:min-height "3.5em"
-                                    :padding-top "1em"
-                                    :color "red"}}  ; TODO CSS
-               msg (str (translate-error _err)
-                        (if _val (str ": " (translate-val (str/trim _val)))))]
-           (if inline
-             [:span error-style msg]
-             [:div.text-center error-style msg])))))
+  (let [{:keys [latex warnings error]} (renderLispAsLaTeX src)]
+    (if error
+      (let [error-style {:style {:min-height "3.5em"
+                                 :padding-top "1em"
+                                 :color "red"}}  ; TODO CSS
+            msg (split-and-translate error)]
+        (if inline
+          [:span error-style msg]
+          [:div.text-center error-style msg]))
+      [:div
+        [:> (if inline tex-inline tex-block) {:math latex}]
+        (if (not (empty? warnings))
+          [:div
+            [:ul {:style {:list-style-type "none"
+                          :padding "0"
+                          :font-size "85%"
+                          :color "red"}}  ; TODO CSS
+              (doall (map warning-li warnings))]])]
+      )))
 
 (defn expr-error
   [src]
   (try (do (renderLispAsLaTeX src) "")
        (catch js/Object e
          (let [[_err _val] (str/split (.-message e) ":")
-               msg (str (translate-error _err)
-                        (if _val (str ": " (translate-val (str/trim _val)))))]
+               msg (str (translate-msg _err)
+                        (if _val (str ": " (translate-msg (str/trim _val)))))]
            msg))))
 
 (defn vec->list-as-hiccup
@@ -239,7 +259,7 @@
 
 (defn tree-rendition
   [src]
-  (let [expr (try (js->clj (parseLisp src))
+  (let [expr (try (-> src parseLisp js->clj keywordize-keys :tree)
                   (catch js/Object e (t ["Erreur"])))
         tree (vec->list-as-hiccup expr)
         size (tree-size tree)

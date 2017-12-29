@@ -13,6 +13,7 @@
                                reified-expressions
                                parseLispNoErrorWhenEmpty
                                renderExprAsLisp
+                               renderLispAsLaTeX
                                replaceValues]]
             [club.db :refer [get-users!
                              fetch-teachers-list!
@@ -169,14 +170,9 @@
    (-> db :teacher-testing-idx)))
 
 (rf/reg-sub
- :teacher-attempt
+ :teacher-testing-attempt
  (fn [db]
-   (-> db :teacher-attempt)))
-
-(rf/reg-sub
- :teacher-attempt-error
- (fn [db]
-   (-> db :teacher-attempt-error)))
+   (-> db :teacher-testing-attempt)))
 
 (rf/reg-sub
  :scholar-working
@@ -369,6 +365,34 @@
       (make-reaction
         (fn [] (:scholar-work @app-db))
         :on-dispose #(do)))))
+
+(rf/reg-sub
+  :teacher-testing-result
+  (fn [query-v _]
+    (rf/subscribe [:teacher-testing-attempt]))
+  (fn [attempt query-v _]
+    (renderLispAsLaTeX attempt)))
+
+(rf/reg-sub
+  :teacher-testing-latex
+  (fn [query-v _]
+    (rf/subscribe [:teacher-testing-result]))
+  (fn [result query-v _]
+    (:latex result)))
+
+(rf/reg-sub
+  :teacher-testing-error
+  (fn [query-v _]
+    (rf/subscribe [:teacher-testing-result]))
+  (fn [result query-v _]
+    (:error result)))
+
+(rf/reg-sub
+  :teacher-testing-warnings
+  (fn [query-v _]
+    (rf/subscribe [:teacher-testing-result]))
+  (fn [result query-v _]
+    (:warnings result)))
 
 (rf/reg-sub
   :game-src

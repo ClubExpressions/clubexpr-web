@@ -233,7 +233,7 @@
         expr-style {:style {:font-size "170%"}}]  ; TODO CSS
     [:div
       [:div.jumbotron
-        [:h2 (t ["Première visite ?"])]
+        [:h2 (t ["Première visite ? Essayez de reconstituer :"])]
         [:> (bs 'Grid)
           ; the only row in the jumbotron, see below the nested grid
           [:> (bs 'Row)
@@ -242,9 +242,7 @@
               [:> (bs 'Grid)
                 ; target expr:
                 [:> (bs 'Row)
-                  [:> (bs 'Col) {:xs 5 :md 5}
-                    [:p task-style (t ["Essayez de reconstituer :"])]]
-                  [:> (bs 'Col) {:xs 6 :md 6}
+                  [:> (bs 'Col) {:xs 11 :md 11}
                     [:div expr-style [infix-rendition game-src]]]]
                 [:div user-zone-style
                   ; Code Club input
@@ -255,9 +253,10 @@
                                   :evt-handler :user-code-club-src-change}]]]
                   ; attempted expr:
                   [:> (bs 'Row)
-                    [:> (bs 'Col) {:xs 5 :md 5}
-                      [:p task-style (t ["Votre tentative :"])]]
-                    [:> (bs 'Col) {:xs 6 :md 6}
+                    [:> (bs 'Col) {:xs 11 :md 11}
+                      [:p task-style (t ["Votre tentative :"])]]]
+                  [:> (bs 'Row)
+                    [:> (bs 'Col) {:xs 11 :md 11}
                       [:div expr-style [infix-rendition attempt]]
                       (let [attempt-nature (natureFromLisp attempt)]
                         (if (not (correct-nature game-src attempt))
@@ -283,9 +282,13 @@
                       (landing-game-link 2 game-idx)]]]
               ]]
             [:> (bs 'Col) {:xs 5 :md 5}
-              [:p task-style
-                (t ["Pour information, l’arbre de calcul de votre tentative :"])]
-              [tree-rendition attempt]]
+              [:div
+                {:style {:border "solid 1px"
+                         :border-radius "6px"
+                         :padding "1em"}}
+                [:p task-style
+                  (t ["Pour information, l’arbre de calcul de votre tentative :"])]
+                [tree-rendition attempt]]]
           ]]]
       [:> (bs 'Grid)
         [:> (bs 'Row)
@@ -917,7 +920,7 @@
                   [:p
                     {:style {:font-size "2em"}}  ; TODO CSS
                     (t ["Essayez de reconstituer  :  "])
-                    (infix-rendition current-expr true)]
+                    (infix-rendition current-expr false)]
                   ; Code Club
                   [src-input {
                     :label (t ["Pour cela tapez du Code Club ci-dessous :"])
@@ -926,7 +929,7 @@
                   ; current mode
                   [:div
                     [:p (t ["Vous êtes en mode interactif. Votre tentative : "])
-                        (infix-rendition attempt true)]]
+                        (infix-rendition attempt false)]]
                   ; nature msg
                   (if (not (correct-nature current-expr attempt))
                     [:p.text-center error-style

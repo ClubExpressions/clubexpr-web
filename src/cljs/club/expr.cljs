@@ -255,6 +255,7 @@
   (let [target (natureFromLisp target-src)
         attempt (natureFromLisp attempt-src)]
     (or
+      (empty? attempt)
       (and (= "Inverse"  target)
            (= "Quotient" attempt))
       (and (= "Quotient" target)

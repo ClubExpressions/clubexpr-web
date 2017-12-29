@@ -260,8 +260,7 @@
                     [:> (bs 'Col) {:xs 6 :md 6}
                       [:div expr-style [infix-rendition attempt]]
                       (let [attempt-nature (natureFromLisp attempt)]
-                        (if (and (not (empty? attempt-nature))
-                                 (not (correct-nature game-src attempt)))
+                        (if (not (correct-nature game-src attempt))
                           [:div {:style {:color "#f00"
                                          :font-size "120%"
                                          :text-align "center"}}  ; TODO CSS
@@ -928,8 +927,7 @@
                     [:p (t ["Vous êtes en mode interactif. Votre tentative : "])
                         (infix-rendition attempt true)]]
                   ; nature msg
-                  (if (and (empty? error)
-                           (not (correct-nature current-expr attempt)))
+                  (if (not (correct-nature current-expr attempt))
                     [:p.text-center error-style
                      (t ["La nature ne correspond pas !"])])
                   ; Check button
@@ -1355,8 +1353,7 @@
                   (if (not (empty? error))
                     [:p.text-center error-style error])])
               ; nature msg
-              (if (and (empty? error)
-                       (not (correct-nature current-expr attempt)))
+              (if (not (correct-nature current-expr attempt))
                 [:p.text-center error-style
                  (t ["La nature ne correspond pas !"])])
               ; «back to interactive» link

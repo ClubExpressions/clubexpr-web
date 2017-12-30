@@ -43,8 +43,9 @@ Le but est seulement de reconstituer « graphiquement » les expressions.
   Nous félicitons la maîtrise la commutativité mais le Club exige que les
   valeurs soient codées dans l’ordre.
 * Une fraction ayant 1 pour numérateur peut être obtenue avec `(Quotient 1 x)`,
-  mais aussi avec `(Inverse x)`.
+  mais aussi avec `(Inverse x)`. Idem pour les carrés et la puissance 2 :
+  `(Carré x)` et `(Puissance x 2)` sont équivalents.
 * Dans l’expression « 1+2 », le symbole de l’addition est entre le 1 et le 2.
   Avec le Club, on parle du résultat de l’opération donc on utilise le mot
-  « Somme » et on le met devant le x et le 1. Donc taper il faut taper
+  « Somme » et on le met devant le x et le 1. Donc il faut taper
   `(Somme 1 2)` et non `(1 Somme 2)` !")

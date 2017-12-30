@@ -212,6 +212,10 @@
   [warning]
   [:li (str "⚠️ " (split-and-translate warning))])
 
+(defn format-warnings
+  [warnings]
+  (doall (map warning-li warnings)))
+
 (defn infix-rendition
   [src inline]
   (let [{:keys [latex warnings error]} (renderLispAsLaTeX src)]
@@ -231,7 +235,7 @@
                           :padding "0"
                           :font-size "85%"
                           :color "red"}}  ; TODO CSS
-              (doall (map warning-li warnings))]])]
+              (format-warnings warnings)]])]
       )))
 
 (defn expr-error

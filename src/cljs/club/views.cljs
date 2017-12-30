@@ -91,8 +91,9 @@
       (t ["Touches disponibles"])
       " : "
       (list-pretty ["+" "-" "*" "/" "²" "^"])
-      ", "
-      (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) "."]
+      ", " [:br]
+      (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) " "
+      "(" [:code "Ctrl+K"] " " (t ["pour"]) [:code "Carré"] ")."]
     [:li
       (t ["Lettres grecques"])
       " : "
@@ -113,13 +114,15 @@
                        "'/'" #(.replaceSelection % "(Quotient ")
                        "'²'" #(.replaceSelection % "(Carré ")
                        "'^'" #(.replaceSelection % "(Puissance ")
+                       "Ctrl-C" #(js/alert (t ["Désactivé"]))
+                       "Ctrl-X" #(js/alert (t ["Désactivé"]))
                        "Ctrl-S" #(.replaceSelection % "(Somme ")
                        "Ctrl-D" #(.replaceSelection % "(Diff ")
                        "Ctrl-P" #(.replaceSelection % "(Produit ")
                        "Ctrl-Q" #(.replaceSelection % "(Quotient ")
                        "Ctrl-O" #(.replaceSelection % "(Opposé ")
                        "Ctrl-I" #(.replaceSelection % "(Inverse ")
-                       "Ctrl-C" #(.replaceSelection % "(Carré ")
+                       "Ctrl-K" #(.replaceSelection % "(Carré ")
                        "Ctrl-U" #(.replaceSelection % "(Puissance ")
                        "Ctrl-R" #(.replaceSelection % "(Racine ")}]
         [:> CodeMirror {:value @(rf/subscribe [subs-path])

@@ -1371,6 +1371,7 @@
               ; «back to interactive» link
               (if (not interactive)
                 [:p.pull-left
+                 {:style {:padding-top "1em"}}  ; TODO CSS
                  (t ["Trop difficile !"])
                  " "
                  [:a {:on-click #(rf/dispatch [:back-to-interactive])}

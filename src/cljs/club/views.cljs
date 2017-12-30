@@ -131,19 +131,19 @@
                                   :extraKeys extraKeys}
                         :onBeforeChange #(rf/dispatch [evt-handler %3])}])
       [:> (bs 'FormControl 'Feedback)]
-      [:p.pull-left {:style {:font-size "80%"}}  ; TODO CSS
-        [:a {:title @(rf/subscribe [subs-path])
-             :on-click #(rf/dispatch [evt-handler ""])}
-          "Réinitialiser le code"]]
       (let [showing @(rf/subscribe [:show-help])]
         [:div
           [:> (bs 'Collapse) {:in showing}
             [:div [:> (bs 'Well) (ops-pretty available-ops)]]]
-          [:p.text-right {:style {:font-size "80%"}}  ; TODO CSS
+          [:p.pull-right {:style {:font-size "80%"}}  ; TODO CSS
             [:a {:on-click #(rf/dispatch [:show-help])}
               (if showing
                 (t ["Cacher l’aide"])
                 (t ["Afficher de l’aide sur le Code Club"]))]]])
+      [:p.text-left {:style {:font-size "80%"}}  ; TODO CSS
+        [:a {:title @(rf/subscribe [subs-path])
+             :on-click #(rf/dispatch [evt-handler ""])}
+          "Réinitialiser le code"]]
     ]])
 
 (defn nav-bar

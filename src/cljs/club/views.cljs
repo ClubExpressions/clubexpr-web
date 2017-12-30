@@ -238,7 +238,7 @@
         expr-style {:style {:font-size "170%"}}]  ; TODO CSS
     [:div
       [:div.jumbotron
-        [:h2 (t ["Première visite ? Essayez de reconstituer :"])]
+        [:h2 (t ["Première visite ? Essayez de reconstituer"])]
         [:> (bs 'Grid)
           ; the only row in the jumbotron, see below the nested grid
           [:> (bs 'Row)

@@ -29,6 +29,8 @@
                                get-val-in-lisp
                                available-ops
                                renderLispAsLaTeX
+                               split-and-translate
+                               format-warnings
                                infix-rendition
                                tree-rendition]]
             [club.text]
@@ -1359,7 +1361,9 @@
                 [:div
                   [:p (t ["Vous êtes en mode non interactif."])]
                   (if (not (empty? error))
-                    [:p.text-center error-style error])])
+                    [:p.text-center error-style (split-and-translate error)])
+                  (if (not (empty? warnings))
+                    [:div error-style (format-warnings warnings)])])
               ; nature msg
               (if (not (correct-nature current-expr attempt))
                 [:p.text-center error-style

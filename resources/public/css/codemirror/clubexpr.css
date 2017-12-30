@@ -18,9 +18,7 @@
 }
 
 .CodeMirror-cursor {
-  width: 0.6em;
-  background-color: #ffff0070;
-  border: 0px;
+  border: solid 1px;
 }
 
 .CodeMirror-matchingbracket {

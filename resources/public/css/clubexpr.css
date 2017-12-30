@@ -10,3 +10,17 @@ code {
 .draggable {
     cursor: move;
 }
+
+ul#club-warning {
+    list-style-type: none;
+    color: red;
+    font-size: 85%;
+}
+
+/* https://www.w3.org/Style/Examples/007/color-bullets.en.html */
+ul#club-warning li::before {
+    content: "⚠️";
+    display: inline-block;
+    width: 1.5em;
+    margin-left: -1.5em;
+}

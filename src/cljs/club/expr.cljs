@@ -210,11 +210,11 @@
 
 (defn warning-li
   [warning]
-  [:li (str "⚠️ " (split-and-translate warning))])
+  [:li (split-and-translate warning)])
 
 (defn format-warnings
   [warnings]
-  (doall (map warning-li warnings)))
+  [:ul {:id "club-warning"} (doall (map warning-li warnings))])
 
 (defn infix-rendition
   [src inline]
@@ -229,13 +229,7 @@
           [:div.text-center error-style msg]))
       [:div
         [:> (if inline tex-inline tex-block) {:math latex}]
-        (if (not (empty? warnings))
-          [:div
-            [:ul {:style {:list-style-type "none"
-                          :padding "0"
-                          :font-size "85%"
-                          :color "red"}}  ; TODO CSS
-              (format-warnings warnings)]])]
+        (if (not (empty? warnings)) (format-warnings warnings))]
       )))
 
 (defn expr-error

@@ -230,67 +230,62 @@
         game-idx @(rf/subscribe [:game-idx])
         game-src @(rf/subscribe [:game-src])
         attempt  @(rf/subscribe [:attempt-code])
-        user-zone-style  {:style {:background-color "#fff"
-                                  :padding "1em 0 0 1em"
+        user-zone-style  {:style {:background-color "#fff"  ; TODO CSS
+                                  :padding "1em 1em 0 1em"
                                   :border "solid 1px #bbb"
-                                  :border-radius "10px"}}  ; TODO CSS
-        task-style {:style {:font-size "120%"}}  ; TODO CSS
-        expr-style {:style {:font-size "170%"}}]  ; TODO CSS
+                                  :border-radius "10px"}}
+        task-style {:style {:font-size "120%"}}
+        expr-style {:style {:font-size "170%"}}
+        tree-style {:style {:border "solid 1px"
+                            :border-color "#bbb"
+                            :border-radius "10px"
+                            :padding "1em"}}]
     [:div
       [:div.jumbotron
         [:h2 (t ["Première visite ? Essayez de reconstituer"])]
         [:> (bs 'Grid)
-          ; the only row in the jumbotron, see below the nested grid
+          ; this grid has two rows
+          [:> (bs 'Row)
+            ; just one col with the title and the expr to work on
+            [:> (bs 'Col) {:xs 7 :md 7}
+                  ; target expr:
+                  [:div expr-style [infix-rendition game-src]]]]
           [:> (bs 'Row)
             [:> (bs 'Col) {:xs 7 :md 7}
-              ; left part, with everything but the tree:
-              [:> (bs 'Grid)
-                ; target expr:
-                [:> (bs 'Row)
-                  [:> (bs 'Col) {:xs 11 :md 11}
-                    [:div expr-style [infix-rendition game-src]]]]
-                [:div user-zone-style
-                  ; Code Club input
-                  [:> (bs 'Row)
-                    [:> (bs 'Col) {:xs 11 :md 11}
-                      [src-input {:label label
-                                  :subs-path :attempt-code
-                                  :evt-handler :user-code-club-src-change}]]]
-                  ; attempted expr:
-                  [:> (bs 'Row)
-                    [:> (bs 'Col) {:xs 11 :md 11}
-                      [:p task-style (t ["Votre tentative :"])]]]
-                  [:> (bs 'Row)
-                    [:> (bs 'Col) {:xs 11 :md 11}
-                      [:div expr-style [infix-rendition attempt]]
-                      (let [attempt-nature (natureFromLisp attempt)]
-                        (if (not (correct-nature game-src attempt))
-                          [:div {:style {:color "#f00"
-                                         :font-size "120%"
-                                         :text-align "center"}}  ; TODO CSS
-                            (t ["La nature ne correspond pas."])]))
-                      (try (if (= (renderLispAsLaTeX game-src)
-                                  (renderLispAsLaTeX attempt))
-                             [:div {:style {:color "#0f0"
-                                            :font-size "200%"
-                                            :text-align "center"}}  ; TODO CSS
-                               (t ["Bravo !"])])
-                           (catch js/Object e))]]]
-                [:> (bs 'Row)
-                  [:> (bs 'Col) {:xs 12 :md 12
-                                 :style {:padding-top "2em"}}
-                    [:p task-style (t ["Expression à reconstituer"]) " : "
-                      (landing-game-link 0 game-idx)
-                      " "
-                      (landing-game-link 1 game-idx)
-                      " "
-                      (landing-game-link 2 game-idx)]]]
-              ]]
+              ; this col is the left part
+              [:div user-zone-style
+                ; Code Club input
+                [src-input {:label label
+                            :subs-path :attempt-code
+                            :evt-handler :user-code-club-src-change}]
+                ; attempted expr:
+                [:p task-style (t ["Votre tentative :"])]
+                [:div expr-style [infix-rendition attempt]]
+                (let [attempt-nature (natureFromLisp attempt)]
+                  (if (not (correct-nature game-src attempt))
+                    [:div {:style {:color "#f00"
+                                   :font-size "120%"
+                                   :text-align "center"}}  ; TODO CSS
+                      (t ["La nature ne correspond pas."])]))
+                (try (if (= (renderLispAsLaTeX game-src)
+                            (renderLispAsLaTeX attempt))
+                       [:div {:style {:color "#0f0"
+                                      :font-size "200%"
+                                      :text-align "center"}}  ; TODO CSS
+                         (t ["Bravo !"])])
+                     (catch js/Object e))]
+              [:div {:style {:padding-top "2em"}}
+                [:p task-style
+                  (t ["Expression à reconstituer"]) " : "
+                  [:br]
+                  (landing-game-link 0 game-idx)
+                  " "
+                  (landing-game-link 1 game-idx)
+                  " "
+                  (landing-game-link 2 game-idx)]]
+              ]
             [:> (bs 'Col) {:xs 5 :md 5}
-              [:div
-                {:style {:border "solid 1px"
-                         :border-radius "6px"
-                         :padding "1em"}}
+              [:div tree-style
                 [:p task-style
                   (t ["Pour information, l’arbre de calcul de votre tentative :"])]
                 [tree-rendition attempt]]]

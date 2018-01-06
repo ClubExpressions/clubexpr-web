@@ -282,7 +282,9 @@
                   " "
                   (landing-game-link 1 game-idx)
                   " "
-                  (landing-game-link 2 game-idx)]]
+                  (landing-game-link 2 game-idx)
+                  " "
+                  (landing-game-link 3 game-idx)]]
               ]
             [:> (bs 'Col) {:xs 5 :md 5}
               [:div tree-style

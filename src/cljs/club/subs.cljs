@@ -401,6 +401,7 @@
   (fn [game-idx query-v _]
     (let [exprs ["(Somme 2 2)"
                  "(Somme 1 (Produit 2 x))"
+                 "(Diff (Produit 6 y) (Somme y 7))"
                  "(Opposé (Quotient (Diff (Produit a (Racine b))
                                           (Puissance (Inverse c) d))
                                     (Carré (Somme x y z))))"]]

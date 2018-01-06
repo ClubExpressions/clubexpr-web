@@ -88,7 +88,6 @@
                              (series-wrapper seconde-serie-1)
                              (.-expressions clubexpr)))))
 
-
 (def all-exprs
   ["(Somme 1 2)"
 

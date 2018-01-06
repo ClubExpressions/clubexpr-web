@@ -51,7 +51,7 @@
     (assoc expr-obj-clj :properties expr-properties)))
 
 (def reified-expressions
-  (let [expr-wrapper #(clj->js {"expr" (:tree (parseLisp %))})
+  (let [expr-wrapper #(clj->js {"expr" (getValueByKeys (parseLisp %) "tree")})
         series-wrapper #(map expr-wrapper %)
         demo
           ["(Produit 5 (Somme x 2))"

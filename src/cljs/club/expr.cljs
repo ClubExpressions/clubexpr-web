@@ -27,7 +27,7 @@
 
 (defn parseLispNoErrorWhenEmpty
   [src]
-  (try (parseLisp src)
+  (try (getValueByKeys (parseLisp src) "tree")
        (catch js/Object e
          (if (= "Error: Empty expr" (str e))
                  []

@@ -265,7 +265,9 @@
 
 (defn correct
   [src1 src2]
-  (= (renderLispAsLaTeX src1) (renderLispAsLaTeX src2)))
+  (let [latex1 (-> src1 renderLispAsLaTeX :latex)
+        latex2 (-> src2 renderLispAsLaTeX :latex)]
+    (= latex1 latex2)))
 
 (defn correct-nature
   [target-src attempt-src]

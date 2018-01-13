@@ -442,6 +442,12 @@
           [:p (t ["Il est possible de se connecter au Club avec plusieurs comptes. Un de ces comptes sera votre compte principal, avec un profil de professeur. Les autres comptes pourront avoir un profil d’élève et vous déclarer comme professeur."])]
           [:p (t ["Attention, vous ne pouvez pas gérer vos vrais élèves depuis différents comptes, même si ces comptes ont un profil de professeur."])]
         ]
+        [:> (bs 'Col) {:xs 4 :md 4}
+          [:> MD {:source club.text/several-schools}]
+        ]
+        [:> (bs 'Col) {:xs 4 :md 4}
+          [:> MD {:source club.text/multi-accounts}]
+        ]
       ]
     ]
   ])

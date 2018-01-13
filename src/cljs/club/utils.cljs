@@ -45,10 +45,11 @@
 
 (defn scholar-comparator
   [scholar1 scholar2]
-  (let [ln1 (:lastname scholar1)
-        ln2 (:lastname scholar2)
-        fn1 (:firstname scholar1)
-        fn2 (:firstname scholar2)]
+  (let [LN1 (:lastname scholar1)
+        LN2 (:lastname scholar2)
+        FN1 (:firstname scholar1)
+        FN2 (:firstname scholar2)
+        [ln1 ln2 fn1 fn2] (map str/lower-case [LN1 LN2 FN1 FN2])]
     (if (= ln1 ln2)
       (compare fn1 fn2)
       (compare ln1 ln2))))

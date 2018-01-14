@@ -65,7 +65,7 @@
   (let [p1 (:progress scholar1)
         p2 (:progress scholar2)]
     (if (= p1 p2)
-      (compare (:lastname scholar1) (:lastname scholar2))
+      (scholar-comparator scholar1 scholar2)
       (cond
         (= -666 p1)  1
         (= -666 p2) -1

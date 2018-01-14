@@ -6,7 +6,6 @@
                                 jsx->clj
                                 js->clj-vals
                                 groups-option
-                                scholar-comparator
                                 FormControlFixed]]))
 
 (def clubexpr (getValueByKeys js/window "deps" "clubexpr"))

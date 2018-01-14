@@ -427,7 +427,7 @@
         ]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Assigner des séries à ses groupes"])]
-          [:p (t ["Une fois que vous aurez créé une série dans la partie « Séries », vous pourrez l’attribuer à un groupe. Cette attribution se fait dans la partie « Groupes »."])]
+          [:p (t ["Une fois que vous aurez créé une série dans la partie « Séries », vous pourrez l’attribuer à un groupe. Cette attribution se fait dans la partie « Travaux »."])]
         ]
       ]
       [:> (bs 'Row)

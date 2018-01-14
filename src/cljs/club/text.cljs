@@ -50,6 +50,25 @@ Le but est seulement de reconstituer « graphiquement » les expressions.
   « Somme » et on le met devant le x et le 1. Donc il faut taper
   `(Somme 1 2)` et non `(1 Somme 2)` !")
 
+(def assign-to-groups
+"## Regrouper ses élèves
+
+Dans la partie « Groupes », vous définirez des listes d’élèves. Ces listes
+peuvent correspondre :
+
+* à des classes entières ;
+* à des demi-groupes d’une classe ;
+* à des élèves ayant des besoins spécifiques (remédiation ou approfondissement)
+  au sein de l’Accompagnement Personnalisé ou non ;
+* …
+
+Pour cela, tapez simplement le nom d’un groupe à côté d’un élève et validez
+d’un clic sur « Créer le groupe… » ou avec la touche Entrée. Pour choisir un
+groupe existant, utiliser les flèches ou la souris.
+
+Pour retirer un élève d’un groupe, utilisez les touches habituellement
+utilisées pour supprimer du texte, ou cliquez sur la croix correspondante.")
+
 (def several-schools
 "## Plusieurs établissements
 

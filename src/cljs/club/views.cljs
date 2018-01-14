@@ -423,13 +423,7 @@
           [:p (t ["En attendant que de vrais élèves vous déclarent comme étant leur professeur, deux élèves fantômes vont vous permettre d’essayer cette interface. Ces élèves n’ont pas de vrai compte et il n’est pas possible de se connecter au site sous leur identité. Vous pouvez cependant vous connecter au site avec un autre compte afin de créer un élève factice qui vous aurait comme professeur."])]
         ]
         [:> (bs 'Col) {:xs 4 :md 4}
-          [:h2 (t ["Regrouper ses élèves"])]
-          [:p (t ["Dans la partie « Groupes », vous définirez des listes d’élèves. Ces listes peuvent correspondre :"])]
-          [:ul
-            [:li (t ["à des classes entières ;"])]
-            [:li (t ["à des demi-groupes d’une classe ;"])]
-            [:li (t ["à des élèves ayant des besoins spécifiques (remédiation ou approfondissement) au sein de l’Accompagnement Personnalisé ou non ;"])]
-            [:li (t ["…"])]]
+          [:> MD {:source club.text/assign-to-groups}]
         ]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Assigner des séries à ses groupes"])]

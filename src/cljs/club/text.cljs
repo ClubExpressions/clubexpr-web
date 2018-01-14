@@ -60,10 +60,10 @@ plusieurs comptes, un pour chaque établissement.")
 "## Comptes élèves multiples
 
 Il peut arriver que des élèves perdent leurs informations de connexion et
-doivent créer un autre compte. Il y a plusieurs moyen de reconnaître le compte
+doivent créer un autre compte. Il y a plusieurs moyens de reconnaître le compte
 à garder parmi les autres. Les comptes obsolètes peuvent être rangés dans un
-groupe qui ne sera pas utilisé, que vous pouvez appeler « poubelle », ou tout
-autre nom qui vous plaira.
+groupe qui ne sera pas utilisé, que vous pouvez appeler par exemple
+« poubelle », ou « zzz_poubelle » pour qu’il soit classé à la fin.
 
 Dans la partie « Groupes », les élèves sans groupe sont répertoriés dans un
 groupe qui apparaît tout en haut de la liste, appelé « Sans groupe ». Si un
@@ -79,5 +79,5 @@ qui vous permettra de faire le lien entre un nom et l’avancement d’une séri
 Exemple : j’ai deux comptes pour un même élève, les deux comptes ayant les
 identifiants `a1b2...` et `789f...` (survoler ou cliquer sur ☺). Dans la page
 résultats, on observe que l’un des comptes semble être moins actif que l’autre.
-On note son identifiant :  c’est ce compte-ci qu’il faudra passer dans groupe
-« poubelle ».")
+On note son identifiant :  c’est ce compte-ci qu’il faudra passer dans le
+groupe « poubelle ».")

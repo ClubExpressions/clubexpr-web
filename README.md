@@ -206,7 +206,6 @@ contains all the relevant changes.
 
 The steps :
 
-
 	# kill lein with `Ctrl`+`C`
 	git co master
     #  build a prod version (`:prod` in `project.clj`)

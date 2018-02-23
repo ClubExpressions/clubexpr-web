@@ -997,7 +997,7 @@
            :dropBackTransitionDuration 0.3
            :placeholder "< ici >"  ; TODO: impossible use of (t ["ici"]) here
            :onSort #(rf/dispatch [:series-exprs-sort %])}]])
-      [:p (t ["Pour supprimer une expression de votre série, double-cliquez sur celle-ci, mais dans la liste de droite. Il est possible de réordonner vos expression en les glissant chacune au bon endroit."])]
+      [:p (t ["Pour supprimer une expression de votre série, double-cliquez sur celle-ci, mais dans la liste de droite. Il est possible de réordonner vos expressions en les glissant chacune au bon endroit."])]
     ]))
 
 (defn show-series-list

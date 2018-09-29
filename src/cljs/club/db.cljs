@@ -633,12 +633,12 @@
     ;{:id "fake-id-0440016D" :code "0440016D" :name "Collège ANNE DE BRETAGNE"}
     ;{:id "fake-id-0440018F" :code "0440018F" :name "Collège RAYMOND QUENEAU"}
     ;{:id "fake-id-0440021J" :code "0440021J" :name "Lycée CLEMENCEAU"}
-    ;{:id "fake-id-0440022K" :code "0440022K" :name "Lycée JULES VERNE"}
+    {:id "fake-id-0440022K" :code "0440022K" :name "Lycée JULES VERNE"}
     ;{:id "fake-id-0440023L" :code "0440023L" :name "Collège CHANTENAY"}
     ;{:id "fake-id-0440024M" :code "0440024M" :name "Lycée GABRIEL GUISTHAU"}
     ;{:id "fake-id-0440025N" :code "0440025N" :name "Collège HECTOR BERLIOZ"}
     ;{:id "fake-id-0440028S" :code "0440028S" :name "Collège LA COLINIERE"}
-    ;{:id "fake-id-0440029T" :code "0440029T" :name "Lycée LIVET"}
+    {:id "fake-id-0440029T" :code "0440029T" :name "Lycée LIVET"}
     {:id "fake-id-0440030U" :code "0440030U" :name "Lycée GASPARD MONGE - LA CHAUVINIERE"}
     ;{:id "fake-id-0440033X" :code "0440033X" :name "Lycée Pro FRANCOIS ARAGO"}
     ;{:id "fake-id-0440034Y" :code "0440034Y" :name "Lycée Pro MICHELET"}
@@ -658,7 +658,7 @@
     ;{:id "fake-id-0440074S" :code "0440074S" :name "Lycée Pro BROSSAUD-BLANCHO"}
     {:id "fake-id-0440077V" :code "0440077V" :name "Lycée JACQUES PREVERT"}
     ;{:id "fake-id-0440080Y" :code "0440080Y" :name "Collège JEAN MONNET"}
-    ;{:id "fake-id-0440086E" :code "0440086E" :name "Lycée LA COLINIERE"}
+    {:id "fake-id-0440086E" :code "0440086E" :name "Lycée LA COLINIERE"}
     ;{:id "fake-id-0440107C" :code "0440107C" :name "Collège ND DU BON ACCUEIL"}
     ;{:id "fake-id-0440119R" :code "0440119R" :name "Lycée HOTELIER STE ANNE"}
     ;{:id "fake-id-0440147W" :code "0440147W" :name "Collège RENE GUY CADOU"}
@@ -837,7 +837,7 @@
     ;{:id "fake-id-0442273G" :code "0442273G" :name "Lycée CHARLES PEGUY"}
     ;{:id "fake-id-0442277L" :code "0442277L" :name "Collège DE GOULAINE"}
     ;{:id "fake-id-0442286W" :code "0442286W" :name "EXP LycéeEE EXPERIMENTAL"}
-    ;{:id "fake-id-0442309W" :code "0442309W" :name "Lycée ALCIDE D'ORBIGNY"}
+     {:id "fake-id-0442309W" :code "0442309W" :name "Lycée ALCIDE D'ORBIGNY"}
     ;{:id "fake-id-0442368K" :code "0442368K" :name "Collège DU PAYS BLANC"}
     ;{:id "fake-id-0442388G" :code "0442388G" :name "Collège CENS"}
     ;{:id "fake-id-0442417N" :code "0442417N" :name "Collège LES SABLES D'OR"}
@@ -1183,7 +1183,7 @@
     ;{:id "fake-id-0850006V" :code "0850006V" :name "Lycée GEORGES CLEMENCEAU"}
     ;{:id "fake-id-0850014D" :code "0850014D" :name "Collège GOLFE DES PICTONS"}
     ;{:id "fake-id-0850015E" :code "0850015E" :name "Collège LES SICARDIERES"}
-    ;{:id "fake-id-0850016F" :code "0850016F" :name "Lycée ATLANTIQUE"}
+    {:id "fake-id-0850016F" :code "0850016F" :name "Lycée ATLANTIQUE"}
     ;{:id "fake-id-0850024P" :code "0850024P" :name "Collège GASTON CHAISSAC"}
     ;{:id "fake-id-0850025R" :code "0850025R" :name "Lycée PIERRE MENDES-FRANCE"}
     ;{:id "fake-id-0850027T" :code "0850027T" :name "Lycée ROSA PARKS"}

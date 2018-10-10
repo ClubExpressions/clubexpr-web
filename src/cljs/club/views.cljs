@@ -263,9 +263,7 @@
                 [:div expr-style [infix-rendition attempt]]
                 (let [attempt-nature (natureFromLisp attempt)]
                   (if (not (correct-nature game-src attempt))
-                    [:div {:style {:color "#f00"
-                                   :font-size "120%"
-                                   :text-align "center"}}  ; TODO CSS
+                    [:div {:id "club-bad-nature"}
                       (t ["La nature ne correspond pas."])]))
                 (try (if (= (renderLispAsLaTeX game-src)
                             (renderLispAsLaTeX attempt))
@@ -934,7 +932,7 @@
                         (infix-rendition attempt false)]]
                   ; nature msg
                   (if (not (correct-nature current-expr attempt))
-                    [:p.text-center error-style
+                    [:div {:id "club-bad-nature"}
                      (t ["La nature ne correspond pas !"])])
                   ; Check button
                   [:div.text-right
@@ -1363,7 +1361,7 @@
                     [:div error-style (format-warnings warnings)])])
               ; nature msg
               (if (not (correct-nature current-expr attempt))
-                [:p.text-center error-style
+                [:div {:id "club-bad-nature"}
                  (t ["La nature ne correspond pas !"])])
               ; «back to interactive» link
               (if (not interactive)

@@ -11,6 +11,12 @@ code {
     cursor: move;
 }
 
+div#club-bad-nature {
+    text-align: center;
+    color: red;
+    font-size: 220%;
+}
+
 ul#club-warning {
     list-style-type: none;
     color: red;

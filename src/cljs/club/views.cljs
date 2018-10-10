@@ -905,7 +905,7 @@
           [:> (bs 'Modal 'Body)
             (cond
               (empty? exprs)
-                [:p (t ["La série est vide !"])]
+                [:p (t ["En cours de chargement. Après 20s, merci de réessayer."])]
               :else
                 [:div
                   [:p.pull-right
@@ -987,7 +987,7 @@
           {:style {:background-color "#fc6"  ; TODO CSS
                    :border-radius "4px"
                    :padding "1em"}}
-          [:strong (t ["La série est vide."])]
+          [:strong (t ["En cours de chargement. Après 20s, merci de réessayer."])]
           " "
           (t ["En cliquant sur une expression sur la gauche, vous pouvez modifier ses valeurs puis l’ajouter à votre série. "])]
         [:div {:style {:padding-bottom "1em"}}
@@ -1332,7 +1332,7 @@
       [:> (bs 'Modal 'Body)
         (cond
           (empty? exprs)
-            [:p (t ["La série est vide !"])]
+            [:p (t ["En cours de chargement. Après 20s, merci de réessayer."])]
           (or (= current-expr-idx -666)  ; just finished
               (= current-expr-idx -665)) ; back to a finished work
             [:p (t ["C’est terminé, bravo !"])]

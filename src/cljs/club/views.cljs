@@ -867,7 +867,6 @@
         error  @(rf/subscribe [:teacher-testing-error])
         warnings  @(rf/subscribe [:teacher-testing-warnings])
         nav-style {:style {:margin-right "1em"}}  ; TODO CSS
-        error-style {:style {:color "#f00"}}  ; TODO CSS
         title @(rf/subscribe [:series-title])
         desc  @(rf/subscribe [:series-desc])
         exprs @(rf/subscribe [:series-exprs])]
@@ -1321,8 +1320,7 @@
         work @(rf/subscribe [:scholar-work work-id])
         exprs (-> work :series :exprs)
         {:keys [current-expr-idx current-expr interactive attempt]} work
-        {:keys [error warnings]} (renderLispAsLaTeX attempt)
-        error-style {:style {:color "#f00"}}]  ; TODO CSS
+        {:keys [error warnings]} (renderLispAsLaTeX attempt)]
     [:> (bs 'Modal) {:show working
                      :onHide #(rf/dispatch [:close-scholar-work])}
       [:> (bs 'Modal 'Header) {:closeButton true}
@@ -1356,9 +1354,9 @@
                 [:div
                   [:p (t ["Vous êtes en mode non interactif."])]
                   (if (not (empty? error))
-                    [:p.text-center error-style (split-and-translate error)])
+                    [:div (split-and-translate error)])
                   (if (not (empty? warnings))
-                    [:div error-style (format-warnings warnings)])])
+                    [:div (format-warnings warnings)])])
               ; nature msg
               (if (not (correct-nature current-expr attempt))
                 [:div {:id "club-bad-nature"}

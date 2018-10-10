@@ -491,14 +491,14 @@
             "teacher" (t ["pour que les élèves puissent vous retrouver (indiquer aussi ici le prénom pour les homonymes dans un même établissement)"])
             (t ["pour que l’on puisse vous retrouver"]))
         lastname  [text-input {:label (t ["Nom"])
-                               :placeholder (t ["Klougliblouk"])
+                               :placeholder (t ["Je tape ici mon nom de famille"])
                                :help (str (t ["Votre nom de famille"])
                                           " "
                                           help-text-find-you)
                                :value-id :profile-lastname
                                :event-id :profile-lastname}]
         firstname [text-input {:label (t ["Prénom"])
-                               :placeholder (t ["Georgette"])
+                               :placeholder (t ["Je tape ici mon prénom"])
                                :help (str (t ["Votre prénom"])
                                           " "
                                           help-text-find-you)

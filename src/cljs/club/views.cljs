@@ -95,7 +95,8 @@
       (list-pretty ["+" "-" "*" "/" "²" "^"])
       ", " [:br]
       (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) " "
-      "(" [:code "Ctrl+K"] " " (t ["pour"]) [:code "Carré"] ")."]
+      "(" [:code "Ctrl+K"] " " (t ["pour"]) " " [:code "Carré"] ", "
+      [:code "Ctrl+U"] " " (t ["pour"]) " " [:code "Puissance"] ")."]
     [:li
       (t ["Lettres grecques"])
       " : "

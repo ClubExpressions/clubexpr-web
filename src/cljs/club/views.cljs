@@ -222,11 +222,12 @@
                :border-radius "4px"
                :background-color (if (= idx current) "#beb" "#ddd")}
        :on-click #(rf/dispatch [:game-idx idx])}
-      (str (t ["n°"]) (+ idx 1))])
+      (if (= -1 idx) (t ["aucune"]) (str (t ["n°"]) (+ idx 1)))])
 
 (defn page-landing
   []
   (let [label (t ["Modifiez le Code Club ci-dessous pour reconstituer l’expression proposée :"])
+        label-no-expr (t ["Modifiez le Code Club ci-dessous pour le tester :"])
         game-idx @(rf/subscribe [:game-idx])
         game-src @(rf/subscribe [:game-src])
         attempt  @(rf/subscribe [:attempt-code])
@@ -242,29 +243,32 @@
                             :padding "1em"}}]
     [:div
       [:div.jumbotron
-        [:h2 (t ["Première visite ? Essayez de reconstituer"])]
+        (if (>= game-idx 0)
+          [:h2 (t ["Première visite ? Essayez de reconstituer"])])
         [:> (bs 'Grid)
-          ; this grid has two rows
-          [:> (bs 'Row)
-            ; just one col with the title and the expr to work on
-            [:> (bs 'Col) {:xs 7 :md 7}
-                  ; target expr:
-                  [:div expr-style [infix-rendition game-src]]]]
+          ; this grid has two rows only if there is a target expr
+          (if (>= game-idx 0)
+            [:> (bs 'Row)
+              ; just one col with the title and the expr to work on
+              [:> (bs 'Col) {:xs 7 :md 7}
+                    ; target expr:
+                    [:div expr-style [infix-rendition game-src]]]])
           [:> (bs 'Row)
             [:> (bs 'Col) {:xs 7 :md 7}
               ; this col is the left part
               [:div user-zone-style
                 ; Code Club input
-                [src-input {:label label
+                [src-input {:label (if (= -1 game-idx) label-no-expr label)
                             :subs-path :attempt-code
                             :evt-handler :user-code-club-src-change}]
                 ; attempted expr:
                 [:p task-style (t ["Votre tentative :"])]
                 [:div expr-style [infix-rendition attempt]]
-                (let [attempt-nature (natureFromLisp attempt)]
-                  (if (not (correct-nature game-src attempt))
-                    [:div {:id "club-bad-nature"}
-                      (t ["La nature ne correspond pas."])]))
+                (if (>= game-idx 0)
+                  (let [attempt-nature (natureFromLisp attempt)]
+                    (if (not (correct-nature game-src attempt))
+                      [:div {:id "club-bad-nature"}
+                        (t ["La nature ne correspond pas."])])))
                 (try (if (= (renderLispAsLaTeX game-src)
                             (renderLispAsLaTeX attempt))
                        [:div {:style {:color "#0f0"
@@ -276,6 +280,8 @@
                 [:p task-style
                   (t ["Expression à reconstituer"]) " : "
                   [:br]
+                  (landing-game-link -1 game-idx)  ; no expression
+                  " "
                   (landing-game-link 0 game-idx)
                   " "
                   (landing-game-link 1 game-idx)

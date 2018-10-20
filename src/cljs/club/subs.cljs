@@ -405,4 +405,6 @@
                  "(Opposé (Quotient (Diff (Produit a (Racine b))
                                           (Puissance (Inverse c) d))
                                     (Carré (Somme x y z))))"]]
-      (get exprs game-idx))))
+      (if (= -1 game-idx)
+        ""
+        (get exprs game-idx)))))

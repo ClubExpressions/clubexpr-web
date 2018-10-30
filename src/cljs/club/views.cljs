@@ -909,7 +909,7 @@
           [:> (bs 'Modal 'Body)
             (cond
               (empty? exprs)
-                [:p (t ["En cours de chargement. Après 20s, merci de réessayer."])]
+                [:p (t ["La série est vide."])]
               :else
                 [:div
                   [:p.pull-right

@@ -991,7 +991,7 @@
           {:style {:background-color "#fc6"  ; TODO CSS
                    :border-radius "4px"
                    :padding "1em"}}
-          [:strong (t ["En cours de chargement. Après 20s, merci de réessayer."])]
+          [:strong (t ["La série est vide."])]
           " "
           (t ["En cliquant sur une expression sur la gauche, vous pouvez modifier ses valeurs puis l’ajouter à votre série. "])]
         [:div {:style {:padding-bottom "1em"}}

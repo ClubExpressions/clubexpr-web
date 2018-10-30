@@ -85,10 +85,10 @@
                    (Produit (Diff 5 m) (Diff 5 n)))"]
         ]
   (map populate-properties (concat
-                             (series-wrapper seconde-second-degre)
                              (series-wrapper demo)
                              (series-wrapper algebre)
                              (series-wrapper seconde-serie-1)
+                             (series-wrapper seconde-second-degre)
                              (.-expressions clubexpr)))))
 
 (def all-exprs

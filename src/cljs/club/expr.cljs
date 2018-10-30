@@ -68,6 +68,9 @@
            "(Produit a (Quotient b c))"
            "(Diff (Somme (Produit 10 a) b) a)"
            "(Diff (Diff (Somme (Produit 10 a) b) a) b)"]
+        algebre
+          ["(Somme x (Produit 2 x))"
+           "(Somme 1 (Produit 4 (Somme x 3)))"]
         seconde-second-degre
           ["(Carré x)"
            "(Carré (Somme a b))"
@@ -84,6 +87,7 @@
   (map populate-properties (concat
                              (series-wrapper seconde-second-degre)
                              (series-wrapper demo)
+                             (series-wrapper algebre)
                              (series-wrapper seconde-serie-1)
                              (.-expressions clubexpr)))))
 

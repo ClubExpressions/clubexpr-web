@@ -207,6 +207,7 @@ contains all the relevant changes.
 The steps :
 
 	# kill lein with `Ctrl`+`C`
+	# change index.html with the current date
 	git co master
     #  build a prod version (`:prod` in `project.clj`)
 	lein do clean, cljsbuild once min

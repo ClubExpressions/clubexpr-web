@@ -193,7 +193,7 @@ contains all the relevant changes.
 
 ### Simple steps for updating a node package
 
-    $ vim package.json  # just add one line
+    $ vim package.json
     $ npm install
     $ npm run build
     $ git add package.json public/js/bundle.js

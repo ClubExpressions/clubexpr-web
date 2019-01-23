@@ -54,11 +54,11 @@
         series-wrapper #(map expr-wrapper %)
         manquantes
           [; A3-2
-           "(Somme (Diff (Carre (Diff x B)) (Carre x)) (Produit 2 x))"
+           "(Somme (Diff (Carré (Diff x B)) (Carré x)) (Produit 2 x))"
            ; A3-3
-           "(Diff (Carre x) 16)"
+           "(Diff (Carré x) 16)"
            "(Quotient x (Somme x 7))"
-           "(Somme (Carre x) (Produit 5 x))"
+           "(Somme (Carré x) (Produit 5 x))"
            "(Diff x (Inverse x))"
            "(Quotient (Somme (Produit 2 x) 5) (Diff x 5))"
            "(Somme 4 (Quotient 2 x) (Inverse (Produit 3 x)))"

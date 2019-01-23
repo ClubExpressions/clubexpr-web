@@ -52,6 +52,17 @@
 (def reified-expressions
   (let [expr-wrapper #(clj->js {"expr" (getValueByKeys (parseLisp %) "tree")})
         series-wrapper #(map expr-wrapper %)
+        manquantes
+          [; A3-2
+           "(Somme (Diff (Carre (Diff x B)) (Carre x)) (Produit 2 x))"
+           ; A3-3
+           "(Diff (Carre x) 16)"
+           "(Quotient x (Somme x 7))"
+           "(Somme (Carre x) (Produit 5 x))"
+           "(Diff x (Inverse x))"
+           "(Quotient (Somme (Produit 2 x) 5) (Diff x 5))"
+           "(Somme 4 (Quotient 2 x) (Inverse (Produit 3 x)))"
+           ]
         demo
           ["(Produit 5 (Somme x 2))"
            "(Somme 1 (Produit 2 x))"

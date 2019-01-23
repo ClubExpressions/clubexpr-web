@@ -59,8 +59,7 @@
            "(Produit 2 (Somme (Produit 3 a) 4))"
            "(Produit pi (Quotient R 2))"]
         seconde-serie-1
-          ["(Produit 3 x)"
-           "(Quotient R 4)"
+          ["(Quotient R 4)"
            "(Produit 10 (Diff x 2))"
            "(Somme (Produit 10 a) b)"
            "(Diff 1 (Opposé x))"
@@ -72,13 +71,7 @@
           ["(Somme x (Produit 2 x))"
            "(Somme 1 (Produit 4 (Somme x 3)))"]
         seconde-second-degre
-          ["(Carré x)"
-           "(Carré (Somme a b))"
-           "(Somme (Carré a) (Carré b))"
-           "(Carré (Diff a b))"
-           "(Produit (Somme 5 m) (Somme 5 n))"
-           "(Produit 3 (Carré x))"
-           "(Carré (Produit 3 x))"
+          ["(Produit (Somme 5 m) (Somme 5 n))"
            "(Produit (Diff x 2) (Somme x 3))"
            "(Produit (Somme a b) (Diff a b))"
            "(Somme (Produit 10 (Somme m n))

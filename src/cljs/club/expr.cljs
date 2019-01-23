@@ -89,6 +89,7 @@
                    (Produit (Diff 5 m) (Diff 5 n)))"]
         ]
   (map populate-properties (concat
+                             (series-wrapper manquantes)
                              (series-wrapper demo)
                              (series-wrapper algebre)
                              (series-wrapper seconde-serie-1)

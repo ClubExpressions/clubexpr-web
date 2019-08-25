@@ -55,6 +55,8 @@ See the running app here:
     * [Timbre](https://github.com/ptaoussanis/timbre) (logging)
     * [re-learn](https://github.com/oliyh/re-learn) (quick interactive tuto for
       users)
+    * [js-interop](https://github.com/appliedsciencestudio/js-interop)
+    * [hints for docstrings](https://www.martinklepsch.org/posts/writing-awesome-docstrings.html)
 
 ## Dev setup
 

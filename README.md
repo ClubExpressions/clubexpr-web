@@ -1,7 +1,7 @@
 # Club des Expressions v2
 
 See the running app here:  
-<http://futur.expressions.club>
+<http://expressions.club>
 
 ## Technical stack
 

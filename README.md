@@ -122,6 +122,13 @@ Our own instance is live [here](https://kinto.expressions.club/v1/).
   * `sudo apt-get install postgresql`
   * `sudo pip3 install psycopg2 SQLAlchemy zope.sqlalchemy`
 
+##### Migration notes
+
+Recent versions of Kinto require Python 3.6. I had to install it from source
+(using [this howto](https://tecadmin.net/install-python-3-6-ubuntu-linuxmint/).
+
+install libpq-dev
+
 #### Local kinto
 
 There are some `kinto.ini` files in the repo, just do  

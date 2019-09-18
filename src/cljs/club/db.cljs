@@ -727,7 +727,7 @@
     ;{:id "fake-id-0440284V" :code "0440284V" :name "Collège STENDHAL"}
     ;{:id "fake-id-0440285W" :code "0440285W" :name "Collège GASTON SERPETTE"}
     ;{:id "fake-id-0440286X" :code "0440286X" :name "Collège CLAUDE DEBUSSY"}
-    ;{:id "fake-id-0440287Y" :code "0440287Y" :name "Collège LE HERAULT"}
+    {:id "fake-id-0440287Y" :code "0440287Y" :name "Collège LE HERAULT"}
     ;{:id "fake-id-0440288Z" :code "0440288Z" :name "Lycée ALBERT CAMUS"}
     ;{:id "fake-id-0440289A" :code "0440289A" :name "Collège JEAN MOUNES"}
     ;{:id "fake-id-0440291C" :code "0440291C" :name "Collège ILES DE LOIRE"}
@@ -826,7 +826,7 @@
     ;{:id "fake-id-0442083A" :code "0442083A" :name "Lycée CENS"}
     ;{:id "fake-id-0442092K" :code "0442092K" :name "Lycée Pro JACQUES-CASSARD"}
     ;{:id "fake-id-0442094M" :code "0442094M" :name "Lycée NICOLAS APPERT"}
-    ;{:id "fake-id-0442095N" :code "0442095N" :name "Lycée LA HERDRIE"}
+    {:id "fake-id-0442095N" :code "0442095N" :name "Lycée LA HERDRIE"}
     ;{:id "fake-id-0442112G" :code "0442112G" :name "Lycée GALILEE"}
     ;{:id "fake-id-0442119P" :code "0442119P" :name "Collège DE BRETAGNE"}
     ;{:id "fake-id-0442124V" :code "0442124V" :name "TSGE TS ENACOM"}
@@ -862,6 +862,7 @@
     ;{:id "fake-id-0442782K" :code "0442782K" :name "Collège JULIE-VICTOIRE DAUBIE"}
     ;{:id "fake-id-0442806L" :code "0442806L" :name "Collège MONA OZOUF"}
     ;{:id "fake-id-0442807M" :code "0442807M" :name "Collège PONTCHATEAU"}
+    {:id "fake-id-0442834S" :code "0442834S" :name "Lycée HONORÉ D'ESTIENNE D'ORVES"}
     ;{:id "fake-id-0490001K" :code "0490001K" :name "Lycée DAVID D ANGERS"}
     ;{:id "fake-id-0490002L" :code "0490002L" :name "Lycée JOACHIM DU BELLAY"}
     ;{:id "fake-id-0490003M" :code "0490003M" :name "Lycée CHEVROLLIER"}

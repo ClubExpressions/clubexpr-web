@@ -57,6 +57,7 @@ See the running app here:
       users)
     * [js-interop](https://github.com/appliedsciencestudio/js-interop)
     * [hints for docstrings](https://www.martinklepsch.org/posts/writing-awesome-docstrings.html)
+    * [cascade select](http://react-component.github.io/cascade-select/examples/simple.html)?
 
 ## Dev setup
 

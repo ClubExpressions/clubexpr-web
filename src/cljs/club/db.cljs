@@ -836,7 +836,7 @@
     {:id "fake-id-0442227G" :code "0442227G" :name "Lycée IFOM (44)"}
     {:id "fake-id-0442273G" :code "0442273G" :name "Lycée CHARLES PEGUY (44)"}
     {:id "fake-id-0442277L" :code "0442277L" :name "Collège DE GOULAINE (44)"}
-    {:id "fake-id-0442286W" :code "0442286W" :name "EXP LycéeEE EXPERIMENTAL (44)"}
+    {:id "fake-id-0442286W" :code "0442286W" :name "EXP Lycée EXPERIMENTAL (44)"}
     {:id "fake-id-0442309W" :code "0442309W" :name "Lycée ALCIDE D'ORBIGNY (44)"}
     {:id "fake-id-0442368K" :code "0442368K" :name "Collège DU PAYS BLANC (44)"}
     {:id "fake-id-0442388G" :code "0442388G" :name "Collège CENS (44)"}

@@ -758,7 +758,7 @@
                     numbers-options
                     letters-options)
          :clearable false
-         :noResultsText "Pas de valeur correspondant à cette recherche"
+         :noResultsText (t ["Pas de valeur correspondant à cette recherche"])
          :value expr
          :onChange
            #(rf/dispatch [:expr-mod-choose (get-val-in-lisp tpl path) %])}])))

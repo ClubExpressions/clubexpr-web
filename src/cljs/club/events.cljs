@@ -188,9 +188,10 @@
 (rf/reg-event-fx
   :profile-school
   [check-spec-interceptor]
-  (fn [{:keys [db]} [_ new-value]]
-    {:db (assoc-in db [:profile-page :school] new-value)
-     :profile-load-teachers-list new-value}))
+  (fn [{:keys [db]} [_ js-value]]
+    (let [new-value (-> js-value js->clj keywordize-keys :value)]
+      {:db (assoc-in db [:profile-page :school] new-value)
+       :profile-load-teachers-list new-value})))
 
 (rf/reg-fx
   :profile-load-teachers-list

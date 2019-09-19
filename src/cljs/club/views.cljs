@@ -460,11 +460,9 @@
       "teacher" [page-help-teacher]
       [page-help-guest])))
 
-(defn school->menu-item
-  [school]
-  ^{:key (:id school)} [:> (bs 'MenuItem)
-                           {:eventKey (:id school)}
-                           (:name school)])
+(defn school->option-elt
+  [{:keys [id code name]}]
+  {:value id :label name})
 
 (defn teacher->menu-item
   [{:keys [id lastname]}]
@@ -509,13 +507,15 @@
                                           help-text-find-you)
                                :value-id :profile-firstname
                                :event-id :profile-firstname}]
-        school [:> (bs 'DropdownButton)  ; TODO use a Select (react-select)
+        school [:> Select
                    {:title profile-school-pretty
-                    :on-select #(rf/dispatch [:profile-school %])}
-                  [:> (bs 'MenuItem) {:eventKey "fake-id-no-school"}
-                                     (t ["Aucun établissement"])]
-                  [:> (bs 'MenuItem) {:divider true}]
-                  (map school->menu-item (club.db/get-schools!))
+                    :placeholder (t ["Choisir un établissement ou « Aucun établissement »"])
+                    :noResultsText (t ["Pas de valeur correspondant à cette recherche"])
+                    :on-change #(rf/dispatch [:profile-school %])
+                    :clearable false
+                    :options (map school->option-elt (club.db/get-schools!))
+                    :value @(rf/subscribe [:profile-school])
+                    }
                ]
        ]
     [:div

@@ -533,6 +533,7 @@
               [:> (bs 'ToggleButton) {:value "scholar"} (t ["Élève"])]
               [:> (bs 'ToggleButton) {:value "teacher"} (t ["Professeur"])]]]]
         [:div {:style {:margin-bottom "1em"}}  ; TODO CSS
+            [:> (bs 'ControlLabel) (t ["Établissement"])]
           school]
         (if (= "scholar" profile-quality)
           [:div {:style {:margin-bottom "1em"}}  ; TODO CSS

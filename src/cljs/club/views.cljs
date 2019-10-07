@@ -999,7 +999,8 @@
           {:items exprs
            :moveTransitionDuration 0.3
            :dropBackTransitionDuration 0.3
-           :placeholder "< ici >"  ; TODO: impossible use of (t ["ici"]) here
+           ; TODO: impossible use of (t ["..."]) here
+           :placeholder "    < ici >"
            :onSort #(rf/dispatch [:series-exprs-sort %])}]])
       [:p (t ["Pour supprimer une expression de votre série, double-cliquez sur celle-ci, mais dans la liste de droite. Il est possible de réordonner vos expressions en les glissant chacune au bon endroit."])]
     ]))

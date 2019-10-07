@@ -30,3 +30,25 @@ ul#club-warning li::before {
     width: 1.5em;
     margin-left: -1.5em;
 }
+
+div.List {
+    counter-reset: expr-num;
+}
+
+div.List > div.draggable {
+    margin-top: 0.5em;
+}
+
+div.List > div.draggable:before {
+    content: counter(expr-num) ")";
+    counter-increment: expr-num;
+}
+
+div.List > div.draggable > span {
+    margin-left: 2em;
+}
+
+div.List > div.draggable > span > div {
+    display: inline;
+}
+

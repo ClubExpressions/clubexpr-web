@@ -805,6 +805,9 @@
       (if (empty? exprs-as-li)
         [:p (t ["Aucune expression ne correspond à cette recherche."])]
         [:ul.nav exprs-as-li]))
+    [:p [:strong (t ["Note"])]
+        " : "
+        (t ["Il n’est pour l’instant pas possible de créer vos propres expressions."])]
     (let [showing @(rf/subscribe [:expr-mod-showing])
           tpl @(rf/subscribe [:expr-mod-template])
           result @(rf/subscribe [:expr-mod-result])]

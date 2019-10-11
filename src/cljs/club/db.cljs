@@ -190,7 +190,7 @@
 
 (def k-client
   (let [b64 (js/window.btoa "user:pass")
-        url (if club.config/debug?
+        url (if false ;club.config/debug?
               "http://localhost:8887/v1"
               "https://kinto.expressions.club/v1")
         opts (clj->js {:remote url

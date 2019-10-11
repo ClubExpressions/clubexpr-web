@@ -509,7 +509,7 @@
                                :event-id :profile-firstname}]
         school [:> Select
                    {:title profile-school-pretty
-                    :placeholder (t ["Choisir un établissement ou « Aucun établissement »"])
+                    :placeholder (t ["Vérifier le département (parenthèses). Possible de taper le RNE. Laisser vide pour les « indépendants »."])
                     :noResultsText (t ["Pas de valeur correspondant à cette recherche"])
                     :on-change #(rf/dispatch [:profile-school %])
                     :clearable false

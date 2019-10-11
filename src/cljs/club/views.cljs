@@ -1290,11 +1290,13 @@
           ; this first `work-input` to allow the creation of works:
           (keyed-work-input)]
         [:hr]
+        [:p (t ["Travaux en cours :"])]
         (if (empty? future-works)
           [:div (t ["Pas de travaux dans le futur"])]
           (doall (map #(keyed-work-input %) future-works))
         )
         [:hr]
+        [:p (t ["Travaux passés :"])]
         (if (empty? past-works)
           [:div (t ["Pas de travaux dans le passé"])]
           (doall (map #(keyed-work-input %) past-works))

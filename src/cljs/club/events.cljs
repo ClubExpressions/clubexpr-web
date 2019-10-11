@@ -180,6 +180,26 @@
     (assoc db :game-idx new-value)))
 
 (rf/reg-event-db
+  :demo-test
+  [check-spec-interceptor]
+  (fn [db _]
+    (-> db
+        (assoc-in [:teacher-testing] true)
+        (assoc-in [:teacher-testing-interactive] true)
+        (assoc-in [:current-series :title]
+                  "de démonstration de Des maths ensemble…")
+        (assoc-in [:current-series :exprs]
+                  (vec (map #(identity {:content %1})
+                       ["(Produit 5 (Somme x 2))"
+                        "(Somme 1 (Produit 2 x))"
+                        "(Quotient (Diff y 1) 2)"
+                        "(Produit 2 (Somme (Produit 3 a) 4))"])))
+        (assoc-in [:teacher-testing-expr] "")
+        (assoc-in [:teacher-testing-idx] 0)
+        (assoc-in [:teacher-testing-attempt] "")
+        (assoc-in [:teacher-testing-last-attempt] ""))))
+
+(rf/reg-event-db
   :profile-quality
   [check-spec-interceptor]
   (fn [db [_ new-value]]

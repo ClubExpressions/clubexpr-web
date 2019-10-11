@@ -231,6 +231,97 @@
        :on-click #(rf/dispatch [:game-idx idx])}
       (if (= -1 idx) (t ["aucune"]) (str (t ["n°"]) (+ idx 1)))])
 
+(defn teacher-testing-modal
+  []
+  (let [nav-style {:style {:margin-right "1em"}}  ; TODO CSS
+        teacher-style {:class "btn" :style {:background-color "#ffeedd"}}
+        testing  @(rf/subscribe [:teacher-testing])
+        title @(rf/subscribe [:series-title])
+        exprs @(rf/subscribe [:series-exprs])
+        interactive  @(rf/subscribe [:teacher-testing-interactive])
+        current-expr-idx  @(rf/subscribe [:teacher-testing-idx])
+        current-expr @(rf/subscribe [:teacher-testing-expr])
+        attempt  @(rf/subscribe [:teacher-testing-attempt])
+        last-attempt  @(rf/subscribe [:teacher-testing-last-attempt])
+        {:keys [error warnings]} (renderLispAsLaTeX attempt)]
+    [:> (bs 'Modal) {:show testing
+                     :onHide #(rf/dispatch [:close-teacher-test])}
+      [:> (bs 'Modal 'Header) {:closeButton true}
+        [:> (bs 'Modal 'Title) (t ["Série"]) " " title]]
+      [:> (bs 'Modal 'Body)
+        (cond
+          (empty? exprs)
+            [:p (t ["La série est vide."])]
+          :else
+            [:div
+              [:p.pull-right teacher-style
+                [:a
+                  (merge nav-style
+                         {:on-click #(rf/dispatch [:teacher-test-nav -1])})
+                  "<"]
+                [:span nav-style
+                  (+ 1 current-expr-idx) "/" (count exprs)]
+                [:a
+                  (merge nav-style
+                         {:on-click #(rf/dispatch [:teacher-test-nav 1])})
+                  ">"]
+                [:a
+                   {:on-click #(rf/dispatch [:teacher-test-interactive-switch])}
+                 (if interactive
+                   [:span (t ["non"]) " "])
+                 (t ["interactif"])]
+              ]
+              ; target expr
+              [:p
+                {:style {:font-size "2em"}}  ; TODO CSS
+                (t ["Essayez de reconstituer  :  "])
+                (infix-rendition current-expr false)]
+              ; Code Club
+              [src-input {
+                :label (t ["Pour cela tapez du Code Club ci-dessous :"])
+                :subs-path :teacher-testing-attempt
+                :evt-handler :teacher-attempt-change}]
+              (if interactive
+                [:div
+                  ; current mode
+                  [:div
+                    [:p (t ["Vous êtes en mode interactif."])
+                        " "
+                        (t ["Votre tentative : "])
+                        (infix-rendition attempt false)]]
+                  ; nature msg
+                  (if (not (correct-nature current-expr attempt))
+                    [:div {:id "club-bad-nature"}
+                     (t ["La nature ne correspond pas !"])])
+                ]
+                [:div
+                  [:p (t ["Vous êtes en mode non interactif."])]
+                  (if (not (empty? error))
+                    [:div (split-and-translate error)])
+                  (if (not (empty? warnings))
+                    [:div (format-warnings warnings)])
+                  (if (not (empty? last-attempt))
+                          (infix-rendition last-attempt false))
+                  [:p.pull-left
+                   (t ["Trop difficile !"])
+                   " "
+                   [:a {:on-click
+                        #(rf/dispatch [:teacher-test-interactive-switch])}
+                       (t ["Je repasse en mode interactif."])]]
+                ]
+              )
+              ; Check button
+              [:div.text-right
+                [:> (bs 'Button)
+                  {:on-click
+                     #(rf/dispatch
+                       [:teacher-test-attempt (= current-expr attempt)])
+                   :disabled (not (and (empty? error) (empty? warnings)))
+                   :bsStyle "primary"}
+                  (t ["Vérifier"])]]])]
+      [:> (bs 'Modal 'Footer)
+            (t ["Les élèves n’ont ni flèches pour naviguer, ni bouton pour choisir le mode, ils doivent réussir une expression en mode non interactif pour passer à la suivante."])]]))
+
 (defn page-landing
   []
   (let [label (t ["Modifiez le Code Club ci-dessous pour reconstituer l’expression proposée :"])
@@ -296,6 +387,12 @@
                   (landing-game-link 2 game-idx)
                   " "
                   (landing-game-link 3 game-idx)]]
+              [:p task-style
+                [:a {:on-click #(rf/dispatch [:demo-test])}
+                  (t ["Tester la série de démonstration"])]
+                " "
+                (t ["du livre Des maths ensemble et pour chacun."])
+              ]
             ]
             [:> (bs 'Col) {:xs 5 :md 5}
               [:div tree-style
@@ -316,7 +413,9 @@
             [:h2 (t ["Pour les élèves"])]
             [:p (t ["Le Club des Expressions vous permet de travailler sur le sens et la structure des expressions mathématiques."])]
             [:p (t ["Si votre professeur n’utilise pas le Club, vous pourrez quand même obtenir des séries d’expressions à reconstituer. Pour cela, créez votre compte en cliquant sur « Connexion » en haut à droite. Vos parents pourront se créer un compte professeur, sans établissement, pour vous donner du travail."])]
-            [:p (t ["Il est préférable bien sûr que votre professeur vous guide, mettez cette personne au courant !"])]]]]]))
+            [:p (t ["Il est préférable bien sûr que votre professeur vous guide, mettez cette personne au courant !"])]]]]
+      (teacher-testing-modal)
+     ]))
 
 (defn page-login-signup
   []
@@ -880,14 +979,6 @@
   []
   (let [series-data @(rf/subscribe [:series-page])
         series-id  @(rf/subscribe [:current-series-id])
-        teacher-testing  @(rf/subscribe [:teacher-testing])
-        teacher-testing-interactive  @(rf/subscribe [:teacher-testing-interactive])
-        current-expr-idx  @(rf/subscribe [:teacher-testing-idx])
-        current-expr @(rf/subscribe [:teacher-testing-expr])
-        attempt  @(rf/subscribe [:teacher-testing-attempt])
-        last-attempt  @(rf/subscribe [:teacher-testing-last-attempt])
-        {:keys [error warnings]} (renderLispAsLaTeX attempt)
-        nav-style {:style {:margin-right "1em"}}  ; TODO CSS
         title @(rf/subscribe [:series-title])
         desc  @(rf/subscribe [:series-desc])
         exprs @(rf/subscribe [:series-exprs])]
@@ -916,82 +1007,7 @@
         (if (empty? exprs)
           [:p (t ["Pas d’expression dans cette série. Pour en ajouter, cliquer sur « Modifier cette série »."])]
           [:ul.nav (map show-expr-as-li exprs)])
-        [:> (bs 'Modal) {:show teacher-testing
-                         :onHide #(rf/dispatch [:close-teacher-test])}
-          [:> (bs 'Modal 'Header) {:closeButton true}
-            [:> (bs 'Modal 'Title) (t ["Série"]) " " title]]
-          [:> (bs 'Modal 'Body)
-            (cond
-              (empty? exprs)
-                [:p (t ["La série est vide."])]
-              :else
-                [:div
-                  [:p.pull-right
-                    [:a
-                      (merge nav-style
-                             {:on-click #(rf/dispatch [:teacher-test-nav -1])})
-                      "<"]
-                    [:span nav-style
-                      (+ 1 current-expr-idx) "/" (count exprs)]
-                    [:a
-                      (merge nav-style
-                             {:on-click #(rf/dispatch [:teacher-test-nav 1])})
-                      ">"]
-                    [:a
-                       {:on-click #(rf/dispatch [:teacher-test-interactive-switch])}
-                     (if teacher-testing-interactive
-                       [:span (t ["non"]) " "])
-                     (t ["interactif"])]
-                  ]
-                  ; target expr
-                  [:p
-                    {:style {:font-size "2em"}}  ; TODO CSS
-                    (t ["Essayez de reconstituer  :  "])
-                    (infix-rendition current-expr false)]
-                  ; Code Club
-                  [src-input {
-                    :label (t ["Pour cela tapez du Code Club ci-dessous :"])
-                    :subs-path :teacher-testing-attempt
-                    :evt-handler :teacher-attempt-change}]
-                  (if teacher-testing-interactive
-                    [:div
-                      ; current mode
-                      [:div
-                        [:p (t ["Vous êtes en mode interactif."])
-                            " "
-                            (t ["Votre tentative : "])
-                            (infix-rendition attempt false)]]
-                      ; nature msg
-                      (if (not (correct-nature current-expr attempt))
-                        [:div {:id "club-bad-nature"}
-                         (t ["La nature ne correspond pas !"])])
-                    ]
-                    [:div
-                      [:p (t ["Vous êtes en mode non interactif."])]
-                      (if (not (empty? error))
-                        [:div (split-and-translate error)])
-                      (if (not (empty? warnings))
-                        [:div (format-warnings warnings)])
-                      (if (not (empty? last-attempt))
-                              (infix-rendition last-attempt false))
-                [:p.pull-left
-                 (t ["Trop difficile !"])
-                 " "
-                 [:a {:on-click #(rf/dispatch [:teacher-test-interactive-switch])}
-                     (t ["Je repasse en mode interactif."])]]
-                    ]
-                  )
-                  ; Check button
-                  [:div.text-right
-                    [:> (bs 'Button)
-                      {:on-click
-                         #(rf/dispatch
-                           [:teacher-test-attempt (= current-expr attempt)])
-                       :disabled (not (and (empty? error) (empty? warnings)))
-                       :bsStyle "primary"}
-                      (t ["Vérifier"])]]])]
-          [:> (bs 'Modal 'Footer)
-            (t ["Les élèves n’ont ni flèches pour naviguer, ni bouton pour choisir le mode, ils doivent réussir une expression en mode non interactif pour passer à la suivante."])]]
+        (teacher-testing-modal)
        ]
       )
      ))

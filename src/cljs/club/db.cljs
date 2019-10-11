@@ -658,7 +658,6 @@
     {:id "fake-id-0440178E" :name "Lycée ND D'ESPERANCE (44)"}
     {:id "fake-id-0440201E" :name "Lycée ST JOSEPH (44)"}
     {:id "fake-id-0440246D" :name "Lycée SACRE COEUR (44)"}
-    {:id "fake-id-0440254M" :name "TSGE TS IMS (44)"}
     {:id "fake-id-0440255N" :name "Lycée Pro ENCIA (44)"}
     {:id "fake-id-0440256P" :name "Lycée ST PIERRE LA JOLIVERIE (44)"}
     {:id "fake-id-0440259T" :name "Lycée ND D'ESPERANCE (44)"}
@@ -704,7 +703,6 @@
     {:id "fake-id-0441794L" :name "Lycée Pro KERGUENEC (44)"}
     {:id "fake-id-0441795M" :name "Lycée Pro LE PELLERIN SITE DE ST PERE EN (44)"}
     {:id "fake-id-0441823T" :name "Lycée Pro HEINLEX (44)"}
-    {:id "fake-id-0441946B" :name "TSGE TS ENSEC (44)"}
     {:id "fake-id-0441982R" :name "Lycée DE BRETAGNE (44)"}
     {:id "fake-id-0441992B" :name "Lycée PAYS DE RETZ (44)"}
     {:id "fake-id-0441993C" :name "Lycée CARCOUET (44)"}
@@ -715,7 +713,6 @@
     {:id "fake-id-0442094M" :name "Lycée NICOLAS APPERT (44)"}
     {:id "fake-id-0442095N" :name "Lycée LA HERDRIE (44)"}
     {:id "fake-id-0442112G" :name "Lycée GALILEE (44)"}
-    {:id "fake-id-0442124V" :name "TSGE TS ENACOM (44)"}
     {:id "fake-id-0442207K" :name "Lycée CAMILLE CLAUDEL (44)"}
     {:id "fake-id-0442226F" :name "Lycée LA MENNAIS (44)"}
     {:id "fake-id-0442227G" :name "Lycée IFOM (44)"}
@@ -724,7 +721,6 @@
     {:id "fake-id-0442309W" :name "Lycée ALCIDE D'ORBIGNY (44)"}
     {:id "fake-id-0442699V" :name "Lycée EXTERNAT DES ENFANTS NANTAIS (44)"}
     {:id "fake-id-0442725Y" :name "Lycée TALENSAC - JEANNE BERNARD (44)"}
-    {:id "fake-id-0442732F" :name "TSGE TALENSAC - JEANNE BERNARD (44)"}
     {:id "fake-id-0442752C" :name "Lycée AIME CESAIRE (44)"}
     {:id "fake-id-0442765S" :name "Lycée NELSON MANDELA (44)"}
     {:id "fake-id-0442774B" :name "Lycée SAINT-FELIX - LA SALLE (44)"}
@@ -752,11 +748,9 @@
     {:id "fake-id-0490838V" :name "Lycée ST LOUIS (49)"}
     {:id "fake-id-0490840X" :name "Lycée BOURG CHEVREAU (49)"}
     {:id "fake-id-0490886X" :name "Lycée Pro LA PROVIDENCE (49)"}
-    {:id "fake-id-0490890B" :name "TSGE TS CNAM IFORIS (49)"}
     {:id "fake-id-0490903R" :name "Lycée Pro LE PINIER NEUF (49)"}
     {:id "fake-id-0490904S" :name "Lycée JEANNE DELANOUE (49)"}
     {:id "fake-id-0490910Y" :name "Lycée Pro LES ARDILLIERS (49)"}
-    {:id "fake-id-0490925P" :name "EREA LES TERRES ROUGES (49)"}
     {:id "fake-id-0490946M" :name "Lycée ANGERS-LE-FRESNE (49)"}
     {:id "fake-id-0490952U" :name "Lycée CHAMP BLANC (49)"}
     {:id "fake-id-0490963F" :name "Lycée Pro EDGAR PISANI (49)"}
@@ -769,12 +763,10 @@
     {:id "fake-id-0492015Z" :name "Lycée SACRE COEUR (49)"}
     {:id "fake-id-0492061Z" :name "Lycée AUGUSTE ET JEAN RENOIR (49)"}
     {:id "fake-id-0492089E" :name "Lycée EMMANUEL MOUNIER (49)"}
-    {:id "fake-id-0492113F" :name "TSGE OPTIQUE DE L'OUEST (49)"}
     {:id "fake-id-0492123S" :name "Lycée JEAN MOULIN (49)"}
     {:id "fake-id-0492148U" :name "Lycée JEAN BODIN (49)"}
     {:id "fake-id-0492224B" :name "Lycée DE L'HYROME (49)"}
     {:id "fake-id-0492285T" :name "Lycée LES ARDILLIERS (49)"}
-    {:id "fake-id-0492298G" :name "TSGE ETSCO (49)"}
     {:id "fake-id-0492406Z" :name "Lycée SAINTE MARIE (49)"}
     {:id "fake-id-0492407A" :name "Lycée URBAIN MONGAZON (49)"}
     {:id "fake-id-0492420P" :name "Lycée SAINT AUBIN LA SALLE (49)"}
@@ -802,9 +794,7 @@
     {:id "fake-id-0530816Z" :name "Lycée Pro D ORION (53)"}
     {:id "fake-id-0530818B" :name "Lycée Pro ROCHEFEUILLE (53)"}
     {:id "fake-id-0530904V" :name "Lycée Pro IMMACULEE CONCEPTION (53)"}
-    {:id "fake-id-0530931Z" :name "TSGE SAINT-BERTHEVIN (53)"}
     {:id "fake-id-0530949U" :name "Lycée RAOUL VADEPIED (53)"}
-    {:id "fake-id-0531006F" :name "TSGE LAVAL (53)"}
     {:id "fake-id-0720003M" :name "Lycée Pro CLAUDE CHAPPE (72)"}
     {:id "fake-id-0720010V" :name "Lycée DU MANS - LA GERMINIERE (72)"}
     {:id "fake-id-0720012X" :name "Lycée RACAN (72)"}
@@ -825,7 +815,6 @@
     {:id "fake-id-0720843A" :name "Lycée STE ANNE (72)"}
     {:id "fake-id-0720896H" :name "Lycée PRYTANEE NATIONAL MILITAIRE (72)"}
     {:id "fake-id-0720907V" :name "Lycée Pro BRETTE LES PINS (72)"}
-    {:id "fake-id-0720920J" :name "EREA RAPHAEL ELIZE (72)"}
     {:id "fake-id-0721009F" :name "Lycée Pro VAL DE SARTHE (72)"}
     {:id "fake-id-0721094Y" :name "Lycée LE MANS SUD (72)"}
     {:id "fake-id-0721301Y" :name "Lycée Pro JEAN RONDEAU (72)"}
@@ -846,7 +835,6 @@
     {:id "fake-id-0850032Y" :name "Lycée SAVARY DE MAULEON (85)"}
     {:id "fake-id-0850033Z" :name "Lycée Pro ERIC TABARLY (85)"}
     {:id "fake-id-0850043K" :name "Lycée Pro VALERE MATHE (85)"}
-    {:id "fake-id-0850047P" :name "EREA JEAN D'ORBESTIER (85)"}
     {:id "fake-id-0850068M" :name "Lycée FRANCOIS RABELAIS (85)"}
     {:id "fake-id-0850076W" :name "Lycée JEAN XXIII (85)"}
     {:id "fake-id-0850077X" :name "Lycée STE URSULE (85)"}

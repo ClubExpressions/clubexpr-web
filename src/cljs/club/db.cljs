@@ -1045,6 +1045,7 @@
    {:id "fake-id-0442095N" :name "Lycée G.T. LA HERDRIE (44)"}
    {:id "fake-id-0442207K" :name "Lycée G.T. CAMILLE CLAUDEL (44)"}
    {:id "fake-id-0442309W" :name "Lycée G.T. ALCIDE D'ORBIGNY (44)"}
+   {:id "fake-id-0442834S" :name "Lycée G.T. HONORÉ D'ESTIENNE D'ORVES (44)"}
    {:id "fake-id-0450029M" :name "Lycée G.T. BERNARD PALISSY (45)"}
    {:id "fake-id-0450040Z" :name "Lycée G.T. EN FORET (45)"}
    {:id "fake-id-0450042B" :name "Lycée G.T. DURZY (45)"}
@@ -2341,6 +2342,16 @@
    {:id "fake-id-9840166H" :name "Lycée pro DE UTUROA (984)"}
    {:id "fake-id-9840267T" :name "Lycée pro DE FAAA (984)"}
    {:id "fake-id-9840341Y" :name "Lycée pro DE MAHINA (984)"}
+   {:id "fake-id-0440013A" :name "Collège BELLEVUE (44)"}
+   {:id "fake-id-0440016D" :name "Collège ANNE DE BRETAGNE (44)"}
+   {:id "fake-id-0440283U" :name "Collège LIBERTAIRE RUTIGLIANO (44)"}
+   {:id "fake-id-0440284V" :name "Collège STENDHAL (44)"}
+   {:id "fake-id-0440285W" :name "Collège GASTON SERPETTE (44)"}
+   {:id "fake-id-0440287Y" :name "Collège LE HERAULT (44)"}
+   {:id "fake-id-0440309X" :name "Collège ROSA PARKS (44)"}
+   {:id "fake-id-0440311Z" :name "Collège ERNEST RENAN (44)"}
+   {:id "fake-id-0441545R" :name "Collège LA NOE LAMBERT (44)"}
+   {:id "fake-id-0441608J" :name "Collège LA DURANTIERE (44)"}
   ])
 
 (defn fetch-teachers-list!

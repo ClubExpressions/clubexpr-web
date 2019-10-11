@@ -799,11 +799,11 @@
       {:value @(rf/subscribe [:series-filtering-prevented-ops])
        :onChange #(rf/dispatch [:series-filtering-prevented-ops %])}
       (map ops-cb-label (.-operations clubexpr))]
-    [:div filtering-title-style "Expressions correspondantes"]
+    [:div filtering-title-style "Expressions correspondant à la recherche :"]
     (let [filtered-exprs @(rf/subscribe [:series-filtered-exprs])
           exprs-as-li (map show-expr-as-li-click filtered-exprs)]
       (if (empty? exprs-as-li)
-        [:p (t ["Aucune expression ne correspond à ce filtrage"])]
+        [:p (t ["Aucune expression ne correspond à cette recherche."])]
         [:ul.nav exprs-as-li]))
     (let [showing @(rf/subscribe [:expr-mod-showing])
           tpl @(rf/subscribe [:expr-mod-template])

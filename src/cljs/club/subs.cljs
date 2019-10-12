@@ -381,20 +381,6 @@
     (:latex result)))
 
 (rf/reg-sub
-  :teacher-testing-error
-  (fn [query-v _]
-    (rf/subscribe [:teacher-testing-result]))
-  (fn [result query-v _]
-    (:error result)))
-
-(rf/reg-sub
-  :teacher-testing-warnings
-  (fn [query-v _]
-    (rf/subscribe [:teacher-testing-result]))
-  (fn [result query-v _]
-    (:warnings result)))
-
-(rf/reg-sub
   :game-src
   (fn [query-v _]
     (rf/subscribe [:game-idx]))

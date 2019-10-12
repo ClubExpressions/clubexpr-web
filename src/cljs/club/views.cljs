@@ -875,8 +875,7 @@
         current-expr-idx  @(rf/subscribe [:teacher-testing-idx])
         current-expr @(rf/subscribe [:teacher-testing-expr])
         attempt  @(rf/subscribe [:teacher-testing-attempt])
-        error  @(rf/subscribe [:teacher-testing-error])
-        warnings  @(rf/subscribe [:teacher-testing-warnings])
+        {:keys [error warnings]} (renderLispAsLaTeX attempt)
         nav-style {:style {:margin-right "1em"}}  ; TODO CSS
         title @(rf/subscribe [:series-title])
         desc  @(rf/subscribe [:series-desc])

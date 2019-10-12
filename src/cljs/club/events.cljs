@@ -541,7 +541,7 @@
     (-> db
         (assoc-in [:teacher-testing] true)
         (assoc-in [:teacher-testing-idx] 0)
-        (assoc-in [:teacher-attempt] ""))))
+        (assoc-in [:teacher-testing-attempt] ""))))
 
 (rf/reg-event-db
   :teacher-test-nav

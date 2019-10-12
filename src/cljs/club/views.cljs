@@ -90,20 +90,26 @@
       (t ["pensez à la majuscule"])
       ")."]
     [:li
-      (t ["Touches disponibles"])
+      (t ["Lettres"])
       " : "
-      (list-pretty ["+" "-" "*" "/" "²" "^"])
-      ", " [:br]
-      (t ["ou avec"]) [:code "Ctrl"] " + " (t ["initiale"]) " "
-      "(" [:code "Ctrl+K"] " " (t ["pour"]) " " [:code "Carré"] ", "
-      [:code "Ctrl+U"] " " (t ["pour"]) " " [:code "Puissance"] ")."]
+      (list-pretty ["a" "b" "…" "x" "y" "z"])
+      " ("
+      (t ["existent aussi avec une majuscule"])
+      ")."]
     [:li
       (t ["Lettres grecques"])
       " : "
       (list-pretty greek-letters-min)
       " ("
       (t ["existent aussi avec une majuscule"])
-      ")."]])
+      ")."]
+    [:li
+      (t ["Raccourcis clavier"])
+      " : "
+      [:code "Ctrl"] " + " (t ["initiale"]) " "
+      "(" [:code "Ctrl+K"] " " (t ["pour"]) " " [:code "Carré"] ", "
+      [:code "Ctrl+U"] " " (t ["pour"]) " " [:code "Puissance"] ")."]
+   ])
 
 (defn src-input
   [{:keys [label subs-path evt-handler]}]

@@ -1373,8 +1373,11 @@
               ; current mode
               (if interactive
                 [:div
-                  [:p (t ["Vous êtes en mode interactif. Votre tentative : "])
-                      (infix-rendition attempt true)]]
+                  [:p (t ["Vous êtes en mode interactif."])
+                    " "
+                    (t ["Votre tentative"])
+                    " : "
+                    (infix-rendition attempt true)]]
                 [:div
                   [:p (t ["Vous êtes en mode non interactif."])]
                   (if (not (empty? error))

@@ -955,7 +955,9 @@
                   ; Check button
                   [:div.text-right
                     [:> (bs 'Button)
-                      {:on-click #(rf/dispatch [:teacher-test-attempt])
+                      {:on-click
+                         #(rf/dispatch
+                           [:teacher-test-attempt (= current-expr attempt)])
                        :disabled (not (and (empty? error) (empty? warnings)))
                        :bsStyle "primary"}
                       (t ["Vérifier"])]]])]

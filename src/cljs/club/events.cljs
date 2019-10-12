@@ -564,8 +564,8 @@
 (rf/reg-event-fx
   :teacher-test-attempt
   [check-spec-interceptor]
-  (fn [{:keys [db]} _]
-    {:msg (t ["Bravo !"])}))
+  (fn [{:keys [db]} [_ ok]]
+    {:msg (if ok (t ["Bravo !"]) (t ["Essaie encore !"]))}))
 
 (rf/reg-event-db
   :close-teacher-test

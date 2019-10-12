@@ -1377,7 +1377,7 @@
                     " "
                     (t ["Votre tentative"])
                     " : "
-                    (infix-rendition attempt true)]]
+                    (infix-rendition attempt false)]]
                 [:div
                   [:p (t ["Vous êtes en mode non interactif."])]
                   (if (not (empty? error))

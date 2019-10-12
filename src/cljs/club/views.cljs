@@ -1362,7 +1362,8 @@
               ; target expr
               [:p
                 {:style {:font-size "2em"}}  ; TODO CSS
-                (t ["Essayez de reconstituer  :  "])
+                (t ["Essayez de reconstituer"])
+                "  :  "
                 (infix-rendition current-expr true)]
               ; Code Club
               [src-input {

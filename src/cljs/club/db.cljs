@@ -622,6 +622,7 @@
   []
   [
    ; https://www.data.gouv.fr/fr/datasets/adresse-et-geolocalisation-des-etablissements-denseignement-du-premier-et-second-degres-1/
+   {:id "fake-id-no-school" :name "Aucun établissement"}
    {:id "fake-id-0010013J" :name "Lycée LALANDE (01)"}
    {:id "fake-id-0030025L" :name "Lycée MADAME DE STAEL (03)"}
    {:id "fake-id-0030036Y" :name "Lycée THEODORE DE BANVILLE (03)"}

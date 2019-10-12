@@ -10,7 +10,7 @@
 Le Club des Expressions est en constante évolution.  N’hésitez pas à signaler
 des bugs ou nous faire part de suggestions
 [sur Github](https://github.com/ClubExpressions/clubexpr-web/issues/new)
-ou [par email](mailto:profgraorg.org@gmail.com).")
+ou [par email](mailto:profgra.org@gmail.com).")
 
 
 (def contact

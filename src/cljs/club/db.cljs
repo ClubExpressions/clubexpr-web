@@ -63,8 +63,10 @@
 (s/def ::expr-mod-template string?)
 (s/def ::expr-mod-map map?)
 (s/def ::teacher-testing boolean?)
+(s/def ::teacher-testing-interactive boolean?)
 (s/def ::teacher-testing-idx number?)
 (s/def ::teacher-testing-attempt string?)
+(s/def ::teacher-testing-last-attempt string?)
 (s/def ::editing-series boolean?)
 (s/def ::series-page
   (s/and #(instance? PersistentVector %)
@@ -126,8 +128,10 @@
                               ::expr-mod-template
                               ::expr-mod-map
                               ::teacher-testing
+                              ::teacher-testing-interactive
                               ::teacher-testing-idx
                               ::teacher-testing-attempt
+                              ::teacher-testing-last-attempt
                               ::editing-series
                               ::series-filtering
                               ::scholar-working
@@ -157,8 +161,10 @@
    :expr-mod-template ""
    :expr-mod-map {}
    :teacher-testing false
+   :teacher-testing-interactive true
    :teacher-testing-idx 0
    :teacher-testing-attempt ""
+   :teacher-testing-last-attempt ""
    :editing-series false
    :series-filtering
      {:expressions []

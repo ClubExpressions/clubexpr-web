@@ -165,6 +165,11 @@
    (-> db :teacher-testing)))
 
 (rf/reg-sub
+ :teacher-testing-interactive
+ (fn [db]
+   (-> db :teacher-testing-interactive)))
+
+(rf/reg-sub
  :teacher-testing-idx
  (fn [db]
    (-> db :teacher-testing-idx)))
@@ -173,6 +178,11 @@
  :teacher-testing-attempt
  (fn [db]
    (-> db :teacher-testing-attempt)))
+
+(rf/reg-sub
+ :teacher-testing-last-attempt
+ (fn [db]
+   (-> db :teacher-testing-last-attempt)))
 
 (rf/reg-sub
  :scholar-working

@@ -540,8 +540,10 @@
   (fn [db _]
     (-> db
         (assoc-in [:teacher-testing] true)
+        (assoc-in [:teacher-testing-interactive] true)
         (assoc-in [:teacher-testing-idx] 0)
-        (assoc-in [:teacher-testing-attempt] ""))))
+        (assoc-in [:teacher-testing-attempt] "")
+        (assoc-in [:teacher-testing-last-attempt] ""))))
 
 (rf/reg-event-db
   :teacher-test-nav
@@ -555,6 +557,13 @@
       (-> db (assoc-in [:teacher-testing-idx] new-idx-secure)))))
 
 (rf/reg-event-db
+  :teacher-test-interactive-switch
+  [check-spec-interceptor]
+  (fn [db _]
+    (let [a 10]
+      (-> db (update-in [:teacher-testing-interactive] not)))))
+
+(rf/reg-event-db
   :teacher-attempt-change
   [check-spec-interceptor]
   (fn [db [_ new-value]]
@@ -565,7 +574,9 @@
   :teacher-test-attempt
   [check-spec-interceptor]
   (fn [{:keys [db]} [_ ok]]
-    {:msg (if ok (t ["Bravo !"]) (t ["Essaie encore !"]))}))
+    {:msg (if ok (t ["Bravo !"]) (t ["Essaie encore !"]))
+     :db (assoc-in db [:teacher-testing-last-attempt]
+                      (-> db :teacher-testing-attempt))}))
 
 (rf/reg-event-db
   :close-teacher-test

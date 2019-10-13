@@ -296,12 +296,14 @@
                 ]
                 [:div
                   [:p (t ["Vous êtes en mode non interactif."])]
-                  (if (not (empty? error))
-                    [:div (split-and-translate error)])
-                  (if (not (empty? warnings))
-                    [:div (format-warnings warnings)])
                   (if (not (empty? last-attempt))
                           (infix-rendition last-attempt false))
+                  (if (not (empty? attempt))
+                    [:div
+                      (if (not (empty? error))
+                        [:div (split-and-translate error)])
+                      (if (not (empty? warnings))
+                        [:div (format-warnings warnings)])])
                   [:p.pull-left
                    (t ["Trop difficile !"])
                    " "

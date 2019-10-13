@@ -1429,10 +1429,12 @@
                     (infix-rendition attempt false)]]
                 [:div
                   [:p (t ["Vous êtes en mode non interactif."])]
-                  (if (not (empty? error))
-                    [:div (split-and-translate error)])
-                  (if (not (empty? warnings))
-                    [:div (format-warnings warnings)])])
+                  (if (not (empty? attempt))
+                    [:div
+                      (if (not (empty? error))
+                        [:div (split-and-translate error)])
+                      (if (not (empty? warnings))
+                        [:div (format-warnings warnings)])])])
               ; nature msg
               (if (not (correct-nature current-expr attempt))
                 [:div {:id "club-bad-nature"}

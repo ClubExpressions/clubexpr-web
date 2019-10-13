@@ -59,6 +59,11 @@ See the running app here:
     * [hints for docstrings](https://www.martinklepsch.org/posts/writing-awesome-docstrings.html)
     * [cascade select](http://react-component.github.io/cascade-select/examples/simple.html)?
 
+`git` info is retrieved and incorporated with
+[this](https://github.com/cvillecsteele/lein-git-version) lein plugin
+(which recommends to use
+[this one](https://github.com/arrdem/lein-git-version)).
+
 ## Dev setup
 
 ### Leiningen (the command is lein)

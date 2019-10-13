@@ -595,8 +595,9 @@
   [check-spec-interceptor]
   (fn [{:keys [db]} [_ ok]]
     {:msg (if ok (t ["Bravo !"]) (t ["Essaie encore !"]))
-     :db (assoc-in db [:teacher-testing-last-attempt]
-                      (-> db :teacher-testing-attempt))}))
+     :db (-> db
+             (assoc-in [:teacher-testing-last-attempt]
+                      (if ok "" (-> db :teacher-testing-attempt))))}))
 
 (rf/reg-event-db
   :close-teacher-test

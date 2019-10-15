@@ -10,6 +10,7 @@ window.deps = {
     'rc-slider' : require('rc-slider'),
     'react-checkbox-group' : require('react-checkbox-group'),
     'react-drag-sortable' : require('react-drag-sortable'),
+    'react-tabs' : require('react-tabs'),
     'moment' : require('moment'),
     'react-datetime' : require('react-datetime'),
     'react-codemirror2' : require('react-codemirror2'),

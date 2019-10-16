@@ -52,6 +52,11 @@
 (def Checkbox (getValueByKeys CBG "Checkbox"))
 (def CheckboxGroup (getValueByKeys CBG "CheckboxGroup"))
 (def Sortable (getValueByKeys js/window "deps" "react-drag-sortable" "default"))
+(def RT (getValueByKeys js/window "deps" "react-tabs"))
+(def Tabs (getValueByKeys RT "Tabs"))
+(def TabList (getValueByKeys RT "TabList"))
+(def Tab (getValueByKeys RT "Tab"))
+(def TabPanel (getValueByKeys RT "TabPanel"))
 (def DateTime (getValueByKeys js/window "deps" "react-datetime"))
 (def CodeMirror (getValueByKeys js/window "deps"
                                           "react-codemirror2"
@@ -483,9 +488,14 @@
         [:div
           [:h2 (t ["Aide pour les élèves"])]
           [:p (t ["Si vous n’êtes pas élève, modifiez votre profil. Vous pourrez y indiquer votre qualité de professeur."])]])]
+            [:> Tabs
+              [:> TabList
+                [:> Tab (t ["Qu’est-ce que le Club des Expressions ?"])]
+                [:> Tab (t ["Ce que l’on peut faire au Club"])]
+              ]
+              [:> TabPanel
     [:> (bs 'Grid)
       [:> (bs 'Row)
-        [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]
         [:> (bs 'Col) {:xs 6 :md 6}
           [:h2 (t ["Pour les élèves"])]
           [:p (t ["Le Club des Expressions vous permet de travailler sur le sens et la structure des expressions mathématiques."])]
@@ -496,10 +506,10 @@
           [:h2 (t ["Pour les enseignants"])]
           [:p (t ["Le Club des Expressions permet aux enseignants de faire travailler leurs élèves sur le sens et la structure des expressions mathématiques."])]
         ]
-      ]
-      [:hr]
+      ]]]
+              [:> TabPanel
+    [:> (bs 'Grid)
       [:> (bs 'Row)
-        [:h1 (t ["Ce que l’on peut faire au Club"])]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Définir son profil"])]
           [:p (t ["Dans la partie « Profil », déclarez votre établissement puis votre professeur (si vous n’en avez pas, choisissez « Pas de professeur »)."])]
@@ -513,7 +523,7 @@
           [:h2 (t ["S’entraîner"])]
           [:p (t ["Le Club des Expressions vous proposera parfois, dans la partie « Travail », des séries à faire pour vous entraîner."])]
         ]
-      ]
+      ]]]
     ]])
 
 (defn page-help-teacher
@@ -525,9 +535,15 @@
         [:div
           [:h2 (t ["Aide pour les professeurs"])]
           [:p (t ["Si vous n’êtes pas professeur, modifiez votre profil sinon votre professeur ne pourra pas vous retrouver."])]])]
+            [:> Tabs
+              [:> TabList
+                [:> Tab (t ["Qu’est-ce que le Club des Expressions ?"])]
+                [:> Tab (t ["Ce que l’on peut faire au Club"])]
+                [:> Tab (t ["FAQ"])]
+              ]
+              [:> TabPanel
     [:> (bs 'Grid)
       [:> (bs 'Row)
-        [:h1 (t ["Qu’est-ce que le Club des Expressions ?"])]
         [:> (bs 'Col) {:xs 6 :md 6}
           [:h2 (t ["Pour les enseignants"])]
           [:p (t ["Le Club des Expressions vous permet de faire travailler vos élèves sur le sens et la structure des expressions mathématiques."])]]
@@ -535,10 +551,10 @@
           [:h2 (t ["Pour les élèves"])]
           [:p (t ["Le Club des Expressions permet aux élèves de travailler sur le sens et la structure des expressions mathématiques."])]
           [:p (t ["Si leur professeur n’utilise pas le Club, les élèves peuvent quand même obtenir des séries d’expressions à reconstituer grâce à des professeurs-robots."])]
-          [:p (t ["Il est préférable bien sûr que leur professeur les guide !"])]]]
+          [:p (t ["Il est préférable bien sûr que leur professeur les guide !"])]]]]]
+              [:> TabPanel
+    [:> (bs 'Grid)
       [:> (bs 'Row)
-        [:hr]
-        [:h1 (t ["Ce que l’on peut faire au Club"])]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Définir son profil"])]
           [:p (t ["Dans la partie « Profil », déclarez votre établissement puis votre professeur."])]
@@ -552,7 +568,9 @@
           [:h2 (t ["Assigner des séries à ses groupes"])]
           [:p (t ["Une fois que vous aurez créé une série dans la partie « Séries », vous pourrez l’attribuer à un groupe. Cette attribution se fait dans la partie « Travaux »."])]
         ]
-      ]
+      ]]]
+              [:> TabPanel
+    [:> (bs 'Grid)
       [:> (bs 'Row)
         [:> (bs 'Col) {:xs 4 :md 4}
           [:h2 (t ["Ce que voit un élève"])]
@@ -565,7 +583,7 @@
         [:> (bs 'Col) {:xs 4 :md 4}
           [:> MD {:source club.text/multi-accounts}]
         ]
-      ]
+      ]]]
     ]
   ])
 

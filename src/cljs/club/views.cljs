@@ -393,7 +393,12 @@
                 [:a {:on-click #(rf/dispatch [:demo-test])}
                   (t ["Tester la série de démonstration"])]
                 " "
-                (t ["du livre Des maths ensemble et pour chacun."])
+                (t ["du livre"])
+                " "
+                [:a {:href "https://www.reseau-canope.fr/notice/des-maths-ensemble-et-pour-chacun.html"
+                     :target "_blank"}
+                  "Des maths ensemble et pour chacun"]
+                "."
               ]
             ]
             [:> (bs 'Col) {:xs 5 :md 5}

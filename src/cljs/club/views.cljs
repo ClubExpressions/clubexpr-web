@@ -782,6 +782,16 @@
         scholars-in-groups (concat [scholars-w-no-groups] scholars-w-groups)]
     (map format-group scholars-in-groups)))
 
+(defn group->tab-title
+  [group]
+  [:> Tab (str group)]
+)
+
+(defn group->tab-panel
+  [group]
+  [:> TabPanel (str group)]
+)
+
 (defn page-groups
   []
   (let [groups-data @(rf/subscribe [:groups-page])
@@ -803,6 +813,12 @@
                 (t ["Préfixer le nom de vos groupes par l’année scolaire en cours permet de passer d’une année à l’autre sans collision (par exemple : 2019-2nde1)."])]
             (if (= "Casper" (-> groups-data first second :firstname))
               [:p (t ["En attendant que de vrais élèves vous déclarent comme étant leur professeur, deux élèves fantômes vont vous permettre d’essayer cette interface. Je vous présente Casper et Érika. Ces élèves n’ont pas de vrai compte et il n’est pas possible de se connecter au site sous leur identité. Vous pouvez cependant vous connecter au site avec un autre compte afin de créer un élève factice qui vous aurait comme professeur."])])
+            [:> Tabs
+              [:> TabList
+                (map group->tab-title groups)
+              ]
+              (map group->tab-panel groups)
+            ]
             [:> (bs 'Row)
               [:> (bs 'Col) {:xs 6 :md 6}
                 [:h2 (t ["Vos élèves"])]

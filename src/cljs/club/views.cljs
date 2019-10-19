@@ -730,15 +730,23 @@
                    {})
           :value value}]]))
 
+(defn display-scholar
+  [{:keys [lastname firstname]}]
+  (let [empty-name (empty? (str lastname firstname))]
+    (if empty-name
+      (str "(" (t ["profil vide"]) ")")
+      [:span
+        [:span.text-capitalize lastname]
+        " "
+        [:span.text-capitalize firstname]])))
+
 (defn scholar-li-group-input
-  [{:keys [id lastname firstname]} scholar]
+  [{:keys [id] :as scholar}]
   ^{:key id}
   [:li
     (id-shower (name id))
     " "
-    [:span.text-capitalize lastname]
-    " "
-    [:span.text-capitalize firstname]
+    (display-scholar scholar)
     (groups-select id)])
 
 (defn group-link
@@ -751,10 +759,7 @@
 (defn scholar-li
   [scholar]
   ^{:key (str (:lastname scholar) (:firstname scholar))}
-  [:li
-    [:span.text-capitalize (:lastname scholar)]
-    " "
-    [:span.text-capitalize (:firstname scholar)]])
+  [:li (display-scholar scholar)])
 
 (defn format-group
   [[group scholars]]

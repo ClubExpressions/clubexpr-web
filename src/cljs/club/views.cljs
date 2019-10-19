@@ -254,22 +254,28 @@
             [:p (t ["La série est vide."])]
           :else
             [:div
-              [:p.pull-right teacher-style
-                [:a
-                  (merge nav-style
-                         {:on-click #(rf/dispatch [:teacher-test-nav -1])})
-                  "<"]
-                [:span nav-style
-                  (+ 1 current-expr-idx) "/" (count exprs)]
-                [:a
-                  (merge nav-style
-                         {:on-click #(rf/dispatch [:teacher-test-nav 1])})
-                  ">"]
-                [:a
-                   {:on-click #(rf/dispatch [:teacher-test-interactive-switch])}
-                 (if interactive
-                   [:span (t ["non"]) " "])
-                 (t ["interactif"])]
+              [:div.pull-right teacher-style
+                [:div  ; nav links
+                  [:a
+                    (merge nav-style
+                           {:on-click #(rf/dispatch [:teacher-test-nav -1])})
+                    "<"]
+                  [:span nav-style
+                    (+ 1 current-expr-idx) "/" (count exprs)]
+                  [:a
+                    (merge nav-style
+                           {:on-click #(rf/dispatch [:teacher-test-nav 1])})
+                    ">"]]
+                [:> CheckboxGroup
+                  {:value (if interactive ["yes"] [])
+                   :onChange #(rf/dispatch [:teacher-test-interactive-switch])}
+                  [:label
+                    {:style {:margin-right "1em"
+                             :font-weight "normal"}}  ; TODO CSS
+                    [:> Checkbox
+                      {:value "yes"
+                       :style {:margin-right "0.3em"}}]  ; TODO CSS
+                  (t ["interactif"])]]
               ]
               ; target expr
               [:p

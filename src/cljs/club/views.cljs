@@ -773,8 +773,9 @@
       [:ul.nav (map scholar-li (sort scholar-comparator scholars))]]))
 
 (defn groups-list-of-lists
-  [groups-map groups]
-  (let [; {"id1" {:k v} "id2" {:k v}} -> ({:k v} {:k v})
+  []
+  (let [groups-map @(rf/subscribe [:groups-page])
+        groups @(rf/subscribe [:groups])
         lifted-groups-map
           (map second groups-map)
         mapper-group
@@ -792,7 +793,7 @@
   []
   (let [groups-data @(rf/subscribe [:groups-page])
         groups @(rf/subscribe [:groups])
-        lifted-groups (map #(merge {:id (first %)} (second %)) groups-data)]
+        lifted-groups  @(rf/subscribe [:groups-lifted])]
     [:div
       [:div.jumbotron
         [:h2 (t ["Groupes"])]
@@ -829,7 +830,7 @@
                    :bsStyle "success"}
                   (t ["Enregistrer les modifications"])]
                 [:div {:max-height "30em" :overflow-y "scroll"}  ; TODO CSS
-                  (groups-list-of-lists groups-data groups)]
+                  (groups-list-of-lists)]
               ]
             ]])]
     ]))

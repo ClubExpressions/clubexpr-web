@@ -235,6 +235,7 @@
            first
            :lastname))))
 
+; {:<scholarid> {:lastname "" :firstname "" :groups #{}}…}
 (rf/reg-sub-raw
   :groups-page
   (fn [app-db _]
@@ -244,12 +245,21 @@
         (fn [] (get-in @app-db [:groups-page] []))
         :on-dispose #(do)))))
 
+; ["group1" "group2"…]
 (rf/reg-sub
   :groups
   (fn [query-v _]
     (rf/subscribe [:groups-page]))
   (fn [groups-page query-v _]
     (sort (reduce #(into %1 (-> %2 second :groups)) #{} groups-page))))
+
+; [{:id <scholarid> :lastname "" :firstname "" :groups #{}}…]
+(rf/reg-sub
+  :groups-lifted
+  (fn [query-v _]
+    (rf/subscribe [:groups-page]))
+  (fn [groups-page query-v _]
+    (map #(merge {:id (first %)} (second %)) groups-page)))
 
 (rf/reg-sub
   :groups-value

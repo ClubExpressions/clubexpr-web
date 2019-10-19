@@ -645,8 +645,11 @@
               [:> (bs 'ToggleButton) {:value "scholar"} (t ["Élève"])]
               [:> (bs 'ToggleButton) {:value "teacher"} (t ["Professeur"])]]]]
         [:div {:style {:margin-bottom "1em"}}  ; TODO CSS
-            [:> (bs 'ControlLabel) (t ["Établissement"])]
-          school]
+          [:> (bs 'ControlLabel) (t ["Établissement"])]
+          school
+          [:p.help-block
+            (t ["Pour effectuer une recherche, taper le nom de l’établissement ou son code RNE. Bien vérifier le numéro du département ! Pour obtenir les établissement d’un département, taper par exemple (44."])]
+        ]
         (if (= "scholar" profile-quality)
           [:div {:style {:margin-bottom "1em"}}  ; TODO CSS
             [:> (bs 'ControlLabel) (t ["Professeur : "])]

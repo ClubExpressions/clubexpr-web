@@ -46,6 +46,7 @@ See the running app here:
     * [rc-slider](https://www.npmjs.com/package/rc-slider)
     * [react-checkbox-group](https://www.npmjs.com/package/react-checkbox-group)
     * [react-drag-sortable](https://www.npmjs.com/package/react-drag-sortable)
+    * [react-tabs](https://www.npmjs.com/package/react-tabs)
     * [react-datetime](https://www.npmjs.com/package/react-datetime)
     * [moment](https://www.npmjs.com/package/moment)
     * [CodeMirror (2)](https://www.npmjs.com/package/react-codemirror2) (text editor)

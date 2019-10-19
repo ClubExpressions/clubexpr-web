@@ -749,13 +749,6 @@
     (display-scholar scholar)
     (groups-select id)])
 
-(defn group-link
-  [group]
-  ^{:key group}
-  [:span
-    {:style {:margin "1em"}}  ; TODO CSS
-    group])
-
 (defn scholar-li
   [scholar]
   ^{:key (str (:lastname scholar) (:firstname scholar))}
@@ -817,8 +810,6 @@
                   (doall (map scholar-li-group-input
                               (sort scholar-comparator lifted-groups)))]]
               [:> (bs 'Col) {:xs 6 :md 6}
-                [:h2 (t ["Vos groupes"])]
-                [:div (map group-link groups)]
                 [:> (bs 'Button)
                   {:style {:margin "1em"}  ; TODO CSS
                    :on-click #(rf/dispatch [:groups-cancel])

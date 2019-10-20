@@ -75,6 +75,16 @@ utilisées pour supprimer du texte, ou cliquez sur la croix correspondante.")
 Les collègues sur plusieurs établissements doivent pour l’instant créer
 plusieurs comptes, un pour chaque établissement.")
 
+(def rename-group
+"## Renommer un groupe
+
+Pour renommer un groupe, le plus simple est :
+
+1. d’afficher tout d’abord les élèves du groupe à renommer,
+1. d’ajouter le nouveau nom du groupe à chacun des élèves de ce groupe
+   (avec par exemple un copier-coller),
+1. supprimer l’ancien nom de groupe de chacun des élèves (clic de souris).")
+
 (def multi-accounts
 "## Comptes élèves multiples
 

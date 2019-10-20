@@ -579,6 +579,7 @@
         ]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:> MD {:source club.text/several-schools}]
+          [:> MD {:source club.text/rename-group}]
         ]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:> MD {:source club.text/multi-accounts}]

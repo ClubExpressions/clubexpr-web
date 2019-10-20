@@ -716,7 +716,7 @@
 (defn groups-select
   [scholar-id]
   (let [value @(rf/subscribe [:groups-value scholar-id])]
-    [:span {:style {:margin-left "1em"}}  ; TODO CSS
+    [:span
       [:> Creatable
          {:spellcheck false
           :multi true
@@ -725,9 +725,12 @@
           :noResultsText "Un nom pour votre 1er groupe (ex: 2nde1)"
           :promptTextCreator #(str (t ["Créer le groupe"]) " « " % " »")
           :placeholder (t ["Assigner à un groupe existant ou taper un nouveau nom de groupe…"])
-          :style (if (= 0 (count value))
-                   {:background-color "#fee"}  ; TODO CSS
-                   {})
+          :style (merge
+                   (if (= 0 (count value))
+                     {:background-color "#fee"}  ; TODO CSS
+                     {})
+                   {:margin-left "1.5em"}  ; TODO CSS
+                 )
           :value value}]]))
 
 (defn display-scholar

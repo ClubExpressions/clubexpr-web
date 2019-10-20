@@ -749,11 +749,6 @@
     (display-scholar scholar)
     (groups-select id)])
 
-(defn scholar-li
-  [scholar]
-  ^{:key (str (:lastname scholar) (:firstname scholar))}
-  [:li (display-scholar scholar)])
-
 (defn format-group
   [[group scholars]]
   (let [card (count scholars)]
@@ -763,24 +758,7 @@
         group
         [:span.small " (" (count scholars) " "
           (if (> card 1) (t ["élèves"]) (t ["élève"]))")"]]
-      [:ul.nav (map scholar-li (sort scholar-comparator scholars))]]))
-
-(defn groups-list-of-lists
-  []
-  (let [groups-map @(rf/subscribe [:groups-page])
-        groups @(rf/subscribe [:groups])
-        lifted-groups-map
-          (map second groups-map)
-        mapper-group
-          (fn [group]
-            [group (filter #(some #{group} (:groups %)) lifted-groups-map)])
-        scholars-w-groups
-          (map mapper-group groups)
-        scholars-w-no-groups
-          [(t ["Sans groupe"])
-           (filter #(= 0 (count (:groups %))) lifted-groups-map)]
-        scholars-in-groups (concat [scholars-w-no-groups] scholars-w-groups)]
-    (map format-group scholars-in-groups)))
+      [:ul.nav (map scholar-li-group-input (sort scholar-comparator scholars))]]))
 
 (defn group->tab-title
   [group]
@@ -789,7 +767,9 @@
 
 (defn group->tab-panel
   [group]
-  [:> TabPanel (str group)]
+  (let [lifted-groups  @(rf/subscribe [:groups-lifted])
+        scholars (filter #(some #{group} (:groups %)) lifted-groups)]
+    [:> TabPanel (format-group [group scholars])])
 )
 
 (defn page-groups
@@ -826,8 +806,18 @@
                 (t ["Enregistrer les modifications"])]]
             [:> Tabs
               [:> TabList
-                (map group->tab-title groups)
-              ]
+                (map group->tab-title
+                     (concat [(t ["Sans groupe"])
+                              (t ["Tous"])]
+                             groups))]
+              [:> TabPanel
+                (format-group
+                  [(t ["Élèves sans groupes"])
+                   (filter #(= 0 (count (:groups %))) lifted-groups)])]
+              [:> TabPanel
+                (format-group
+                  [(t ["Tous vos élèves"])
+                   (sort scholar-comparator lifted-groups)])]
               (map group->tab-panel groups)
             ]])]
     ]))

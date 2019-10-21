@@ -6,7 +6,7 @@
             [re-frame.core :as rf]
             [re-frame.db :refer [app-db]]
             [club.utils :refer [error error-fn data-from-js-obj]]
-            [club.expr :refer [all-exprs]]
+            [club.expr :refer [all-exprs book-series make-book-series-record]]
             [club.config :as config]))
 
 (s/def ::current-page keyword?)
@@ -428,6 +428,19 @@
         (createRecord (clj->js record))
         (then #(rf/dispatch [:series-save-ok %]))
         (catch (error-fn "db/save-series-data!")))))
+
+(defn save-one-book-series!
+  [series-code]
+  (let [user-id (-> @app-db :auth-data :kinto-id)
+        series-data (get book-series series-code)
+        record (make-book-series-record user-id series-code)]
+    (.. k-series
+        (createRecord (clj->js record))
+        (catch (error-fn "db/save-book-series!")))))
+
+(defn save-book-series!
+  []
+  (doall (map save-one-book-series! (keys book-series))))
 
 (defn delete-series!
   []

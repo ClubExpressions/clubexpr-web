@@ -24,6 +24,7 @@
             [club.config :as config]
             [club.db]
             [club.expr :refer [clubexpr
+                               book-series
                                parseLispNoErrorWhenEmpty
                                natureFromLisp
                                correct-nature
@@ -1097,15 +1098,40 @@
 
 (defn show-series-list
   []
-  (let [series-data @(rf/subscribe [:series-page])]
+  (let [series-data @(rf/subscribe [:series-page])
+        series-ids (map :id series-data)
+        is-series-id #(some #{%} series-ids)
+        user-id @(rf/subscribe [:auth-kinto-id])
+        book-series-suffixes (keys book-series)
+        book-series-ids (map #(str user-id "-" %) book-series-suffixes)
+        every-book-series (every? is-series-id book-series-ids)]
     [:div
       (if (empty? series-data)
         (no-series)
         (series-list))
-      [:> (bs 'Button)
-        {:style {:margin "1em"}  ; TODO CSS
-         :on-click #(rf/dispatch [:new-series])
-         :bsStyle "success"} (t ["Nouvelle série"])]]))
+      [:div {:style {:margin-bottom "2em"}}  ; TODO CSS
+        (if (not every-book-series)
+          [:> (bs 'Button)
+            {:style {:margin "1em" :margin-bottom "0px"}  ; TODO CSS
+             :on-click #(rf/dispatch [:book-series])
+             :bsStyle "success"}
+            (str (t ["Obtenir les séries du livre"]) " (*)")])
+        [:> (bs 'Button)
+          {:style {:margin "1em" :margin-bottom "0px"}  ; TODO CSS
+           :on-click #(rf/dispatch [:new-series])
+           :bsStyle "success"} (t ["Nouvelle série"])]
+      ]
+      (if (not every-book-series)
+        [:p
+          "(*) "
+          (t ["Il s’agit du livre"])
+          " "
+          [:a {:href "https://www.reseau-canope.fr/notice/des-maths-ensemble-et-pour-chacun.html"
+               :target "_blank"}
+              "Des maths ensemble et pour chacun"]
+          " "
+          (t ["niveau seconde"])
+          "."])]))
 
 (defn page-series
   []

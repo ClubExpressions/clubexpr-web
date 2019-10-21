@@ -21,7 +21,8 @@
                      fetch-progress!
                      save-attempt!
                      save-progress!]]
-    [club.expr :refer [expr-error correct natureFromLisp]]
+    [club.expr :refer [book-series make-book-series-data
+                       expr-error correct natureFromLisp]]
     [club.utils :refer [t
                         error
                         error-fn
@@ -410,6 +411,25 @@
         (assoc-in [:editing-series] true)
         (assoc-in [:current-series-id] "")
         (assoc-in [:current-series] new-series))))
+
+(rf/reg-event-fx
+  :book-series
+  [check-spec-interceptor]
+  (fn [{:keys [db]} [_ ok]]
+     ; store new series in persistence layer
+    {:book-series nil
+     ; uppdate app-db
+     :db (let [old-data (-> db :series-page)
+               user-id (-> db :auth-data :kinto-id)
+               format-book-series #(make-book-series-data user-id %)
+               new-data (map format-book-series (keys book-series))]
+           (-> db (assoc-in [:series-page]
+                            (vec (concat old-data new-data)))))}))
+
+(rf/reg-fx
+  :book-series
+  (fn []
+    (club.db/save-book-series!)))
 
 (rf/reg-event-db
   :series-cancel

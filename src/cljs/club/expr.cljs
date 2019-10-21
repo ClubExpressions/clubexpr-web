@@ -24,6 +24,97 @@
 (def tex-inline (getValueByKeys js/window "deps" "react-katex" "InlineMath"))
 (def tex-block (getValueByKeys js/window "deps" "react-katex" "BlockMath"))
 
+(def common-desc "Voir le livre Des maths ensemble et pour chacun.")
+
+(def book-series
+  {"demo"
+   {:title "Seconde, démonstration du Club"
+    :desc common-desc  ; p.156, évoqué p.150
+    :exprs [
+      "(Produit 5 (Somme x 2))"
+      "(Somme 1 (Produit 2 x))"
+      "(Quotient (Diff y 1) 2)"
+      "(Produit 2 (Somme (Produit 3 a) 4))"]}
+   "CL1-1"
+   {:title "Seconde, série CL1-1"
+    :desc common-desc  ; p.156
+    :exprs [
+      "(Produit 3 x)"
+      "(Quotient R 4)"
+      "(Produit 10 (Diff x 2))"
+      "(Somme (Produit 10 a) b)"
+      "(Diff 1 (Opposé x))"
+      "(Quotient (Produit a b) c)"
+      "(Produit a (Quotient b c))"
+      "(Diff (Somme (Produit 10 a) b) a)"
+      "(Diff (Diff (Somme (Produit 10 a) b) a) b)"]}
+   ; CL1-2 à l’appréciation du prof (p.157)
+   "CL3-1"
+   {:title "Seconde, série CL3-1"
+    :desc common-desc  ; p.173
+    :exprs [
+      "(Carré x)"
+      "(Carré (Somme a b))"
+      "(Somme (Carré a) (Carré b))"
+      "(Carré (Diff a b))"
+      "(Produit 3 (Carré x))"
+      "(Carré (Produit 3 x))"
+      "(Produit (Somme 5 m) (Somme 5 n))"
+      "(Produit (Diff x 2) (Somme x 3))"
+      "(Somme (Produit 10 (Somme m n)) (Produit (Diff 5 m) (Diff 5 n)))"]}
+   "CL3-2"
+   {:title "Seconde, série CL3-2"
+    :desc common-desc  ; p.176
+    :exprs [
+       "(Produit 5 (Carré x))"
+       "(Carré (Produit 5 x))"
+       "(Carré (Diff x 4))"
+       "(Carré (Opposé x))"
+       "(Diff (Carré x) (Carré 4))"
+       "(Produit (Diff a b) (Somme a b))"
+       "(Somme (Carré a) (Produit 2 a b) (Carré b))"
+       "(Somme (Diff (Carré a) (Produit 2 a b)) (Carré b))"
+       "(Somme (Diff (Carré (Diff x 1)) (Carré x)) (Produit 2 x))"]}
+   "CL3-3"
+   {:title "Seconde, série CL3-3"
+    :desc common-desc  ; p.183
+    :exprs [
+       "(Diff (Carré x) 16)"
+       "(Quotient x (Somme x 7))"
+       "(Somme (Carré x) (Produit 5 x))"
+       "(Produit (Diff x 4) (Somme x 5))"
+       "(Diff x (Inverse x))"
+       "(Quotient (Somme (Produit 2 x) 5) (Diff x 5))"
+       "(Somme (Produit 4 (Carré x)) (Produit 40 x) 100)"
+       "(Somme 4 (Quotient 2 x) (Inverse (Produit 3 x)))"]}
+   "G1-1"
+   {:title "Seconde, série G1-1"
+    :desc common-desc  ; p.115
+    :exprs [
+      "(Racine a)"
+      "(Racine (Carré a))"
+      "(Produit 2 (Racine 5))"
+      "(Carré (Produit 2 (Racine 5)))"
+      "(Racine (Somme 9 16))"
+      "(Somme (Racine 9) (Racine 16))"
+      "(Racine (Diff a b))"
+      "(Racine (Produit a b))"
+      "(Produit (Racine a) (Racine b))"
+      "(Racine (Somme (Carré 3) (Carré 4)))"
+      "(Racine (Diff (Carré 5) (Carré 3)))"
+      "(Racine (Somme 2 (Racine (Somme 2 2))))"]}
+  })
+
+(defn make-book-series-data
+  [user-id series-code]
+  {:id (str user-id "-" series-code)
+   :series (get book-series series-code)})
+
+(defn make-book-series-record
+  [user-id series-code]
+  (merge (make-book-series-data user-id series-code)
+         {:owner-id user-id}))
+
 (defn parseLispNoErrorWhenEmpty
   [src]
   (try (getValueByKeys (parseLisp src) "tree")

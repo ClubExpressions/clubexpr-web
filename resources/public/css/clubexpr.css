@@ -31,6 +31,23 @@ ul#club-warning li::before {
     margin-left: -1.5em;
 }
 
+ul.expr-num {
+    counter-reset: expr-num;
+}
+
+ul.expr-num > li:before {
+    content: counter(expr-num) ")";
+    counter-increment: expr-num;
+}
+
+ul.expr-num > li > div > span {
+    margin-left: 2em;
+}
+
+ul.expr-num > li > div {
+    display: inline;
+}
+
 div.List {
     counter-reset: expr-num;
 }

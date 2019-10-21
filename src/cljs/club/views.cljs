@@ -1037,7 +1037,7 @@
           [:p (t ["Description : "]) desc])
         (if (empty? exprs)
           [:p (t ["Pas d’expression dans cette série. Pour en ajouter, cliquer sur « Modifier cette série »."])]
-          [:ul.nav (map show-expr-as-li exprs)])
+          [:ul.nav.expr-num (map show-expr-as-li exprs)])
         (teacher-testing-modal)
        ]
       )

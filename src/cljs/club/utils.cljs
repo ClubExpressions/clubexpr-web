@@ -3,6 +3,7 @@
             [clojure.walk :refer [keywordize-keys]]
             [goog.object :refer [getValueByKeys]]
             [reagent.core :as r]
+            [cljs.pprint :refer [pprint]]
             [cljs-time.core :refer [date-time today before? plus days
                                     year month day]]
             [cljs-time.format :refer [formatter parse unparse]]
@@ -189,6 +190,10 @@
 (defn str->cljs-time
   [txt]
   (parse date-formatter txt))
+
+(defn edn->html
+  [edn]
+  (with-out-str (pprint edn)))
 
 (defn before?=
   [d1 d2]

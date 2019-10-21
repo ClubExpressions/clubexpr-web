@@ -16,6 +16,7 @@
                                 moment->str
                                 str->cljs-time
                                 moment->cljs-time
+                                edn->html
                                 before?=
                                 after?=
                                 greek-letters-min
@@ -35,8 +36,7 @@
                                tree-rendition]]
             [club.text]
             [club.version]
-            [clojure.walk :refer [keywordize-keys]]
-            [cljs.pprint :refer [pprint]]))
+            [clojure.walk :refer [keywordize-keys]]))
 
 (defn bs
   ([component]
@@ -1560,7 +1560,7 @@
         (when (and false config/debug?)
           [:pre {:style {:position "absolute" :top "0px" :width "17%"
                          :font-size "50%"}}
-            (doall (map #(with-out-str (pprint (% @app-db)))
+            (doall (map #(edn->html (% @app-db))
                         [identity]
                    ))])
       ]

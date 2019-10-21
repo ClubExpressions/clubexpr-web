@@ -793,9 +793,12 @@
             [:p (t ["En attendant que ce soit le cas, vous pouvez tester cette fonctionnalité en vous connectant avec un autre compte et en vous faisant passer pour un élève vous ayant comme professeur."])]]
           [:div
             [:p (t ["Un groupe peut correspondre : à des classes entières, à des demi-groupes d’une classe, à des élèves ayant des besoins spécifiques (remédiation ou approfondissement) au sein de l’Accompagnement Personnalisé ou non…"])]
-            [:p [:strong (t ["Astuce"])]
+            [:p [:strong (t ["Astuce 1"])]
                 " : "
                 (t ["Préfixer le nom de vos groupes par l’année scolaire en cours permet de passer d’une année à l’autre sans collision (par exemple : 2019-2nde1)."])]
+            [:p [:strong (t ["Astuce 2"])]
+                " : "
+                (t ["Supprimer les groupes inutiles permet à cette page de ne pas trop « ramer ». Pour cela, affichez les élèves d’un de ces groupes, ajoutez-les à un groupe « Poubelle » pour ne pas qu’ils arrivent dans la liste « Sans groupe », puis supprimez-les de ce groupe inutile."])]
             (if (= "Casper" (-> groups-data first second :firstname))
               [:p (t ["En attendant que de vrais élèves vous déclarent comme étant leur professeur, deux élèves fantômes vont vous permettre d’essayer cette interface. Je vous présente Casper et Érika. Ces élèves n’ont pas de vrai compte et il n’est pas possible de se connecter au site sous leur identité. Vous pouvez cependant vous connecter au site avec un autre compte afin de créer un élève factice qui vous aurait comme professeur."])])
             [:div {:style {:text-align "right"}}

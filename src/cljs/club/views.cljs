@@ -1105,7 +1105,7 @@
       [:> (bs 'Button)
         {:style {:margin "1em"}  ; TODO CSS
          :on-click #(rf/dispatch [:new-series])
-         :bsStyle "success"} "Nouvelle série"]]))
+         :bsStyle "success"} (t ["Nouvelle série"])]]))
 
 (defn page-series
   []

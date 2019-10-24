@@ -1191,7 +1191,7 @@
                                      :progress ((first %) progress)}) scholars)
         swp-sorted (sort scholar-progress-comparator swp)
         swp-pretty (map swp-prettifier swp-sorted)]
-    [:ul (doall swp-pretty)]))
+    [:ul.nav (doall swp-pretty)]))
 
 (defn work-input
   ([]

@@ -221,8 +221,9 @@
         [:> (bs 'Col) {:xs 4 :md 4}
           [:> MD {:source club.text/status}]
           (let [base "https://github.com/ClubExpressions/clubexpr-web/commit/"
-                commit club.version/gitref]
-            [:p "Version : " [:a {:href (str base commit)} commit]])]
+                commit club.version/gitref
+                truncated-ref (apply str (take 7 commit))]
+            [:p "Version : " [:a {:href (str base commit)} truncated-ref "..."]])]
         [:> (bs 'Col) {:xs 4 :md 4}
           [:> MD {:source club.text/contact}]]
         [:> (bs 'Col) {:xs 4 :md 4}

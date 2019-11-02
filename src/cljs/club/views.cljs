@@ -1559,30 +1559,31 @@
 
 (defn main-panel []
   (fn []
-    (let [authenticated  @(rf/subscribe [:authenticated])
+    (let [authenticated? @(rf/subscribe [:authenticated])
           quality        @(rf/subscribe [:profile-quality])
-          current-page   @(rf/subscribe [:current-page])]
+          current-page   @(rf/subscribe [:current-page])
+          no-auth-pages [:landing :login-signup :help]
+          no-auth-page? (some #{current-page} no-auth-pages)
+          any-profile-pages (conj no-auth-pages :profile)
+          any-profile-page? (some #{current-page} any-profile-pages)]
       [:div
         [:div.container
           [nav-bar]
-          (if (or authenticated
-                  (some #{current-page} [:landing :login-signup :help]))
-            (if (= "teacher" quality)
+          (if (or authenticated? no-auth-page?)
+            (if any-profile-page?
               (case current-page
                 :landing [page-landing]
                 :login-signup [page-login-signup]
                 :help [page-help]
-                :profile [page-profile]
-                :groups [page-groups]
-                :series [page-series]
-                :work [page-work-teacher])
-              (case current-page
-                :landing [page-landing]
-                :login-signup [page-login-signup]
-                :help [page-help]
-                :profile [page-profile]
-                :work [page-work-scholar]
-                [page-teacher-only]))
+                :profile [page-profile])
+              (if (= "teacher" quality)
+                (case current-page
+                  :groups [page-groups]
+                  :series [page-series]
+                  :work [page-work-teacher])
+                (case current-page
+                  :work [page-work-scholar]
+                  [page-teacher-only])))
             [page-forbidden]
           )
           [footer]

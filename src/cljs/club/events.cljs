@@ -268,7 +268,7 @@
           (createRecord (clj->js (base-user-record new-auth0-id)))
           (then #(set-auth-data! :login
                                  (merge new-user-data (data-from-js-obj %))))
-          (catch (error-fn "events/process-user-check!")))
+          (catch (error-fn "events/process-user-check! (create user record)")))
       (set-auth-data! :login (merge new-user-data user-with-same-auth0-id)))))
 
 (defn id_token->json-payload

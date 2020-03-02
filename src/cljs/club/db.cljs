@@ -1068,6 +1068,7 @@
    {:id "fake-id-0442309W" :name "Lycée G.T. ALCIDE D'ORBIGNY (44)"}
    {:id "fake-id-0442834S" :name "Lycée G.T. HONORÉ D'ESTIENNE D'ORVES (44)"}
    {:id "fake-id-0440176C" :name "Collège et lycée SAINT-DOMINIQUE (44)"}
+   {:id "fake-id-0442083A" :name "Centre Éducatif Nantais pour Sportifs ou CENS (44)"}
    {:id "fake-id-0450029M" :name "Lycée G.T. BERNARD PALISSY (45)"}
    {:id "fake-id-0450040Z" :name "Lycée G.T. EN FORET (45)"}
    {:id "fake-id-0450042B" :name "Lycée G.T. DURZY (45)"}

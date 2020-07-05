@@ -1718,6 +1718,7 @@
    {:id "fake-id-0720017C" :name "Lycée polyv. ROBERT GARNIER (72)"}
    {:id "fake-id-0720021G" :name "Lycée polyv. D'ESTOURNELLES DE CONSTANT (72)"}
    {:id "fake-id-0720027N" :name "Lycée polyv. PERSEIGNE (72)"}
+   {:id "fake-id-0720033V" :name "Lycée Polyv. TOUCHARD-WASHINGTON (72)"}
    {:id "fake-id-0721094Y" :name "Lycée polyv. LE MANS SUD (72)"}
    {:id "fake-id-0730003G" :name "Lycée polyv. MARLIOZ (73)"}
    {:id "fake-id-0740009H" :name "Lycée polyv. DES GLIERES (74)"}

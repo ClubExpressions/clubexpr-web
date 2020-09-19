@@ -2376,6 +2376,7 @@
    {:id "fake-id-0440311Z" :name "Collège ERNEST RENAN (44)"}
    {:id "fake-id-0441545R" :name "Collège LA NOE LAMBERT (44)"}
    {:id "fake-id-0441608J" :name "Collège LA DURANTIERE (44)"}
+   {:id "fake-id-0440536U" :name "Collège SOPHIE GERMAIN (44)"}
   ])
 
 (defn fetch-teachers-list!

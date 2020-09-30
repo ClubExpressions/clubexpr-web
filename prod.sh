@@ -1,9 +1,4 @@
-git co gh-pages
-git merge master --no-edit
-lein clean
-lein cljsbuild once min
-cp resources/public/js/compiled/app.js resources/public/js/compiled/prod.js
-git add resources/public/js/compiled/prod.js -f
-git commit -m "Update prod.js"
-git push origin gh-pages
-git co master
+# cd www/domains/expressions.club/repo/
+git br prod_$(date +%Y%m%d-%H%M)
+git reset --hard HEAD\^
+git pull origin prod

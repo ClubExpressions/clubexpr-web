@@ -619,7 +619,7 @@
        (when (not (empty? teachers-list))
          [:> (bs 'MenuItem) {:divider true}])
        (when (not (empty? teachers-list))
-         (map teacher->menu-item teachers-list))]))
+         (map teacher->menu-item (sort-by :lastname teachers-list)))]))
 
 (defn page-profile
   []
@@ -1259,7 +1259,7 @@
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> Select
-                {:options series-for-select
+                {:options (sort-by :label series-for-select)
                  :placeholder (t ["Choisir la série…"])
                  :noResultsText (t ["Pas de série correspondant à cette recherche"])
                  :value (:series-id @new-state)
@@ -1275,7 +1275,7 @@
           [:> (bs 'Col) {:xs 2 :md 2}
             (if (:editing @new-state)
               [:> Select
-                {:options groups-for-select
+                {:options (sort-by :label #(compare %2 %1) groups-for-select)
                  :placeholder (t ["Choisir le groupe…"])
                  :noResultsText (t ["Pas de groupe correspondant à cette recherche"])
                  :value (:group @new-state)

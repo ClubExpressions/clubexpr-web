@@ -2366,6 +2366,7 @@
    {:id "fake-id-9840166H" :name "Lycée pro DE UTUROA (984)"}
    {:id "fake-id-9840267T" :name "Lycée pro DE FAAA (984)"}
    {:id "fake-id-9840341Y" :name "Lycée pro DE MAHINA (984)"}
+   {:id "fake-id-0351799R" :name "Collège DES FONTAINES (35)"}
    {:id "fake-id-0440013A" :name "Collège BELLEVUE (44)"}
    {:id "fake-id-0440016D" :name "Collège ANNE DE BRETAGNE (44)"}
    {:id "fake-id-0440283U" :name "Collège LIBERTAIRE RUTIGLIANO (44)"}

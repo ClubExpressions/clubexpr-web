@@ -25,6 +25,6 @@
     "react-datetime": "2.10.1",
     "codemirror": "5.49.0",
     "react-codemirror2": "6.0.0",
-    "clubexpr": "0.6.10"
+    "clubexpr": "0.6.11"
   }
 }

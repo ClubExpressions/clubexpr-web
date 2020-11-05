@@ -1529,6 +1529,7 @@
    {:id "fake-id-0130053M" :name "Lycée polyv. JEAN PERRIN (13)"}
    {:id "fake-id-0130143K" :name "Lycée polyv. PAUL LANGEVIN (13)"}
    {:id "fake-id-0131747D" :name "Lycée polyv. AUGUSTE ET LOUIS LUMIERE (13)"}
+   {:id "fake-id-0133015G" :name "Lycée polyv. PIERRE MENDES-FRANCE (13)"}
    {:id "fake-id-0133288D" :name "Lycée polyv. JEAN MONNET (13)"}
    {:id "fake-id-0133406G" :name "Lycée polyv. MEDITERRANEE (DE LA ) (13)"}
    {:id "fake-id-0134003F" :name "Lycée polyv. LA FOURRAGERE (13)"}

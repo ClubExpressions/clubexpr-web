@@ -1120,6 +1120,7 @@
    {:id "fake-id-0560025Y" :name "Lycée G.T. DUPUY DE LOME (56)"}
    {:id "fake-id-0560038M" :name "Lycée G.T. JOSEPH LOTH (56)"}
    {:id "fake-id-0560051B" :name "Lycée G.T. ALAIN RENE LESAGE (56)"}
+   {:id "fake-id-0560101F" :name "Lycée G.T. SAINT-LOUIS-LA PAIX (56)"}
    {:id "fake-id-0561534N" :name "Lycée G.T. BENJAMIN FRANKLIN (56)"}
    {:id "fake-id-0561607T" :name "Lycée G.T. VICTOR HUGO (56)"}
    {:id "fake-id-0561627P" :name "Lycée G.T. CHARLES DE GAULLE (56)"}

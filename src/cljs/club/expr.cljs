@@ -343,7 +343,7 @@
 (defn vec->list-as-hiccup
   [expr]
   (if (instance? PersistentVector expr)
-    [:li [:span (first expr)]
+    [:li [:div (first expr)]
          (apply vector (cons :ul (map vec->list-as-hiccup (rest expr))))]
     [:li expr]))
 

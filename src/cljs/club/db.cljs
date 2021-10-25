@@ -710,6 +710,8 @@
    {:id "fake-id-0422132P" :name "Lycée L'ASTREE (42)"}
    {:id "fake-id-0440022K" :name "Lycée JULES VERNE (44)"}
    {:id "fake-id-0440024M" :name "Lycée GABRIEL GUISTHAU (44)"}
+   {:id "fake-id-0441936R" :name "Collège LA PERVERIE (44)"}
+   {:id "fake-id-0440172Y" :name "Lycée LA PERVERIE (44)"}
    {:id "fake-id-0442112G" :name "Lycée GALILEE (44)"}
    {:id "fake-id-0460026D" :name "Lycée JEAN LURCAT (46)"}
    {:id "fake-id-0470009E" :name "Lycée STENDHAL (47)"}

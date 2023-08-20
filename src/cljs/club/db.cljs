@@ -1294,6 +1294,7 @@
    {:id "fake-id-0761742F" :name "Lycée G.T. VAL DE SEINE (76)"}
    {:id "fake-id-0762169V" :name "Lycée G.T. PABLO NERUDA (76)"}
    {:id "fake-id-0762879S" :name "Lycée G.T. VALLEE DU CAILLY (76)"}
+   {:id "fake-id-0762920L" :name "Lycée G.T. PIERRE DE COUBERTIN (76)"}
    {:id "fake-id-0762953X" :name "Lycée G.T. DE LA COTE D'ALBATRE (76)"}
    {:id "fake-id-0770918E" :name "Lycée G.T. URUGUAY FRANCE (77)"}
    {:id "fake-id-0770922J" :name "Lycée G.T. GASTON BACHELARD (77)"}

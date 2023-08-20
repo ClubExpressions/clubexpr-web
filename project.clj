@@ -4,7 +4,8 @@
                  [com.andrewmcveigh/cljs-time "0.5.2"]
                  [reagent  "0.6.0" :exclusions [cljsjs/react
                                                 cljsjs/react-dom]]
-                 [re-frame "0.10.2"]]
+                 [re-frame "0.10.2"]
+                 [javax.xml.bind/jaxb-api "2.3.0"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]
             [org.clojars.cvillecsteele/lein-git-version "1.2.7"]]

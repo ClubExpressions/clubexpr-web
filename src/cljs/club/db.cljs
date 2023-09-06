@@ -787,6 +787,7 @@
    {:id "fake-id-0750703G" :name "Lycée MOLIERE (75)"}
    {:id "fake-id-0750704H" :name "Lycée CARNOT (75)"}
    {:id "fake-id-0750714U" :name "Lycée HELENE BOUCHER (75)"}
+   {:id "fake-id-0753844W" :name "Lycée SAINTE-GENEVIEVE (75)"}
    {:id "fake-id-0754684J" :name "Lycée GEORGES BRASSENS (75)"}
    {:id "fake-id-0760052U" :name "Lycée FRANCOIS 1ER (76)"}
    {:id "fake-id-0760090K" :name "Lycée PIERRE CORNEILLE (76)"}

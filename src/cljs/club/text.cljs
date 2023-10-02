@@ -18,7 +18,7 @@ ou [par email](mailto:profgra.org@gmail.com).")
 
 * Twitter : [@ClubExpr](http://twitter.com/clubexpr)
   (Publication d’une expression intéressante par semaine !)
-* Email : [profgra.org@gmail.com](mailto:profgraorg.org@gmail.com)
+* Email : [profgra.org@gmail.com](mailto:profgra.org@gmail.com)
 * Github : [ClubExpressions/clubexpr](https://github.com/ClubExpressions/clubexpr-web/)")
 
 (def thanks

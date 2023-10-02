@@ -1550,6 +1550,7 @@
    {:id "fake-id-0210003P" :name "Lycée polyv. PRIEUR DE LA COTE D'OR (21)"}
    {:id "fake-id-0210006T" :name "Lycée polyv. CLOS MAIRE (21)"}
    {:id "fake-id-0210013A" :name "Lycée polyv. DESIRE NISARD (21)"}
+   {:id "fake-id-0210018F" :name "Lycée polyv. HIPPOLYTE FONTAINE (21)"}
    {:id "fake-id-0210019G" :name "Lycée polyv. LE CASTEL (21)"}
    {:id "fake-id-0210047M" :name "Lycée polyv. ANNA JUDIC (21)"}
    {:id "fake-id-0212015B" :name "Lycée polyv. SIMONE WEIL (21)"}

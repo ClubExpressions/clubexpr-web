@@ -751,6 +751,7 @@
    {:id "fake-id-0670083B" :name "Lycée MARIE CURIE (67)"}
    {:id "fake-id-0673050B" :name "Lycée ECOLE EUROPEENNNE DE STRASBOUR (67)"}
    {:id "fake-id-0680051L" :name "Lycée FREDERIC KIRSCHLEGER (68)"}
+   {:id "fake-id-0681123B" :name "Collège HECTOR BERLIOZ (68)"}
    {:id "fake-id-0681761V" :name "Lycée LAMBERT (68)"}
    {:id "fake-id-0690026D" :name "Lycée DU PARC (69)"}
    {:id "fake-id-0693446W" :name "Lycée CITE SCOLAIRE INTERNATIONALE (69)"}

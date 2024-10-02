@@ -705,7 +705,7 @@
    {:id "fake-id-0390012B" :name "Lycée CHARLES NODIER (39)"}
    {:id "fake-id-0400046H" :name "Lycée SAINT-EXUPERY (40)"}
    {:id "fake-id-0400933X" :name "Lycée SUD DES LANDES (40)"}
-   {:id "fake-id-0411071S" :name "Lycée  (41)"} ; ???
+   {:id "fake-id-0411071S" :name "Lycée ABBAYE (41)"} ; ???
    {:id "fake-id-0420031F" :name "Lycée JEAN PUY (42)"}
    {:id "fake-id-0420041S" :name "Lycée CLAUDE FAURIEL (42)"}
    {:id "fake-id-0422132P" :name "Lycée L'ASTREE (42)"}

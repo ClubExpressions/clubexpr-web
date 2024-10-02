@@ -698,6 +698,7 @@
    {:id "fake-id-0360002G" :name "Lycée ROLLINAT (36)"}
    {:id "fake-id-0360008N" :name "Lycée JEAN GIRAUDOUX (36)"}
    {:id "fake-id-0370035M" :name "Lycée DESCARTES (37)"}
+   {:id "fake-id-0370038R" :name "Lycée GRANDMONT (37)"}
    {:id "fake-id-0380027Y" :name "Lycée CHAMPOLLION (38)"}
    {:id "fake-id-0380028Z" :name "Lycée STENDHAL (38)"}
    {:id "fake-id-0383242T" :name "Lycée INTERNATIONAL EUROPOLE (38)"}

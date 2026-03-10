@@ -795,6 +795,7 @@
    {:id "fake-id-0760090K" :name "Lycée PIERRE CORNEILLE (76)"}
    {:id "fake-id-0760093N" :name "Lycée CAMILLE SAINT-SAENS (76)"}
    {:id "fake-id-0770927P" :name "Lycée FRANCOIS 1ER (77)"}
+   {:id "fake-id-0771336J" :name "Lycée LES PANNEVELLES (77)"}
    {:id "fake-id-0772737G" :name "Lycée INTERNAT D'EXCELLENCE SOURDUN (77)"}
    {:id "fake-id-0782562L" :name "Lycée HOCHE (78)"}
    {:id "fake-id-0783548H" :name "Lycée FRANCO ALLEMAND (78)"}
